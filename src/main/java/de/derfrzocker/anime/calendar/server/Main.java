@@ -12,6 +12,7 @@ import de.derfrzocker.anime.calendar.server.provider.AnimeUserInfoProvider;
 import de.derfrzocker.anime.calendar.server.provider.animeinfo.SqlAnimeInfoProvider;
 import de.derfrzocker.anime.calendar.server.provider.stream.CrunchyrollStreamProvider;
 import de.derfrzocker.anime.calendar.server.provider.userinfo.AnimeCalendarUserInfoProvider;
+import de.derfrzocker.anime.calendar.server.provider.userinfo.ProxerUserInfoProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,9 @@ public class Main {
         Map<String, AnimeUserInfoProvider> animeUserInfoProviderMap = new LinkedHashMap<>();
         add(animeStreamProviderMap, new CrunchyrollStreamProvider());
         add(animeUserInfoProviderMap, new AnimeCalendarUserInfoProvider());
+        if (configuration.proxerApiKey() != null) {
+            add(animeUserInfoProviderMap, new ProxerUserInfoProvider(configuration.proxerApiKey()));
+        }
 
         AnimeInfoProvider animeInfoProvider = new SqlAnimeInfoProvider(animeUserInfoProviderMap, animeStreamProviderMap);
         CalendarBuilder calendarBuilder = new CalendarBuilder(animeInfoProvider, animeUserInfoProviderMap);
@@ -56,6 +60,6 @@ public class Main {
             lines.map(line -> line.split("=", 2)).forEach(value -> keyValuePairs.put(value[0], value[1]));
         }
 
-        return new Configuration(keyValuePairs.get("database-username"), keyValuePairs.get("database-password"), keyValuePairs.get("database-name"), keyValuePairs.get("database-host-and-port"));
+        return new Configuration(keyValuePairs.get("database-username"), keyValuePairs.get("database-password"), keyValuePairs.get("database-name"), keyValuePairs.get("database-host-and-port"), keyValuePairs.get("proxer-api-key"));
     }
 }
