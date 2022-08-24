@@ -51,7 +51,7 @@ public class CalendarRequestHandler implements HttpHandler {
             }
             exchange.getResponseHeaders().set("Content-Type", "text/calendar");
             OutputStream outputStream = exchange.getResponseBody();
-            exchange.sendResponseHeaders(200, calendar.length());
+            exchange.sendResponseHeaders(200, 0);
             outputStream.write(calendar.getBytes());
             outputStream.flush();
             outputStream.close();
