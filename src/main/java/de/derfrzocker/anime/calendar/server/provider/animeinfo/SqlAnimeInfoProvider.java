@@ -11,6 +11,7 @@ import de.derfrzocker.anime.calendar.server.provider.AnimeStreamProvider;
 import de.derfrzocker.anime.calendar.server.provider.AnimeUserInfoProvider;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -108,7 +109,7 @@ public class SqlAnimeInfoProvider implements AnimeInfoProvider {
                 int episodeId = dbRow.getInt("episode_id");
                 int episodeNumber = dbRow.getInt("episode");
                 int length = dbRow.getInt("length");
-                LocalDateTime time = dbRow.get("airing_time");
+                LocalDateTime time = ((Timestamp) dbRow.get("airing_time")).toLocalDateTime();
                 Map<Region, RegionStream> regionStreams = getRegionStream(episodeId);
                 episodes.add(new Episode(episodeId, episodeNumber, length, time, regionStreams));
             }
@@ -129,7 +130,7 @@ public class SqlAnimeInfoProvider implements AnimeInfoProvider {
             for (DbRow dbRow : regionStreamRows) {
                 Region region = Region.valueOf(dbRow.getString("region_name").toUpperCase());
                 AnimeStreamProvider stream = streamProvider.get(dbRow.getString("stream_provider_name"));
-                LocalDateTime date = dbRow.get("release_date");
+                LocalDateTime date = ((Timestamp) dbRow.get("release_date")).toLocalDateTime();
 
                 regionStreams.put(region, new RegionStream(region, stream, date));
             }

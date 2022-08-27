@@ -38,7 +38,12 @@ public class Main {
         CalendarBuilder calendarBuilder = new CalendarBuilder(animeInfoProvider, animeUserInfoProviderMap);
         CalendarRequestHandler calendarRequestHandler = new CalendarRequestHandler(calendarBuilder);
 
-        DatabaseOptions options = DatabaseOptions.builder().mysql(configuration.databaseUsername(), configuration.databasePassword(), configuration.databaseName(), configuration.databaseHostAndPort()).build();
+        DatabaseOptions options = DatabaseOptions
+                .builder()
+                .mysql(configuration.databaseUsername(), configuration.databasePassword(), configuration.databaseName(), configuration.databaseHostAndPort())
+                .useOptimizations(false)
+                .dsn("mariadb://"+ configuration.databaseHostAndPort() + "/" + configuration.databaseName())
+                .build();
         Database db = PooledDatabaseOptions.builder().options(options).createHikariDatabase();
         DB.setGlobalDatabase(db);
 
