@@ -28,7 +28,7 @@ public class CalendarRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod()) && exchange.getRequestURI().getPath().equals("/v1/get")) {
+        if ("GET".equals(exchange.getRequestMethod()) && exchange.getRequestURI().getPath().equals("/v1/personal")) {
             String calendar = "";
             try {
                 calendar = calendarBuilder.getCalendar(exchange.getRequestURI()).toString();
