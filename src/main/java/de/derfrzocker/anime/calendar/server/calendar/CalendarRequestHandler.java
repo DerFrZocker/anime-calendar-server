@@ -20,7 +20,7 @@ public class CalendarRequestHandler implements HttpHandler {
     }
 
     public void startServer() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8001), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/v1/", this);
         server.setExecutor(executorService);
         server.start();
