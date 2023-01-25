@@ -3,20 +3,28 @@ package de.derfrzocker.anime.calendar.impl.transformer.config;
 import de.derfrzocker.anime.calendar.api.Region;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.Set;
 
 public class RegionNameTransformerConfig extends BoundTransformerConfig {
 
     @NotNull
-    private final Map<@NotNull Region, @NotNull String> regionNames;
+    private final Set<@NotNull Region> applicableRegions;
+    @NotNull
+    private final String name;
 
-    public RegionNameTransformerConfig(int minInclusive, int maxInclusive, @NotNull Map<@NotNull Region, @NotNull String> regionNames) {
+
+    public RegionNameTransformerConfig(int minInclusive, int maxInclusive, @NotNull Set<@NotNull Region> applicableRegions, @NotNull String name) {
         super(minInclusive, maxInclusive);
-        this.regionNames = regionNames;
+        this.applicableRegions = applicableRegions;
+        this.name = name;
+    }
+
+    public @NotNull Set<@NotNull Region> getApplicableRegions() {
+        return applicableRegions;
     }
 
     @NotNull
-    public Map<@NotNull Region, @NotNull String> getRegionNames() {
-        return regionNames;
+    public String getName() {
+        return name;
     }
 }

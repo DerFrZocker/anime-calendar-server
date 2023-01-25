@@ -22,10 +22,10 @@ public final class RegionNameTransformer extends AbstractEpisodeTransformer<Regi
             return;
         }
 
-        String regionName = transformerConfig.getRegionNames().get(animeOptions.region());
-
-        if (regionName != null) {
-            episodeBuilder.withEpisodeName(regionName);
+        if (!transformerConfig.getApplicableRegions().isEmpty() && !transformerConfig.getApplicableRegions().contains(animeOptions.region())) {
+            return;
         }
+
+        episodeBuilder.withEpisodeName(transformerConfig.getName());
     }
 }
