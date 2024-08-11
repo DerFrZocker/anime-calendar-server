@@ -8,11 +8,5 @@ import java.util.List;
 public interface CalendarService {
 
     @NotNull
-    Calendar buildCalendar(@NotNull List<@NotNull Integer> animeIds, @NotNull AnimeOptions options);
-
-
-    @NotNull
-    List<Integer> getAnimeIds(@NotNull String idProvider, @NotNull String userId);
-
-    void saveAnimeIds(@NotNull String idProvider, @NotNull String userId, @NotNull List<@NotNull Integer> animeIds);
+    Calendar buildCalendar(@NotNull List<@NotNull String> animeIds, @NotNull AnimeOptions options);
 }
