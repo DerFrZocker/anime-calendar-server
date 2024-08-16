@@ -24,6 +24,7 @@
 
 package de.derfrzocker.anime.calendar.web.constrain;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -36,5 +37,13 @@ public class ValidateIdConstraintTest {
         ValidateIdConstraint constraint = new ValidateIdConstraint();
 
         assertTrue(constraint.isValid(value, null));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"*rst"})
+    void testInCorrect(String value) {
+        ValidateIdConstraint constraint = new ValidateIdConstraint();
+
+        assertFalse(constraint.isValid(value, null));
     }
 }
