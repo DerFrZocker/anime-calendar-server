@@ -27,6 +27,7 @@ package de.derfrzocker.anime.calendar.web.ressource;
 import de.derfrzocker.anime.calendar.api.UserService;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateId;
 import de.derfrzocker.anime.calendar.web.request.calendar.AnimePutRequest;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -38,6 +39,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("calendars")
 @RequestScoped
+@PermitAll
 public class CalendarsResource {
 
     @Inject

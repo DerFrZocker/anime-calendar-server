@@ -27,6 +27,7 @@ package de.derfrzocker.anime.calendar.web.ressource;
 import de.derfrzocker.anime.calendar.api.User;
 import de.derfrzocker.anime.calendar.api.UserService;
 import de.derfrzocker.anime.calendar.web.to.user.UserTo;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
@@ -37,6 +38,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("users")
 @RequestScoped
+@PermitAll
 public class UsersResource {
 
     @Inject

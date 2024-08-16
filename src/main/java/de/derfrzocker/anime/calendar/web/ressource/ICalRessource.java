@@ -29,6 +29,7 @@ import de.derfrzocker.anime.calendar.api.CalendarService;
 import de.derfrzocker.anime.calendar.api.Region;
 import de.derfrzocker.anime.calendar.api.UserService;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateId;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -39,6 +40,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("ical")
 @RequestScoped
+@PermitAll
 public class ICalRessource {
 
     @Inject

@@ -28,6 +28,7 @@ import de.derfrzocker.anime.calendar.api.Anime;
 import de.derfrzocker.anime.calendar.api.AnimeService;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import de.derfrzocker.anime.calendar.web.to.anime.AnimeTo;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.HeaderParam;
@@ -40,6 +41,7 @@ import java.util.Optional;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("animes")
+@PermitAll
 public class AnimesResource {
 
     @Inject
