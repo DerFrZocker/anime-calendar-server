@@ -10,25 +10,35 @@ If the anime is licensed, it will show the time when it is available to stream, 
 
 ## Usage:
 
-As of now the setup is a bit complicated. It is however planed to sync it with your public anime list profile in the future.
+As of now, the setup is a bit complicated, since there is no frontend for this service.
 
 <p>
 
-Before you can sync your animes to your calendar you need to let anime-calendar know which animes you watch / want to keep track of, for this you need to make a `PUT` request to the following REST Endpoint: 
+Before you can sync your animes to your calendar,
+you need to let anime-calendar know which animes you watch / want to keep track of,
+for this you need to first create a user by sending an empty `POST` request to following endpoint.
+This will create and return a new user token, with which you can access the other endpoints.
 
-`https://api.anime-calendar.com/v2/personal/anime-calendar/<secret-id>`
+`POST https://api.anime-calendar.com/v3/users`
 
-For this you can use a service such as [restninja](
-https://restninja.io/share/00a0efceadbc15775250a24e03d94bc2899e7097/0).
+Next you need to set which animes you watch, for this make a `PUT` request to the following REST Endpoint:
 
-In the url you need to replace `<secret-id>`, with a unique id, since every one can put to any id, it is recommended to use a random string, to avoid collisions.
-The id must only contain upper / lower case letters and number with a max length of 128.
+`PUT https://api.anime-calendar.com/v3/calendars/<user-token>/animes`
 
 In the body you need to put a JsonArray with the ids of the animes you watch. You can find a list of animes and there ids [here](https://github.com/DerFrZocker/anime-calendar-server/wiki/Anime-List).
+The format is as followed: 
+```json
+{
+  "animeIds": [
+    "W2JBQNSVRI",
+    "VEXU7MT8S1"
+  ]
+}
+```
 
-After you send the put request you can add the following url to your calendar, where `<secret-id>` is the id you used in the put request.
+After you send the `PUT` request you can add the following url to your calendar.
 
-`https://api.anime-calendar.com/v2/personal/anime-calendar/<secret-id>/DE_DE`
+`https://api.anime-calendar.com/v3/ical/<user-token>`
 
 How you add an iCal feed to your calendar, depends on the calendar which you are using. Simple search
 for `How to add iCal feed to <calendar>` and there should be guid for it.
