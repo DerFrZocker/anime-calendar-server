@@ -22,20 +22,14 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.plugin.mongodb.user;
+package de.derfrzocker.anime.calendar.api.calendar;
 
-import de.derfrzocker.anime.calendar.api.user.UserId;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import java.time.Instant;
-import java.util.Set;
-import org.bson.codecs.pojo.annotations.BsonId;
+public record CalendarKey(String key) {
 
-@MongoEntity(collection = "User")
-public class UserDO {
+    public static final int CALENDAR_KEY_LENGTH = CalendarId.ID_LENGTH + 20;
+    public static final char KEY_PREFIX_CHAR = 'K';
 
-    @BsonId
-    public UserId userId;
-    public Instant createdAt;
-    public Set<String> calendars;
-    public Set<String> animeAccountLinks;
+    CalendarId calendarId() {
+        return new CalendarId(key.substring(0, CalendarId.ID_LENGTH));
+    }
 }

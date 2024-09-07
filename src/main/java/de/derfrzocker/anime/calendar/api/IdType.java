@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.plugin.mongodb.user;
+package de.derfrzocker.anime.calendar.api;
 
-import de.derfrzocker.anime.calendar.api.user.UserId;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import java.time.Instant;
-import java.util.Set;
-import org.bson.codecs.pojo.annotations.BsonId;
+public enum IdType {
 
-@MongoEntity(collection = "User")
-public class UserDO {
+    ANIME('A'),
+    USER('U'),
+    CALENDAR('C'),
+    ANIME_ACCOUNT_LINK('L');
 
-    @BsonId
-    public UserId userId;
-    public Instant createdAt;
-    public Set<String> calendars;
-    public Set<String> animeAccountLinks;
+    private final char prefix;
+
+    IdType(char prefix) {
+        this.prefix = prefix;
+    }
+
+    public char prefix() {
+        return prefix;
+    }
 }

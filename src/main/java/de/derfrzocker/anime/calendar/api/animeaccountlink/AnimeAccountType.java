@@ -22,17 +22,9 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api;
+package de.derfrzocker.anime.calendar.api.animeaccountlink;
 
-import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
-import org.jetbrains.annotations.Nullable;
+public enum AnimeAccountType {
 
-public interface AnimeService {
 
-    @Nullable
-    Anime getAnime(String id);
-
-    boolean isAnime(String id);
-
-    Anime createAnime(AnimePostRequest animePostRequest);
 }

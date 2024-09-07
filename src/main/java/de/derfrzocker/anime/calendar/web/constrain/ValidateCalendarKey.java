@@ -22,20 +22,25 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.plugin.mongodb.user;
+package de.derfrzocker.anime.calendar.web.constrain;
 
-import de.derfrzocker.anime.calendar.api.user.UserId;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import java.time.Instant;
-import java.util.Set;
-import org.bson.codecs.pojo.annotations.BsonId;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@MongoEntity(collection = "User")
-public class UserDO {
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+@Retention(RUNTIME)
+@Documented
+@Constraint(validatedBy = {ValidateIdConstraint.class})
+public @interface ValidateCalendarKey {
 
-    @BsonId
-    public UserId userId;
-    public Instant createdAt;
-    public Set<String> calendars;
-    public Set<String> animeAccountLinks;
+    String message() default "CalendarKey is not valid";
+
+    Class<?>[] groups() default { };
+
+    Class<? extends Payload>[] payload() default { };
 }

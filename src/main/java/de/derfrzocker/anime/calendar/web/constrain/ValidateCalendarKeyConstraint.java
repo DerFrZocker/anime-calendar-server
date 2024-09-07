@@ -22,38 +22,48 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.web.ressource;
+package de.derfrzocker.anime.calendar.web.constrain;
 
-import de.derfrzocker.anime.calendar.api.AnimeOptionsBuilder;
-import de.derfrzocker.anime.calendar.api.calendar.CalendarService;
-import de.derfrzocker.anime.calendar.api.Region;
+import de.derfrzocker.anime.calendar.api.Id;
+import de.derfrzocker.anime.calendar.api.IdType;
 import de.derfrzocker.anime.calendar.api.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.api.user.UserService;
-import de.derfrzocker.anime.calendar.web.constrain.ValidateCalendarKey;
-import jakarta.annotation.security.PermitAll;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Response;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-@Path("ical")
-@RequestScoped
-@PermitAll
-public class ICalRessource {
+public class ValidateCalendarKeyConstraint implements ConstraintValidator<ValidateCalendarKey, CalendarKey> {
 
-    @Inject
-    UserService userService;
+    @Override
+    public boolean isValid(CalendarKey value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return false;
+        }
 
-    @Inject
-    CalendarService calendarService;
+        if (value.key() == null) {
+            return false;
+        }
 
-    @GET
-    @Path("{calendarKey}")
-    @Produces("text/calendar")
-    public Response getPersonal(@ValidateCalendarKey @PathParam("calendarKey") CalendarKey calendarKey) {
-        return Response.ok(calendarService.buildCalendar(null, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build()).toString()).build();
+        if (value.key().length() != CalendarKey.CALENDAR_KEY_LENGTH) {
+            return false;
+        }
+
+        if (value.key().charAt(0) != IdType.CALENDAR.prefix()) {
+            return false;
+        }
+
+        if (value.key().charAt(Id.ID_LENGTH) != CalendarKey.KEY_PREFIX_CHAR) {
+            return false;
+        }
+
+        for (char c : value.key().toCharArray()) {
+            if (c >= 'A' && c <= 'Z' && c != 'O') {
+                continue;
+            }
+            if (c >= '1' && c <= '9') {
+                continue;
+            }
+            return false;
+        }
+
+        return true;
     }
 }

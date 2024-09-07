@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.impl.layer;
 
-import de.derfrzocker.anime.calendar.api.Anime;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
 import de.derfrzocker.anime.calendar.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.api.Episode;
 import de.derfrzocker.anime.calendar.api.EpisodeBuilder;

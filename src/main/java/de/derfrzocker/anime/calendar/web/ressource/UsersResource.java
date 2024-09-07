@@ -24,8 +24,8 @@
 
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.User;
-import de.derfrzocker.anime.calendar.api.UserService;
+import de.derfrzocker.anime.calendar.api.user.User;
+import de.derfrzocker.anime.calendar.api.user.UserService;
 import de.derfrzocker.anime.calendar.web.to.user.UserTo;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
@@ -49,6 +49,6 @@ public class UsersResource {
     public Response createUser() {
         User user = userService.createUser();
 
-        return Response.ok(new UserTo(user.userId())).build();
+        return Response.ok(new UserTo(user.userId().id())).build();
     }
 }

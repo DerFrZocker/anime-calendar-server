@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface CalendarService {
+public interface ICalCalendarBuilder {
 
     @NotNull
-    Calendar buildCalendar(@NotNull List<@NotNull String> animeIds, @NotNull AnimeOptions options);
+    Calendar buildCalendar(@NotNull List<@NotNull AnimeEpisodes> animeEpisodes);
 }

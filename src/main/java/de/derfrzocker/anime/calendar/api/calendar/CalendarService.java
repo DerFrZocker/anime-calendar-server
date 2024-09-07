@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api;
+package de.derfrzocker.anime.calendar.api.calendar;
+
+import de.derfrzocker.anime.calendar.api.AnimeOptions;
+import net.fortuna.ical4j.model.Calendar;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface UserService {
+public interface CalendarService {
 
-    User getUser(String userId);
-
-    User createUser();
-
-    User updateUser(String userId, List<String> animeIds);
+    @NotNull
+    Calendar buildCalendar(@NotNull List<@NotNull String> animeIds, @NotNull AnimeOptions options);
 }

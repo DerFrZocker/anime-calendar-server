@@ -24,7 +24,8 @@
 
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.UserService;
+import de.derfrzocker.anime.calendar.api.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.api.user.UserService;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateId;
 import de.derfrzocker.anime.calendar.web.request.calendar.AnimePutRequest;
 import jakarta.annotation.security.PermitAll;
@@ -48,8 +49,8 @@ public class CalendarsResource {
     @PUT
     @Path("{calendarId}/animes")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setAnimes(@ValidateId @PathParam("calendarId") String calendarId, AnimePutRequest animePutRequest) {
-        userService.updateUser(calendarId, animePutRequest.animeIds());
+    public Response setAnimes(@ValidateId @PathParam("calendarId") CalendarId calendarId, AnimePutRequest animePutRequest) {
+        // userService.updateUser(calendarId, animePutRequest.animeIds());
 
         return Response.noContent().build();
     }

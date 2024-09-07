@@ -24,12 +24,14 @@
 
 package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
-import de.derfrzocker.anime.calendar.api.Anime;
-import de.derfrzocker.anime.calendar.api.AnimeService;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
+import de.derfrzocker.anime.calendar.api.anime.AnimeId;
+import de.derfrzocker.anime.calendar.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.api.layer.Layer;
 import de.derfrzocker.anime.calendar.api.layer.LayerDataHolder;
 import de.derfrzocker.anime.calendar.api.layer.LayerKey;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -50,7 +52,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     LayerService layerService;
 
     @Override
-    public @Nullable Anime getAnime(String id) {
+    public @Nullable Anime getAnime(AnimeId id) {
         validateId(id);
         AnimeDO animeDO = animeDODao.findById(id);
 
@@ -74,7 +76,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public boolean isAnime(String id) {
+    public boolean isAnime(AnimeId id) {
         validateId(id);
         return animeDODao.count("_id", id) >= 1;
     }
@@ -107,7 +109,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
         animeDO.episodeLayers = layerDocuments;
 
         do {
-            animeDO.animeId = generateId();
+            animeDO.animeId = StringGenerator.generateAnimeId();
         } while (animeDODao.count("_id", animeDO.animeId) > 0);
 
         animeDODao.persist(animeDO);
@@ -126,12 +128,12 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
         return new String(result);
     }
 
-    private void validateId(String animeId) {
-        if (animeId == null || animeId.isEmpty()) {
+    private void validateId(AnimeId animeId) {
+        if (animeId == null || animeId.id().isEmpty()) {
             throw new BadRequestException("Anime ID must not be empty");
         }
 
-        for (char c : animeId.toCharArray()) {
+        for (char c : animeId.id().toCharArray()) {
             if (c >= 'A' && c <= 'Z') {
                 continue;
             }

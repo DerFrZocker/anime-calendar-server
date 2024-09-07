@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.impl;
 
-import de.derfrzocker.anime.calendar.api.Anime;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
 import de.derfrzocker.anime.calendar.api.AnimeEpisodes;
-import de.derfrzocker.anime.calendar.api.CalendarBuilder;
+import de.derfrzocker.anime.calendar.api.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.api.Episode;
 import jakarta.enterprise.context.ApplicationScoped;
 import net.fortuna.ical4j.model.Calendar;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class BasicCalendarBuilder implements CalendarBuilder {
+public class BasicCalendarBuilder implements ICalCalendarBuilder {
 
     private final static String PROID = "-//Marvin (DerFrZocker)//anime calendar 2.0//DE";
 

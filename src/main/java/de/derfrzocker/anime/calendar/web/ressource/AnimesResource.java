@@ -24,8 +24,8 @@
 
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.Anime;
-import de.derfrzocker.anime.calendar.api.AnimeService;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
+import de.derfrzocker.anime.calendar.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import de.derfrzocker.anime.calendar.web.to.anime.AnimeTo;
 import jakarta.annotation.security.PermitAll;
@@ -65,6 +65,6 @@ public class AnimesResource {
 
         Anime anime = animeService.createAnime(animePostRequest);
 
-        return Response.ok(new AnimeTo(anime.animeId())).build();
+        return Response.ok(new AnimeTo(anime.animeId().id())).build();
     }
 }

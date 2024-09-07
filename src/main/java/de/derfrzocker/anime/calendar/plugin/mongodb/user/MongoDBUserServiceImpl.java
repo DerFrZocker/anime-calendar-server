@@ -24,14 +24,16 @@
 
 package de.derfrzocker.anime.calendar.plugin.mongodb.user;
 
-import de.derfrzocker.anime.calendar.api.AnimeService;
-import de.derfrzocker.anime.calendar.api.User;
-import de.derfrzocker.anime.calendar.api.UserService;
+import de.derfrzocker.anime.calendar.api.anime.AnimeId;
+import de.derfrzocker.anime.calendar.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.api.user.User;
+import de.derfrzocker.anime.calendar.api.user.UserId;
+import de.derfrzocker.anime.calendar.api.user.UserService;
+import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -47,33 +49,33 @@ public class MongoDBUserServiceImpl implements UserService {
     AnimeService animeService;
 
     @Override
-    public User getUser(String userId) {
+    public User getUser(UserId userId) {
         UserDO userDO = userDAO.findById(userId);
 
         if (userDO == null) {
             throw new BadRequestException("User not found");
         }
 
-        return new User(userDO.userId, userDO.animeIDs);
+        return new User(userDO.userId, null, null, null);
     }
 
     @Override
     public User createUser() {
         UserDO userDO = new UserDO();
 
-        userDO.userId = generateKey();
-        userDO.animeIDs = new ArrayList<>();
+        userDO.userId = StringGenerator.generateUserId();
+        // userDO.animeIDs = new ArrayList<>();
 
         userDAO.persist(userDO);
 
-        return new User(userDO.userId, userDO.animeIDs);
+        return new User(userDO.userId, null, null, null);
     }
 
     @Override
-    public User updateUser(String userId, List<String> animeIds) {
+    public User updateUser(UserId userId, List<AnimeId> animeIds) {
         User user = getUser(userId);
 
-        for (String id : animeIds) {
+        for (AnimeId id : animeIds) {
             if (!animeService.isAnime(id)) {
                 throw new BadRequestException("Anime ID " + id + " does not exist");
             }
@@ -81,10 +83,10 @@ public class MongoDBUserServiceImpl implements UserService {
 
         UserDO userDO = new UserDO();
         userDO.userId = user.userId();
-        userDO.animeIDs = new ArrayList<>(animeIds);
+        // userDO.animeIDs = new ArrayList<>(animeIds);
         userDAO.persistOrUpdate(userDO);
 
-        return new User(userDO.userId, userDO.animeIDs);
+        return new User(userDO.userId, null, null, null);
     }
 
     private String generateKey() {
