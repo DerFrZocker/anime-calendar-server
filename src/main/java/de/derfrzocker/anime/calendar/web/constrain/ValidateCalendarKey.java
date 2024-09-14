@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {ValidateIdConstraint.class})
+@Constraint(validatedBy = {ValidateCalendarKeyConstraint.class})
 public @interface ValidateCalendarKey {
 
     String message() default "CalendarKey is not valid";
