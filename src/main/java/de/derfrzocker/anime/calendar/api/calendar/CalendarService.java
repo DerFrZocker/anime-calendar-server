@@ -25,13 +25,13 @@
 package de.derfrzocker.anime.calendar.api.calendar;
 
 import de.derfrzocker.anime.calendar.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.api.anime.AnimeId;
+import java.util.Set;
 import net.fortuna.ical4j.model.Calendar;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public interface CalendarService {
 
     @NotNull
-    Calendar buildCalendar(@NotNull List<@NotNull String> animeIds, @NotNull AnimeOptions options);
+    Calendar buildCalendar(@NotNull Set<@NotNull AnimeId> animeIds, @NotNull AnimeOptions options);
 }

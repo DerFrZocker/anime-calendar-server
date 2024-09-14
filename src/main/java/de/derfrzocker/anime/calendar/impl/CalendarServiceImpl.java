@@ -11,6 +11,7 @@ import de.derfrzocker.anime.calendar.api.Episode;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.util.Set;
 import net.fortuna.ical4j.model.Calendar;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,10 +32,10 @@ public class CalendarServiceImpl implements CalendarService {
     ICalCalendarBuilder calendarBuilder;
 
     @Override
-    public @NotNull Calendar buildCalendar(@NotNull List<@NotNull String> animeIds, @NotNull AnimeOptions options) {
+    public @NotNull Calendar buildCalendar(@NotNull Set<@NotNull AnimeId> animeIds, @NotNull AnimeOptions options) {
         List<AnimeEpisodes> animeEpisodes = new ArrayList<>();
-        for (String animeId : animeIds) {
-            Anime anime = animeService.getAnime(new AnimeId(animeId));
+        for (AnimeId animeId : animeIds) {
+            Anime anime = animeService.getAnime(animeId);
 
             if (anime == null) {
                 continue;
