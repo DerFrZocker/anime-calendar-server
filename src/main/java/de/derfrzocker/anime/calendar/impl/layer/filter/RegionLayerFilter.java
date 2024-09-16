@@ -22,19 +22,24 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api.layer;
+package de.derfrzocker.anime.calendar.impl.layer.filter;
 
-import java.util.Map;
-import org.jetbrains.annotations.NotNull;
+import de.derfrzocker.anime.calendar.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
+import de.derfrzocker.anime.calendar.impl.layer.config.RegionFilterConfig;
+import de.derfrzocker.anime.calendar.impl.layer.parser.RegionFilterLayerConfigParser;
 
-public interface Layer<T extends LayerConfig, H> {
+public final class RegionLayerFilter extends AbstractLayerFilter<RegionFilterConfig> {
 
-    @NotNull
-    LayerKey getLayerKey();
+    public static final RegionLayerFilter INSTANCE = new RegionLayerFilter();
 
-    @NotNull
-    LayerConfigParser<T> getLayerConfigParser();
+    private RegionLayerFilter() {
+        super("region-filter", RegionFilterLayerConfigParser.INSTANCE);
+    }
 
-    @NotNull
-    H createHolder(Map<String, Object> values);
+    @Override
+    public boolean shouldSkip(Anime anime, AnimeOptions animeOptions, RegionFilterConfig layerConfig, EpisodeBuilder episodeBuilder) {
+        return !layerConfig.applicableRegions().contains(animeOptions.region());
+    }
 }

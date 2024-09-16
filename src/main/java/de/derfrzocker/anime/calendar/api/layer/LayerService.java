@@ -10,10 +10,15 @@ import java.util.List;
 
 public interface LayerService {
 
-    void registerLayer(@NotNull Layer<?> layer);
+    void registerLayer(@NotNull LayerTransformer<?> layer);
+
+    void registerLayer(@NotNull LayerFilter<?> layerFilter);
 
     @Nullable
-    Layer<?> getLayer(@NotNull LayerKey layerKey);
+    LayerTransformer<?> getLayerTransformer(@NotNull LayerKey layerKey);
+
+    @Nullable
+    LayerFilter<?> getLayerFilter(@NotNull LayerKey layerKey);
 
     @NotNull
     List<Episode> transformAnime(@NotNull Anime anime, @NotNull AnimeOptions animeOptions);

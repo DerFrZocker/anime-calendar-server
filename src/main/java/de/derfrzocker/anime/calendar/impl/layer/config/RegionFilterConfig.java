@@ -22,19 +22,13 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api.layer;
+package de.derfrzocker.anime.calendar.impl.layer.config;
 
-import java.util.Map;
+import de.derfrzocker.anime.calendar.api.Region;
+import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
+import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
-public interface Layer<T extends LayerConfig, H> {
+public record RegionFilterConfig(Set<@NotNull Region> applicableRegions) implements LayerConfig {
 
-    @NotNull
-    LayerKey getLayerKey();
-
-    @NotNull
-    LayerConfigParser<T> getLayerConfigParser();
-
-    @NotNull
-    H createHolder(Map<String, Object> values);
 }

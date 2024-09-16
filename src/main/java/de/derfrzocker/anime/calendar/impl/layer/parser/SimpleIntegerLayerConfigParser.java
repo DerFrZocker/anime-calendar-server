@@ -15,20 +15,16 @@ public final class SimpleIntegerLayerConfigParser extends AbstractLayerConfigPar
     @Override
     public @NotNull SimpleIntegerLayerConfig decode(@NotNull Map<String, Object> values) {
 
-        int minInclusive = decodeInt(values, "min-inclusive");
-        int maxInclusive = decodeInt(values, "max-inclusive");
         int value = decodeInt(values, "value");
 
-        return new SimpleIntegerLayerConfig(minInclusive, maxInclusive, value);
+        return new SimpleIntegerLayerConfig(value);
     }
 
     @Override
     public @NotNull Map<String, Object> encode(@NotNull SimpleIntegerLayerConfig transformerConfig) {
         Map<String, Object> result = new LinkedHashMap<>();
 
-        result.put("min-inclusive", transformerConfig.getMinInclusive());
-        result.put("max-inclusive", transformerConfig.getMaxInclusive());
-        result.put("value", transformerConfig.getValue());
+        result.put("value", transformerConfig.value());
 
         return result;
     }

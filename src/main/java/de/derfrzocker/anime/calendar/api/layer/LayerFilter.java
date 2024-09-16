@@ -24,17 +24,11 @@
 
 package de.derfrzocker.anime.calendar.api.layer;
 
-import java.util.Map;
-import org.jetbrains.annotations.NotNull;
+import de.derfrzocker.anime.calendar.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
 
-public interface Layer<T extends LayerConfig, H> {
+public interface LayerFilter<T extends LayerConfig> extends Layer<T, LayerFilterDataHolder<T>> {
 
-    @NotNull
-    LayerKey getLayerKey();
-
-    @NotNull
-    LayerConfigParser<T> getLayerConfigParser();
-
-    @NotNull
-    H createHolder(Map<String, Object> values);
+    boolean shouldSkip(Anime anime, AnimeOptions animeOptions, T layerConfig, EpisodeBuilder episodeBuilder);
 }

@@ -22,19 +22,28 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api.layer;
+package de.derfrzocker.anime.calendar.impl.layer.filter;
 
-import java.util.Map;
-import org.jetbrains.annotations.NotNull;
+import de.derfrzocker.anime.calendar.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.api.anime.Anime;
+import de.derfrzocker.anime.calendar.impl.layer.config.BoundFilterConfig;
+import de.derfrzocker.anime.calendar.impl.layer.parser.BoundConfigLayerParser;
 
-public interface Layer<T extends LayerConfig, H> {
+public final class BoundLayerFilter extends AbstractLayerFilter<BoundFilterConfig> {
 
-    @NotNull
-    LayerKey getLayerKey();
+    public static final BoundLayerFilter INSTANCE = new BoundLayerFilter();
 
-    @NotNull
-    LayerConfigParser<T> getLayerConfigParser();
+    private BoundLayerFilter() {
+        super("bound-filter", BoundConfigLayerParser.INSTANCE);
+    }
 
-    @NotNull
-    H createHolder(Map<String, Object> values);
+    @Override
+    public boolean shouldSkip(Anime anime, AnimeOptions animeOptions, BoundFilterConfig layerConfig, EpisodeBuilder episodeBuilder) {
+        if (episodeBuilder.episodeIndex() < layerConfig.minInclusive()) {
+            return true;
+        }
+
+        return layerConfig.maxInclusive() != -1 && episodeBuilder.episodeIndex() > layerConfig.maxInclusive();
+    }
 }

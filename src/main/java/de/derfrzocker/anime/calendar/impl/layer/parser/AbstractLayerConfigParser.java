@@ -64,17 +64,5 @@ public abstract class AbstractLayerConfigParser<T extends LayerConfig> implement
         return (Collection<C>) collection;
     }
 
-    protected Set<Region> decodeRegions(Map<String, Object> values, String key) {
-        Set<Region> result = EnumSet.noneOf(Region.class);
-        if (values.containsKey(key)) {
-            Collection<String> regions = decodeCollection(values, key);
-            regions.stream().map(Region::valueOf).forEach(result::add);
-        }
 
-        return result;
-    }
-
-    protected Object encode(Collection<Region> values) {
-        return values.stream().map(Enum::toString).toList();
-    }
 }

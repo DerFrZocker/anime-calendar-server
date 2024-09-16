@@ -22,19 +22,24 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.api.layer;
+package de.derfrzocker.anime.calendar.impl.layer.filter;
 
+import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
+import de.derfrzocker.anime.calendar.api.layer.LayerConfigParser;
+import de.derfrzocker.anime.calendar.api.layer.LayerFilter;
+import de.derfrzocker.anime.calendar.api.layer.LayerFilterDataHolder;
+import de.derfrzocker.anime.calendar.impl.layer.AbstractLayer;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public interface Layer<T extends LayerConfig, H> {
+public abstract class AbstractLayerFilter<T extends LayerConfig> extends AbstractLayer<T, LayerFilterDataHolder<T>> implements LayerFilter<T> {
 
-    @NotNull
-    LayerKey getLayerKey();
+    protected AbstractLayerFilter(@NotNull String layerKey, @NotNull LayerConfigParser<T> layerConfigParser) {
+        super(layerKey, layerConfigParser);
+    }
 
-    @NotNull
-    LayerConfigParser<T> getLayerConfigParser();
-
-    @NotNull
-    H createHolder(Map<String, Object> values);
+    @Override
+    public @NotNull LayerFilterDataHolder<T> createHolder(Map<String, Object> values) {
+        return new LayerFilterDataHolder<>(this, getLayerConfigParser().decode(values));
+    }
 }
