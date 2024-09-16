@@ -34,6 +34,6 @@ import java.util.Set;
 class MongoDBIntegrationAnimeRepository implements PanacheMongoRepository<IntegrationAnimeIdDO> {
 
     public Set<IntegrationAnimeIdDO> getAll(IntegrationId integrationId) {
-        return new HashSet<>(find("integrationId", integrationId).list());
+        return new HashSet<>(find("integrationId", integrationId.id()).list());
     }
 }

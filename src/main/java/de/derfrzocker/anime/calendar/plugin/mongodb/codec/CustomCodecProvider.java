@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.integration.mongodb;
+package de.derfrzocker.anime.calendar.plugin.mongodb.codec;
 
 import de.derfrzocker.anime.calendar.api.anime.AnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.types.ObjectId;
+import org.bson.codecs.Codec;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
 
-@MongoEntity(collection = "IntegrationAnimeId")
-public class IntegrationAnimeIdDO {
+public class CustomCodecProvider implements CodecProvider {
 
-    @BsonId
-    public ObjectId id;
-    public IntegrationId integrationId;
-    public AnimeId animeId;
-    public IntegrationAnimeId integrationAnimeId;
+    @Override
+    public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
+        if (clazz == AnimeId.class) {
+            return (Codec<T>) new AnimeIdCodec();
+        }
+
+        return null;
+    }
 }

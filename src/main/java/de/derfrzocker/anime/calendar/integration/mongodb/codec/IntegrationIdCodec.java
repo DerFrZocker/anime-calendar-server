@@ -22,21 +22,29 @@
  * SOFTWARE.
  */
 
-package de.derfrzocker.anime.calendar.integration.mongodb;
+package de.derfrzocker.anime.calendar.integration.mongodb.codec;
 
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
-import io.quarkus.mongodb.panache.common.MongoEntity;
-import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.types.ObjectId;
+import org.bson.BsonReader;
+import org.bson.BsonWriter;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
 
-@MongoEntity(collection = "IntegrationAnimeId")
-public class IntegrationAnimeIdDO {
+public class IntegrationIdCodec implements Codec<IntegrationId> {
 
-    @BsonId
-    public ObjectId id;
-    public IntegrationId integrationId;
-    public AnimeId animeId;
-    public IntegrationAnimeId integrationAnimeId;
+    @Override
+    public IntegrationId decode(BsonReader reader, DecoderContext decoderContext) {
+        return new IntegrationId(reader.readString());
+    }
+
+    @Override
+    public void encode(BsonWriter writer, IntegrationId value, EncoderContext encoderContext) {
+        writer.writeString(value.id());
+    }
+
+    @Override
+    public Class<IntegrationId> getEncoderClass() {
+        return IntegrationId.class;
+    }
 }
