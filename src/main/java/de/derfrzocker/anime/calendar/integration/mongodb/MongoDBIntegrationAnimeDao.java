@@ -24,4 +24,20 @@ class MongoDBIntegrationAnimeDao implements IntegrationAnimeDao {
         repository.getAll(integrationId).forEach(integrationAnimeId -> integrationAnimeIdDOS.put(integrationAnimeId.integrationAnimeId, integrationAnimeId.animeId));
         return integrationAnimeIds.stream().map(integrationAnimeIdDOS::get).filter(Objects::nonNull).collect(Collectors.toSet());
     }
+
+    @Override
+    public Set<IntegrationAnimeId> getIntegrationIds(IntegrationId integrationId, AnimeId animeId) {
+        return repository.get(animeId).stream().filter(d -> d.integrationId.equals(integrationId)).map(integrationAnimeIdDO -> integrationAnimeIdDO.integrationAnimeId).collect(Collectors.toSet());
+    }
+
+    @Override
+    public void saveOrMerge(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId, AnimeId animeId) {
+        // TODO 2024-09-23: Implement merging
+        IntegrationAnimeIdDO integrationAnimeIdDO = new IntegrationAnimeIdDO();
+        integrationAnimeIdDO.integrationAnimeId = integrationAnimeId;
+        integrationAnimeIdDO.integrationId = integrationId;
+        integrationAnimeIdDO.animeId = animeId;
+
+        repository.persist(integrationAnimeIdDO);
+    }
 }

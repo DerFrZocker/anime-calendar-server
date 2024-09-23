@@ -11,6 +11,7 @@ import de.derfrzocker.anime.calendar.api.layer.LayerKey;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
+import io.vertx.core.eventbus.EventBus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -29,6 +30,8 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     AnimeDODao animeDODao;
     @Inject
     LayerService layerService;
+    @Inject
+    EventBus eventBus;
 
     @Override
     public @Nullable Anime getAnime(AnimeId id) {
@@ -124,7 +127,11 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
 
         animeDODao.persist(animeDO);
 
-        return new Anime(animeDO.animeId, animeDO.animeTitle, animeDO.episodeCount, layerHolders);
+        Anime anime = new Anime(animeDO.animeId, animeDO.animeTitle, animeDO.episodeCount, layerHolders);
+
+        eventBus.publish("anime-create", anime);
+
+        return anime;
     }
 
     private String generateId() {

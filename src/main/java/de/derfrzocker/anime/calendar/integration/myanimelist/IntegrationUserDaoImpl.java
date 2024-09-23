@@ -14,7 +14,7 @@ import java.util.Set;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
-@Named(Integrations.MY_ANIME_LIST)
+@Named(Integrations.MY_ANIME_LIST + "-user-dao")
 class IntegrationUserDaoImpl implements IntegrationUserDao {
 
     @RestClient

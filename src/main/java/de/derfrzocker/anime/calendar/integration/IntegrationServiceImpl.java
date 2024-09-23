@@ -29,7 +29,7 @@ public class IntegrationServiceImpl implements IntegrationService {
 
     @Override
     public Calendar getCalendar(IntegrationId integrationId, IntegrationUserId userId) {
-        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.id())).get().getUserIds(userId);
+        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.id() + "-user-dao")).get().getUserIds(userId);
         return getCalendar(integrationId, integrationAnimeIds);
     }
 
