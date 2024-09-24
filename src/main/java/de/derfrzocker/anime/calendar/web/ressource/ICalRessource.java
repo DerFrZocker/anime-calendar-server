@@ -12,6 +12,7 @@ import de.derfrzocker.anime.calendar.integration.Integrations;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateCalendarKey;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateMyAnimeListUsername;
 import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -39,6 +40,7 @@ public class ICalRessource {
     @GET
     @Path("myanimelist/{userId}")
     @Produces("text/calendar")
+    @PermitAll
     public Response getMyAnimeList(@ValidateMyAnimeListUsername @PathParam("userId") IntegrationUserId userId) {
         return Response.ok(integrationService.getCalendar(Integrations.MY_ANIME_LIST_ID, userId).toString()).build();
     }
