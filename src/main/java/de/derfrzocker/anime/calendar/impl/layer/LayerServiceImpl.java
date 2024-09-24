@@ -13,6 +13,7 @@ import de.derfrzocker.anime.calendar.impl.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.impl.layer.filter.RegionLayerFilter;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeLengthLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeNumberLayer;
+import de.derfrzocker.anime.calendar.impl.layer.transformer.IntegrationUrlLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.NameLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.StreamingTimeLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.StreamingUrlLayer;
@@ -94,6 +95,7 @@ public class LayerServiceImpl implements LayerService {
         registerLayer(NameLayer.INSTANCE);
         registerLayer(StreamingTimeLayer.INSTANCE);
         registerLayer(StreamingUrlLayer.INSTANCE);
+        registerLayer(IntegrationUrlLayer.INSTANCE);
 
         registerLayer(BoundLayerFilter.INSTANCE);
         registerLayer(RegionLayerFilter.INSTANCE);

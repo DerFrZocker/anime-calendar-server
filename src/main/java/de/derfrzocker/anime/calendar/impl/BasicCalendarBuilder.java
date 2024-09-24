@@ -97,6 +97,14 @@ public class BasicCalendarBuilder implements ICalCalendarBuilder {
         if (episode.streamingLink() != null) {
             description.append("Stream: ");
             description.append(episode.streamingLink());
+            if (episode.integrationLink() != null) {
+                description.append("\n");
+            }
+        }
+
+        if (episode.integrationLink() != null) {
+            description.append("Link: ");
+            description.append(episode.integrationLink());
         }
 
         VEvent calendarEntry = new VEvent(episode.streamingTime(), Duration.ofMinutes(episode.episodeLength()), summary.toString());

@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 import de.derfrzocker.anime.calendar.api.anime.Anime;
 import de.derfrzocker.anime.calendar.api.anime.AnimeId;
 import de.derfrzocker.anime.calendar.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.api.event.AnimeAddLayerEvent;
 import de.derfrzocker.anime.calendar.api.layer.LayerFilter;
 import de.derfrzocker.anime.calendar.api.layer.LayerFilterDataHolder;
 import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
@@ -11,6 +12,7 @@ import de.derfrzocker.anime.calendar.api.layer.LayerKey;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
+import io.quarkus.vertx.ConsumeEvent;
 import io.vertx.core.eventbus.EventBus;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -96,6 +98,43 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
         AnimeDO animeDO = new AnimeDO();
 
         List<LayerHolder> layerHolders = createLayerHolder(animePostRequest.episodeLayers());
+        List<Map<String, Object>> layerDocuments = parse(layerHolders);
+
+        animeDO.animeTitle = animePostRequest.animeTitle();
+        animeDO.episodeCount = animePostRequest.episodeCount();
+        animeDO.episodeLayers = layerDocuments;
+
+        do {
+            animeDO.animeId = StringGenerator.generateAnimeId();
+        } while (animeDODao.count("_id", animeDO.animeId) > 0);
+
+        animeDODao.persist(animeDO);
+
+        Anime anime = new Anime(animeDO.animeId, animeDO.animeTitle, animeDO.episodeCount, layerHolders);
+
+        eventBus.publish("anime-create", anime);
+
+        return anime;
+    }
+
+    @ConsumeEvent("anime-add-layer")
+    public void onAnimeAddLayer(AnimeAddLayerEvent event) {
+        // TODO 2024-09-24: Reformat code
+        Anime old = getAnime(event.animeId());
+
+        AnimeDO animeDO = new AnimeDO();
+        animeDO.animeId = event.animeId();
+        animeDO.animeTitle = old.animeName();
+        animeDO.episodeCount = old.episodeCount();
+
+        List<LayerHolder> layerHolders = new ArrayList<>(old.transformerData());
+        layerHolders.add(event.layerHolder());
+        animeDO.episodeLayers = parse(layerHolders);
+
+        animeDODao.persistOrUpdate(animeDO);
+    }
+
+    private List<Map<String, Object>> parse(List<LayerHolder> layerHolders) {
         List<Map<String, Object>> layerDocuments = new ArrayList<>();
         for (LayerHolder layerHolder : layerHolders) {
             Map<String, Object> map = new LinkedHashMap<>();
@@ -117,21 +156,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
             layerDocuments.add(map);
         }
 
-        animeDO.animeTitle = animePostRequest.animeTitle();
-        animeDO.episodeCount = animePostRequest.episodeCount();
-        animeDO.episodeLayers = layerDocuments;
-
-        do {
-            animeDO.animeId = StringGenerator.generateAnimeId();
-        } while (animeDODao.count("_id", animeDO.animeId) > 0);
-
-        animeDODao.persist(animeDO);
-
-        Anime anime = new Anime(animeDO.animeId, animeDO.animeTitle, animeDO.episodeCount, layerHolders);
-
-        eventBus.publish("anime-create", anime);
-
-        return anime;
+        return layerDocuments;
     }
 
     private String generateId() {
