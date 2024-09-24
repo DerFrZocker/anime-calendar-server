@@ -4,6 +4,7 @@ import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.api.integration.linker.IntegrationAnimeNameDao;
 import de.derfrzocker.anime.calendar.api.integration.linker.IntegrationNameIdData;
 import de.derfrzocker.anime.calendar.integration.Integrations;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import java.util.Collections;
@@ -28,6 +29,7 @@ public class IntegrationAnimeNameDaoImpl implements IntegrationAnimeNameDao {
     int limit;
 
     @Override
+    @CacheResult(cacheName = "my-anime-list-integration-season-rest-call")
     public Set<IntegrationNameIdData> getAllAnimes() {
         Set<IntegrationNameIdData> result = new HashSet<>();
 

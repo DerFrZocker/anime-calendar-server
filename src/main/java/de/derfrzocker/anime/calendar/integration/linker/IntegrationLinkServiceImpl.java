@@ -46,7 +46,7 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
         levenshteinDistance = new LevenshteinDistance(distanceThreshold);
     }
 
-    @ConsumeEvent(value = "anime-create")
+    @ConsumeEvent(value = "anime-create", blocking = true)
     public void onAnimeCreate(Anime anime) {
         // TODO 2024-09-23: Move to extra place
         Set<IntegrationAnimeId> newLinks = linkAnime(Integrations.MY_ANIME_LIST_ID, anime);
