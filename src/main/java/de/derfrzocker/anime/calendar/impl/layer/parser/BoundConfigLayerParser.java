@@ -15,8 +15,8 @@ public final class BoundConfigLayerParser extends AbstractLayerConfigParser<Boun
     @Override
     public @NotNull BoundFilterConfig decode(@NotNull Map<String, Object> values) {
 
-        int minInclusive = decodeInt(values, "min-inclusive");
-        int maxInclusive = decodeInt(values, "max-inclusive");
+        int minInclusive = decodeInt(values, "min-inclusive", -1);
+        int maxInclusive = decodeInt(values, "max-inclusive", -1);
 
         return new BoundFilterConfig(minInclusive, maxInclusive);
     }

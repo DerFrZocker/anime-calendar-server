@@ -1,14 +1,25 @@
 package de.derfrzocker.anime.calendar.impl.layer.parser;
 
-import de.derfrzocker.anime.calendar.api.Region;
 import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
 import de.derfrzocker.anime.calendar.api.layer.LayerConfigParser;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class AbstractLayerConfigParser<T extends LayerConfig> implements LayerConfigParser<T> {
+
+    protected int decodeInt(Map<String, Object> values, String key, int defaultValue) {
+        Object value = values.get(key);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        if (!(value instanceof Number number)) {
+            throw new IllegalArgumentException("Expected Element of type Number for key " + key + " but got " + (value == null ? "null" : value.getClass()));
+        }
+
+        return number.intValue();
+    }
 
     protected int decodeInt(Map<String, Object> values, String key) {
         Object value = values.get(key);
@@ -18,6 +29,21 @@ public abstract class AbstractLayerConfigParser<T extends LayerConfig> implement
         }
 
         return number.intValue();
+    }
+
+
+    protected String decodeString(Map<String, Object> values, String key, String defaultValue) {
+        Object value = values.get(key);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        if (!(value instanceof String string)) {
+            throw new IllegalArgumentException("Expected Element of type String for key " + key + " but got " + (value == null ? "null" : value.getClass()));
+        }
+
+        return string;
     }
 
     protected String decodeString(Map<String, Object> values, String key) {
@@ -30,6 +56,20 @@ public abstract class AbstractLayerConfigParser<T extends LayerConfig> implement
         return string;
     }
 
+    protected <C> Collection<C> decodeCollection(Map<String, Object> values, String key, Collection<C> defaultValue) {
+        Object value = values.get(key);
+
+        if (value == null) {
+            return defaultValue;
+        }
+
+        if (!(value instanceof Collection<?> collection)) {
+            throw new IllegalArgumentException("Expected Element of type Collection for key " + key + " but got " + (value == null ? "null" : value.getClass()));
+        }
+
+        return (Collection<C>) collection;
+    }
+
     protected <C> Collection<C> decodeCollection(Map<String, Object> values, String key) {
         Object value = values.get(key);
 
@@ -39,6 +79,4 @@ public abstract class AbstractLayerConfigParser<T extends LayerConfig> implement
 
         return (Collection<C>) collection;
     }
-
-
 }

@@ -19,9 +19,9 @@ public final class StreamingTimeLayerConfigParser extends AbstractLayerConfigPar
     public @NotNull StreamingTimeLayerConfig decode(@NotNull Map<String, Object> values) {
 
         String startTime = decodeString(values, "start-time");
-        String period = decodeString(values,"period");
-        int startIndex = decodeInt(values,"offset");
-        String type = decodeString(values,"type");
+        String period = decodeString(values,"period", "P7D");
+        int startIndex = decodeInt(values,"offset", 0);
+        String type = decodeString(values,"type", "org");
 
         return new StreamingTimeLayerConfig(Instant.parse(startTime), Period.parse(period), startIndex, type);
     }

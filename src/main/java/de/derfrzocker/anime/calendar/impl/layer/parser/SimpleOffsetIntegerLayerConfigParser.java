@@ -16,7 +16,7 @@ public final class SimpleOffsetIntegerLayerConfigParser extends AbstractLayerCon
     public @NotNull SimpleOffsetIntegerLayerConfig decode(@NotNull Map<String, Object> values) {
 
         int value = decodeInt(values, "value");
-        int offset = decodeInt(values, "offset");
+        int offset = decodeInt(values, "offset", 0);
 
         return new SimpleOffsetIntegerLayerConfig(value, offset);
     }
