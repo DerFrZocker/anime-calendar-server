@@ -141,7 +141,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
 
             List<Map<String, Object>> filters = layerHolder.filters().stream().map(filterData -> {
                 Map<String, Object> filter = filterData.encode();
-                filter.put("layer_key", filterData.filter().getLayerKey());
+                filter.put("layer_key", filterData.filter().getLayerKey().key());
                 return filter;
             }).toList();
 

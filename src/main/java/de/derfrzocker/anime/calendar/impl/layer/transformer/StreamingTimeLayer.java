@@ -19,6 +19,10 @@ public final class StreamingTimeLayer extends AbstractEpisodeTransformer<Streami
 
     @Override
     public void transform(@NotNull Anime anime, @NotNull AnimeOptions animeOptions, @NotNull StreamingTimeLayerConfig layerConfig, @NotNull EpisodeBuilder episodeBuilder) {
+        if (animeOptions.streamType() != null && !animeOptions.streamType().equals(layerConfig.type())) {
+            return;
+        }
+
         Period period = layerConfig.period().multipliedBy((episodeBuilder.episodeIndex() - layerConfig.offset()));
 
         episodeBuilder.withStreamingTime(layerConfig.startTime().plus(period));

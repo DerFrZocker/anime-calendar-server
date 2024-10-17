@@ -37,6 +37,6 @@ public class IntegrationServiceImpl implements IntegrationService {
     public Calendar getCalendar(IntegrationId integrationId, Set<IntegrationAnimeId> integrationAnimeIds) {
         Set<AnimeId> animeIds = integrationAnimeDao.getAnimeIds(integrationId, integrationAnimeIds);
 
-        return calendarService.buildCalendar(animeIds, new AnimeOptions(Region.DE_DE, true));
+        return calendarService.buildCalendar(animeIds, new AnimeOptions(Region.DE_DE, true, null));
     }
 }

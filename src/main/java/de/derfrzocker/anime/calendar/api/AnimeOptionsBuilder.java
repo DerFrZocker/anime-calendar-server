@@ -25,6 +25,6 @@ public final class AnimeOptionsBuilder {
     }
 
     public AnimeOptions build() {
-        return new AnimeOptions(region, useRegionName);
+        return new AnimeOptions(region, useRegionName, null);
     }
 }
