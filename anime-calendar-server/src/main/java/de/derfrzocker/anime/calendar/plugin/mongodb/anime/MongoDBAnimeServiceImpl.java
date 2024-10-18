@@ -1,15 +1,15 @@
 package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
-import de.derfrzocker.anime.calendar.api.anime.Anime;
 import de.derfrzocker.anime.calendar.api.anime.AnimeService;
-import de.derfrzocker.anime.calendar.api.event.AnimeAddLayerEvent;
-import de.derfrzocker.anime.calendar.api.layer.LayerFilter;
-import de.derfrzocker.anime.calendar.api.layer.LayerFilterDataHolder;
-import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.api.layer.LayerTransformer;
-import de.derfrzocker.anime.calendar.api.layer.LayerKey;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.LayerKey;
+import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
+import de.derfrzocker.anime.calendar.server.model.domain.event.AnimeAddLayerEvent;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import io.quarkus.vertx.ConsumeEvent;
@@ -141,7 +141,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
 
             List<Map<String, Object>> filters = layerHolder.filters().stream().map(filterData -> {
                 Map<String, Object> filter = filterData.encode();
-                filter.put("layer_key", filterData.filter().getLayerKey().key());
+                filter.put("layer_key", filterData.filter().getLayerKey().raw());
                 return filter;
             }).toList();
 
@@ -150,7 +150,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
             }
 
             Map<String, Object> transformerData = layerHolder.layerDataHolder().encode();
-            transformerData.put("layer_key", layerHolder.layerDataHolder().layer().getLayerKey().key());
+            transformerData.put("layer_key", layerHolder.layerDataHolder().layer().getLayerKey().raw());
             map.put("transformer", transformerData);
 
             layerDocuments.add(map);

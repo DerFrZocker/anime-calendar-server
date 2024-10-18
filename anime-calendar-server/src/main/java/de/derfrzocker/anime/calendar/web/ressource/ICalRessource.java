@@ -1,14 +1,14 @@
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.api.calendar.CalendarService;
-import de.derfrzocker.anime.calendar.api.Region;
-import de.derfrzocker.anime.calendar.api.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationService;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.api.user.UserService;
 import de.derfrzocker.anime.calendar.integration.Integrations;
+import de.derfrzocker.anime.calendar.server.model.core.CalendarKey;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;
+import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.Region;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateCalendarKey;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateMyAnimeListUsername;
 import jakarta.annotation.security.DenyAll;

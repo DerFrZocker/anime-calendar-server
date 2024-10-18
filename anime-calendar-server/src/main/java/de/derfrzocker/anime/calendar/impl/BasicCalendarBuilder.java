@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.impl;
 
-import de.derfrzocker.anime.calendar.api.anime.Anime;
-import de.derfrzocker.anime.calendar.api.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.api.ICalCalendarBuilder;
-import de.derfrzocker.anime.calendar.api.Episode;
+import de.derfrzocker.anime.calendar.server.model.domain.AnimeEpisodes;
+import de.derfrzocker.anime.calendar.server.model.domain.Episode;
+import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import jakarta.enterprise.context.ApplicationScoped;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;

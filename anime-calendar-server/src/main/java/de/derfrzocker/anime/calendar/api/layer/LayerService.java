@@ -1,8 +1,11 @@
 package de.derfrzocker.anime.calendar.api.layer;
 
-import de.derfrzocker.anime.calendar.api.anime.Anime;
-import de.derfrzocker.anime.calendar.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.api.Episode;
+import de.derfrzocker.anime.calendar.server.model.core.LayerKey;
+import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.Episode;
+import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

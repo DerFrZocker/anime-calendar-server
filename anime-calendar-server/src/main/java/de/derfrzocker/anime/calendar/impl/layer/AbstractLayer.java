@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.impl.layer;
 
-import de.derfrzocker.anime.calendar.api.layer.Layer;
-import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
-import de.derfrzocker.anime.calendar.api.layer.LayerConfigParser;
-import de.derfrzocker.anime.calendar.api.layer.LayerKey;
+import de.derfrzocker.anime.calendar.server.model.core.LayerKey;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.Layer;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfig;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfigParser;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractLayer<T extends LayerConfig, H> implements Layer<T, H> {

@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration;
 
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
 
 public final class Integrations {
 

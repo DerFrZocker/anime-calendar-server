@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.impl.layer.parser;
 
-import de.derfrzocker.anime.calendar.api.Region;
 import de.derfrzocker.anime.calendar.impl.layer.config.RegionFilterConfig;
+import de.derfrzocker.anime.calendar.server.model.domain.Region;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;

@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.impl.layer.transformer;
 
-import de.derfrzocker.anime.calendar.api.layer.LayerConfigParser;
-import de.derfrzocker.anime.calendar.api.layer.LayerTransformer;
-import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
-import de.derfrzocker.anime.calendar.api.layer.LayerTransformerDataHolder;
 import de.derfrzocker.anime.calendar.impl.layer.AbstractLayer;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfig;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfigParser;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformerDataHolder;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

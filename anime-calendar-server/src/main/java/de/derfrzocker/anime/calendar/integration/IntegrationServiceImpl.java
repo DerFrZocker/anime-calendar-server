@@ -1,15 +1,15 @@
 package de.derfrzocker.anime.calendar.integration;
 
-import de.derfrzocker.anime.calendar.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.api.Region;
 import de.derfrzocker.anime.calendar.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeDao;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationService;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationUserDao;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;
+import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.Region;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.literal.NamedLiteral;
@@ -29,7 +29,7 @@ public class IntegrationServiceImpl implements IntegrationService {
 
     @Override
     public Calendar getCalendar(IntegrationId integrationId, IntegrationUserId userId) {
-        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.id() + "-user-dao")).get().getUserIds(userId);
+        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.raw() + "-user-dao")).get().getUserIds(userId);
         return getCalendar(integrationId, integrationAnimeIds);
     }
 

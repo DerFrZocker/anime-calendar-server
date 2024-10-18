@@ -105,6 +105,7 @@
     <modules>
         <module>anime-calendar-server</module>
         <module>model-core</module>
+        <module>model-domain</module>
     </modules>
 
     <build>

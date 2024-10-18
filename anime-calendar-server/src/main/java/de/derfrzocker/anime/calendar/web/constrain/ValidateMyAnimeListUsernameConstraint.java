@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.web.constrain;
 
-import de.derfrzocker.anime.calendar.api.integration.IntegrationUserId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -12,19 +12,19 @@ public class ValidateMyAnimeListUsernameConstraint implements ConstraintValidato
             return false;
         }
 
-        if (value.id() == null) {
+        if (value.raw() == null) {
             return false;
         }
 
-        if (value.id().length() < 2) {
+        if (value.raw().length() < 2) {
             return false;
         }
 
-        if (value.id().length() > 16) {
+        if (value.raw().length() > 16) {
             return false;
         }
 
-        for (char c : value.id().toCharArray()) {
+        for (char c : value.raw().toCharArray()) {
             if (c >= 'A' && c <= 'Z') {
                 continue;
             }

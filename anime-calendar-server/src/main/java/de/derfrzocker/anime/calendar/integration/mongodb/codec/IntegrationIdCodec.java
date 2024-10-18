@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration.mongodb.codec;
 
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
@@ -16,7 +16,7 @@ public class IntegrationIdCodec implements Codec<IntegrationId> {
 
     @Override
     public void encode(BsonWriter writer, IntegrationId value, EncoderContext encoderContext) {
-        writer.writeString(value.id());
+        writer.writeString(value.raw());
     }
 
     @Override

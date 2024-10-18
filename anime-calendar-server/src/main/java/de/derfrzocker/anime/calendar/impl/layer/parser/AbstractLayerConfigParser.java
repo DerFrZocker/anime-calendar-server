@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.impl.layer.parser;
 
-import de.derfrzocker.anime.calendar.api.layer.LayerConfig;
-import de.derfrzocker.anime.calendar.api.layer.LayerConfigParser;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfig;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfigParser;
 import java.util.Collection;
 import java.util.Map;
 

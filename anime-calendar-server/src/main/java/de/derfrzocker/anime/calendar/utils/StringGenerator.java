@@ -3,7 +3,7 @@ package de.derfrzocker.anime.calendar.utils;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.api.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.server.model.core.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.Id;
 import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import de.derfrzocker.anime.calendar.server.model.core.UserId;

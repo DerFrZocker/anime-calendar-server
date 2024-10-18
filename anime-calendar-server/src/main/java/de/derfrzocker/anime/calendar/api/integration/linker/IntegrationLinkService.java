@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.api.integration.linker;
 
-import de.derfrzocker.anime.calendar.api.anime.Anime;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import java.util.Set;
 
 public interface IntegrationLinkService {

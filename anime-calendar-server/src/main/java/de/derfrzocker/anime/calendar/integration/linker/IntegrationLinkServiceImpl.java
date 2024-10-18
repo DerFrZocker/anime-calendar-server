@@ -1,18 +1,18 @@
 package de.derfrzocker.anime.calendar.integration.linker;
 
-import de.derfrzocker.anime.calendar.api.anime.Anime;
-import de.derfrzocker.anime.calendar.api.event.AnimeAddLayerEvent;
+import de.derfrzocker.anime.calendar.impl.layer.config.IntegrationUrlLayerConfig;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
+import de.derfrzocker.anime.calendar.server.model.domain.event.AnimeAddLayerEvent;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeDao;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.api.integration.linker.IntegrationAnimeNameDao;
 import de.derfrzocker.anime.calendar.api.integration.linker.IntegrationLinkService;
-import de.derfrzocker.anime.calendar.api.integration.linker.IntegrationNameIdData;
-import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.api.layer.LayerTransformerDataHolder;
-import de.derfrzocker.anime.calendar.impl.layer.config.IntegrationUrlLayerConfig;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.IntegrationUrlLayer;
 import de.derfrzocker.anime.calendar.integration.Integrations;
+import de.derfrzocker.anime.calendar.server.model.domain.integration.linker.IntegrationNameIdData;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformerDataHolder;
 import io.quarkus.vertx.ConsumeEvent;
 import io.vertx.core.eventbus.EventBus;
 import jakarta.annotation.PostConstruct;
@@ -53,7 +53,7 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
 
         for (IntegrationAnimeId integrationAnimeId : newLinks) {
             // TODO 2024-09-24: Clean up and make better
-            LayerHolder layerHolder = new LayerHolder(List.of(), new LayerTransformerDataHolder<>(IntegrationUrlLayer.INSTANCE, new IntegrationUrlLayerConfig(Integrations.MY_ANIME_LIST, String.format("https://myanimelist.net/anime/%s", integrationAnimeId.id()))));
+            LayerHolder layerHolder = new LayerHolder(List.of(), new LayerTransformerDataHolder<>(IntegrationUrlLayer.INSTANCE, new IntegrationUrlLayerConfig(Integrations.MY_ANIME_LIST, String.format("https://myanimelist.net/anime/%s", integrationAnimeId.raw()))));
             eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
         }
     }
@@ -62,7 +62,7 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
     public Set<IntegrationAnimeId> linkAnime(IntegrationId integrationId, Anime anime) {
         Set<IntegrationAnimeId> current = integrationAnimeDao.getIntegrationIds(integrationId, anime.animeId());
 
-        IntegrationAnimeNameDao integrationAnimeNameDao = integrationAnimeNameDaos.select(NamedLiteral.of(integrationId.id() + "-name-dao")).get();
+        IntegrationAnimeNameDao integrationAnimeNameDao = integrationAnimeNameDaos.select(NamedLiteral.of(integrationId.raw() + "-name-dao")).get();
         Set<IntegrationNameIdData> allAnimes = integrationAnimeNameDao.getAllAnimes();
 
         Pair<Set<IntegrationNameIdData>, Integer> best = getBest(allAnimes, anime);
