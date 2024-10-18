@@ -41,6 +41,6 @@ public class AnimesResource {
 
         Anime anime = animeService.createAnime(animePostRequest);
 
-        return Response.ok(new AnimeTo(anime.animeId().id())).build();
+        return Response.ok(new AnimeTo(anime.animeId().raw())).build();
     }
 }

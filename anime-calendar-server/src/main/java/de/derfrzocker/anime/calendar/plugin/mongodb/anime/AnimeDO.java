@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import java.util.List;
 import java.util.Map;

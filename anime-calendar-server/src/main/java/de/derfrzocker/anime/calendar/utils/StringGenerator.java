@@ -1,12 +1,12 @@
 package de.derfrzocker.anime.calendar.utils;
 
-import de.derfrzocker.anime.calendar.api.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.api.Id;
-import de.derfrzocker.anime.calendar.api.IdType;
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
-import de.derfrzocker.anime.calendar.api.animeaccountlink.AnimeAccountLinkId;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.CalendarId;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeAccountLinkId;
 import de.derfrzocker.anime.calendar.api.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.api.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.core.Id;
+import de.derfrzocker.anime.calendar.server.model.core.IdType;
+import de.derfrzocker.anime.calendar.server.model.core.UserId;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -35,7 +35,7 @@ public final class StringGenerator {
     }
 
     public static CalendarKey generateCalendarKey(CalendarId calendarId) {
-        return new CalendarKey(calendarId.id() + generateStringId(CalendarKey.KEY_PREFIX_CHAR, CalendarKey.CALENDAR_KEY_LENGTH - Id.ID_LENGTH));
+        return new CalendarKey(calendarId.raw() + generateStringId(CalendarKey.KEY_PREFIX_CHAR, CalendarKey.CALENDAR_KEY_LENGTH - Id.ID_LENGTH));
     }
 
     private static String generateStringId(char prefix, int length) {

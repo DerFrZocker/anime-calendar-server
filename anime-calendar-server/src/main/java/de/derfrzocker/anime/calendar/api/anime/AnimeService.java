@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.api.anime;
 
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import org.jetbrains.annotations.Nullable;
 

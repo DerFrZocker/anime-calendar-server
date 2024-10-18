@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.utils;
 
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
-import de.derfrzocker.anime.calendar.api.Id;
-import de.derfrzocker.anime.calendar.api.IdType;
+import de.derfrzocker.anime.calendar.server.model.core.Id;
+import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import org.junit.jupiter.api.RepeatedTest;
 
 public class StringGeneratorTest {
@@ -30,16 +30,16 @@ public class StringGeneratorTest {
 
     private void test(Id id, IdType idType, char prefix) {
         assertNotNull(id);
-        assertNotNull(id.id());
-        assertEquals(10, id.id().length());
+        assertNotNull(id.raw());
+        assertEquals(10, id.raw().length());
 
         for (int i = 0; i < 10; i++) {
-            char c = id.id().charAt(i);
+            char c = id.raw().charAt(i);
             assertTrue((c >= 'A' && c <= 'Z' && c != 'O') || (c >= '1' && c <= '9'),
                     format("Id is not a Uppercase letter '%c' at index '%d'", c, i));
         }
 
-        assertEquals(prefix, id.id().charAt(0));
+        assertEquals(prefix, id.raw().charAt(0));
         assertNotNull(id.idType());
         assertSame(idType, id.idType());
     }

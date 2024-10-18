@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.integration.mongodb;
 
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
@@ -15,6 +15,6 @@ class MongoDBIntegrationAnimeRepository implements PanacheMongoRepository<Integr
     }
 
     public Set<IntegrationAnimeIdDO> get(AnimeId animeId) {
-        return new HashSet<>(find("animeId", animeId.id()).list());
+        return new HashSet<>(find("animeId", animeId.raw()).list());
     }
 }

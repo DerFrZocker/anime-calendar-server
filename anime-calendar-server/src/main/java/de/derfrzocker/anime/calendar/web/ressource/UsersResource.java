@@ -25,6 +25,6 @@ public class UsersResource {
     public Response createUser() {
         User user = userService.createUser();
 
-        return Response.ok(new UserTo(user.userId().id())).build();
+        return Response.ok(new UserTo(user.userId().raw())).build();
     }
 }

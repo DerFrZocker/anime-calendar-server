@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.integration.mongodb;
 
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeDao;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.api.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.HashMap;

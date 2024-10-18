@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.api.anime;
 
 import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
 import de.derfrzocker.anime.calendar.api.anime.Anime;
-import de.derfrzocker.anime.calendar.api.anime.AnimeId;
 import de.derfrzocker.anime.calendar.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.api.event.AnimeAddLayerEvent;
 import de.derfrzocker.anime.calendar.api.layer.LayerFilter;
@@ -10,6 +9,7 @@ import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.api.layer.LayerTransformer;
 import de.derfrzocker.anime.calendar.api.layer.LayerKey;
 import de.derfrzocker.anime.calendar.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import io.quarkus.vertx.ConsumeEvent;
@@ -171,11 +171,11 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     }
 
     private void validateId(AnimeId animeId) {
-        if (animeId == null || animeId.id().isEmpty()) {
+        if (animeId == null || animeId.raw().isEmpty()) {
             throw new BadRequestException("Anime ID must not be empty");
         }
 
-        for (char c : animeId.id().toCharArray()) {
+        for (char c : animeId.raw().toCharArray()) {
             if (c >= 'A' && c <= 'Z') {
                 continue;
             }

@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.api;
+package de.derfrzocker.anime.calendar.server.model.core;
 
 public enum IdType {
 

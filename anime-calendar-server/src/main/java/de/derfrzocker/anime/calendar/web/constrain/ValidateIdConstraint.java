@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.web.constrain;
 
-import de.derfrzocker.anime.calendar.api.Id;
+import de.derfrzocker.anime.calendar.server.model.core.Id;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -12,7 +12,7 @@ public class ValidateIdConstraint implements ConstraintValidator<ValidateId, Id>
             return false;
         }
 
-        if (value.id() == null) {
+        if (value.raw() == null) {
             return false;
         }
 
@@ -20,15 +20,15 @@ public class ValidateIdConstraint implements ConstraintValidator<ValidateId, Id>
             return false;
         }
 
-        if (value.id().length() != Id.ID_LENGTH) {
+        if (value.raw().length() != Id.ID_LENGTH) {
             return false;
         }
 
-        if (value.id().charAt(0) != value.idType().prefix()) {
+        if (value.raw().charAt(0) != value.idType().prefix()) {
             return false;
         }
 
-        for (char c : value.id().toCharArray()) {
+        for (char c : value.raw().toCharArray()) {
             if (c >= 'A' && c <= 'Z' && c != 'O') {
                 continue;
             }
