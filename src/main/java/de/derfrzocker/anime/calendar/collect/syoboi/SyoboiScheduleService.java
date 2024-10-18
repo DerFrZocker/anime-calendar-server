@@ -16,8 +16,12 @@ import de.derfrzocker.anime.calendar.api.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.api.layer.LayerTransformerDataHolder;
 import de.derfrzocker.anime.calendar.collect.syoboi.link.LinkService;
 import de.derfrzocker.anime.calendar.impl.layer.config.BoundFilterConfig;
+import de.derfrzocker.anime.calendar.impl.layer.config.SimpleIntegerLayerConfig;
+import de.derfrzocker.anime.calendar.impl.layer.config.SimpleOffsetIntegerLayerConfig;
 import de.derfrzocker.anime.calendar.impl.layer.config.StreamingTimeLayerConfig;
 import de.derfrzocker.anime.calendar.impl.layer.filter.BoundLayerFilter;
+import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeLengthLayer;
+import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeNumberLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.StreamingTimeLayer;
 import io.vertx.core.eventbus.EventBus;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -90,6 +94,33 @@ public class SyoboiScheduleService {
         Episode episode = getEpisode(anime, data);
 
         checkBaseStreamTime(anime, episode, data);
+        checkEpisode(anime, episode, data);
+        checkLength(anime, episode, data);
+    }
+
+    private void checkLength(Anime anime, Episode episode, Data data) {
+        long duration = Duration.between(data.scheduleData().startTime(), data.scheduleData().endTime()).toMinutes();
+        if (episode.episodeLength() == duration) {
+            return;
+        }
+
+        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE, new BoundFilterConfig(data.scheduleData().episode() - 1, -1));
+        LayerTransformerDataHolder<SimpleIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(EpisodeLengthLayer.INSTANCE, new SimpleIntegerLayerConfig((int) duration));
+        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+
+        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
+    }
+
+    private void checkEpisode(Anime anime, Episode episode, Data data) {
+        if (episode.episodeNumber() != null && !episode.episodeNumber().equals(String.valueOf(data.scheduleData().episode()))) {
+            return;
+        }
+
+        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE, new BoundFilterConfig(data.scheduleData().episode() - 1, -1));
+        LayerTransformerDataHolder<SimpleOffsetIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(EpisodeNumberLayer.INSTANCE, new SimpleOffsetIntegerLayerConfig(data.scheduleData.episode(), data.scheduleData().episode() - 1));
+        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+
+        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
     }
 
     private void checkBaseStreamTime(Anime anime, Episode episode, Data data) {
