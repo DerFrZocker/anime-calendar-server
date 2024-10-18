@@ -13,10 +13,10 @@ FROM eclipse-temurin:21-jre-alpine
 
 RUN mkdir -p /anime-calendar
 
-COPY --chown=185 --from=builder /usr/src/target/quarkus-app/lib/ /anime-calendar/lib/
-COPY --chown=185 --from=builder /usr/src/target/quarkus-app/*.jar /anime-calendar/
-COPY --chown=185 --from=builder /usr/src/target/quarkus-app/app/ /anime-calendar/app/
-COPY --chown=185 --from=builder /usr/src/target/quarkus-app/quarkus/ /anime-calendar/quarkus/
+COPY --chown=185 --from=builder /usr/src/anime-calendar-server/target/quarkus-app/lib/ /anime-calendar/lib/
+COPY --chown=185 --from=builder /usr/src/anime-calendar-server/target/quarkus-app/*.jar /anime-calendar/
+COPY --chown=185 --from=builder /usr/src/anime-calendar-server/target/quarkus-app/app/ /anime-calendar/app/
+COPY --chown=185 --from=builder /usr/src/anime-calendar-server/target/quarkus-app/quarkus/ /anime-calendar/quarkus/
 
 USER 185
 
