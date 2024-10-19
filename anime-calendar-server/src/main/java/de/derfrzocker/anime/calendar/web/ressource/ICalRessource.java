@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.calendar.CalendarService;
-import de.derfrzocker.anime.calendar.api.integration.IntegrationService;
-import de.derfrzocker.anime.calendar.api.user.UserService;
+import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
+import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationService;
+import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.integration.Integrations;
 import de.derfrzocker.anime.calendar.server.model.core.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;

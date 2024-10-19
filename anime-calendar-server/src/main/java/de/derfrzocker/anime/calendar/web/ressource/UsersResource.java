@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.web.ressource;
 
-import de.derfrzocker.anime.calendar.api.user.User;
-import de.derfrzocker.anime.calendar.api.user.UserService;
+import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
+import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.web.to.user.UserTo;
 import jakarta.annotation.security.DenyAll;
 import jakarta.enterprise.context.RequestScoped;

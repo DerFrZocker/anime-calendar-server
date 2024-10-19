@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.impl.layer;
 
-import de.derfrzocker.anime.calendar.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.impl.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.impl.layer.filter.RegionLayerFilter;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeLengthLayer;

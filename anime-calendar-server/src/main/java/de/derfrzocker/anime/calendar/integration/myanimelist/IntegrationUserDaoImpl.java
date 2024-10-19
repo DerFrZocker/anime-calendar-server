@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration.myanimelist;
 
-import de.derfrzocker.anime.calendar.api.integration.IntegrationUserDao;
+import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationUserDao;
 import de.derfrzocker.anime.calendar.integration.Integrations;
 import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;

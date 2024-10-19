@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.impl;
 
-import de.derfrzocker.anime.calendar.api.ICalCalendarBuilder;
+import de.derfrzocker.anime.calendar.server.core.api.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.model.domain.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;

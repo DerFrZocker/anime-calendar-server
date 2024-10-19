@@ -1,10 +1,9 @@
-package de.derfrzocker.anime.calendar.api;
+package de.derfrzocker.anime.calendar.server.core.api;
 
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeEpisodes;
+import java.util.List;
 import net.fortuna.ical4j.model.Calendar;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public interface ICalCalendarBuilder {
 

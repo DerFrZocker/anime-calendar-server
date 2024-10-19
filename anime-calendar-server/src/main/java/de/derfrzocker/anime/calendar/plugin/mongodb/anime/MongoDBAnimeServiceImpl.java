@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
-import de.derfrzocker.anime.calendar.api.anime.AnimeService;
-import de.derfrzocker.anime.calendar.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
@@ -11,7 +11,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHo
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
-import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
 import io.quarkus.vertx.ConsumeEvent;
 import io.vertx.core.eventbus.EventBus;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -94,14 +93,14 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public Anime createAnime(AnimePostRequest animePostRequest) {
+    public Anime createAnime(String animeTitle, int episodeCount, List<Map<String, Object>> episodeLayers) {
         AnimeDO animeDO = new AnimeDO();
 
-        List<LayerHolder> layerHolders = createLayerHolder(animePostRequest.episodeLayers());
+        List<LayerHolder> layerHolders = createLayerHolder(episodeLayers);
         List<Map<String, Object>> layerDocuments = parse(layerHolders);
 
-        animeDO.animeTitle = animePostRequest.animeTitle();
-        animeDO.episodeCount = animePostRequest.episodeCount();
+        animeDO.animeTitle = animeTitle;
+        animeDO.episodeCount = episodeCount;
         animeDO.episodeLayers = layerDocuments;
 
         do {

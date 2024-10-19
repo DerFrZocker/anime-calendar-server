@@ -1,8 +1,9 @@
-package de.derfrzocker.anime.calendar.api.anime;
+package de.derfrzocker.anime.calendar.server.core.api.anime;
 
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import de.derfrzocker.anime.calendar.web.request.anime.AnimePostRequest;
+import java.util.List;
+import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 public interface AnimeService {
@@ -12,5 +13,5 @@ public interface AnimeService {
 
     boolean isAnime(AnimeId id);
 
-    Anime createAnime(AnimePostRequest animePostRequest);
+    Anime createAnime(String animeTitle, int episodeCount, List<Map<String, Object>> episodeLayers);
 }

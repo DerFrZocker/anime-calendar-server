@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.api.calendar;
+package de.derfrzocker.anime.calendar.server.core.api.calendar;
 
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;

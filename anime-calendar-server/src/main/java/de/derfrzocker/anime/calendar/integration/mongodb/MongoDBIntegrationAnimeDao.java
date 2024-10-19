@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration.mongodb;
 
-import de.derfrzocker.anime.calendar.api.integration.IntegrationAnimeDao;
+import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationAnimeDao;
 import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
