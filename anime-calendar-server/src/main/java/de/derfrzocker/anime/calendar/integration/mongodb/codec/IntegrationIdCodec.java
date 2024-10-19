@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration.mongodb.codec;
 
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;

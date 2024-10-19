@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.plugin.mongodb.user;
 
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
-import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.UserId;
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import jakarta.enterprise.context.ApplicationScoped;

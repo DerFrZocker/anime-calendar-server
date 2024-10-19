@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.model.core;
+package de.derfrzocker.anime.calendar.server.model.core.calendar;
 
 public record CalendarKey(String raw) {
 

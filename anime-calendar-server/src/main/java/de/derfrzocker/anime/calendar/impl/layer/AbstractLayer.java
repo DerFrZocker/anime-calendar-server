@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.impl.layer;
 
-import de.derfrzocker.anime.calendar.server.model.core.LayerKey;
+import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.Layer;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfig;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfigParser;

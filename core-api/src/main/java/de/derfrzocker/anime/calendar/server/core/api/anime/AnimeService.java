@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.core.api.anime;
 
-import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import java.util.List;
 import java.util.Map;

@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.integration.myanimelist;
 
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationUserDao;
 import de.derfrzocker.anime.calendar.integration.Integrations;
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;

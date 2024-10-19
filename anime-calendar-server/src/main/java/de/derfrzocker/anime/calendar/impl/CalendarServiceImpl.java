@@ -4,7 +4,7 @@ import de.derfrzocker.anime.calendar.server.core.api.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
-import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.Episode;

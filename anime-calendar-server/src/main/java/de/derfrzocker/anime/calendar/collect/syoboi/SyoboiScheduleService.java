@@ -13,7 +13,7 @@ import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeLengthLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.EpisodeNumberLayer;
 import de.derfrzocker.anime.calendar.impl.layer.transformer.StreamingTimeLayer;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
-import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.EpisodeBuilder;

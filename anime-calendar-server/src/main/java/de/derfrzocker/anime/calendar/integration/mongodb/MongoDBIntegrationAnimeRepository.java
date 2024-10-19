@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.integration.mongodb;
 
-import de.derfrzocker.anime.calendar.server.model.core.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashSet;

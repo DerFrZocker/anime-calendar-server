@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.integration.linker;
 
 import de.derfrzocker.anime.calendar.impl.layer.config.IntegrationUrlLayerConfig;
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.event.AnimeAddLayerEvent;
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationAnimeDao;

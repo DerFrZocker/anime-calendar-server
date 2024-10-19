@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.web.constrain;
 
-import de.derfrzocker.anime.calendar.server.model.core.IntegrationUserId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

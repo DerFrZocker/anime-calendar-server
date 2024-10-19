@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.model.domain.user;
 
-import de.derfrzocker.anime.calendar.server.model.core.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.server.model.core.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.core.UserId;
+import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
+import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import java.time.Instant;
 import java.util.Set;
 
