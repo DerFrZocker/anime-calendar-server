@@ -3,6 +3,8 @@ package de.derfrzocker.anime.calendar.collect.syoboi;
 import com.eduardomcb.discord.webhook.WebhookClient;
 import com.eduardomcb.discord.webhook.WebhookManager;
 import com.eduardomcb.discord.webhook.models.Message;
+import de.derfrzocker.anime.calendar.collect.anidb.AniDBNameResolverServices;
+import de.derfrzocker.anime.calendar.collect.anidb.AnimeNameSearchResult;
 import de.derfrzocker.anime.calendar.collect.syoboi.link.LinkService;
 import de.derfrzocker.anime.calendar.impl.layer.config.BoundFilterConfig;
 import de.derfrzocker.anime.calendar.impl.layer.config.SimpleIntegerLayerConfig;
@@ -53,6 +55,8 @@ public class SyoboiScheduleService {
     String webhookInfoUrl;
     @Inject
     EventBus eventBus;
+    @Inject
+    AniDBNameResolverServices nameService;
 
     public void updateSchedule() {
         // TODO 2024-09-29: Magic value
@@ -66,6 +70,9 @@ public class SyoboiScheduleService {
 
             if (animeId == null) {
                 System.out.println("Could not find anime for " + data);
+
+                AnimeNameSearchResult result = nameService.convertName(data.tidData().title());
+
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -81,7 +88,9 @@ public class SyoboiScheduleService {
                     public void onFailure(int statusCode, String errorMessage) {
                         System.out.println(statusCode + " " + errorMessage);
                     }
-                }).setChannelUrl(webhookInfoUrl).setMessage(new Message().setContent("\nCould not find anime for " + data + "\n")).exec();
+                }).setChannelUrl(webhookInfoUrl)
+                        .setMessage(new Message()
+                                .setContent("\nCould not find anime for '" + data + "', but it is probably '" + result + "'\n")).exec();
                 continue;
             }
 

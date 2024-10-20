@@ -21,9 +21,9 @@ public class IntegrationAnimeNameDaoImpl implements IntegrationAnimeNameDao {
     @RestClient
     IntegrationAnimeRestClient integrationAnimeRestClient;
 
-    @ConfigProperty(name = "my-anime-list-integration.current-season")
+    @ConfigProperty(name = "anime.current-season")
     Season currentSeason;
-    @ConfigProperty(name = "my-anime-list-integration.current-year")
+    @ConfigProperty(name = "anime.current-year")
     int currentYear;
     @ConfigProperty(name = "my-anime-list-integration.season-limit")
     int limit;
