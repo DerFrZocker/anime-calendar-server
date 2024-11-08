@@ -6,5 +6,7 @@ import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import java.time.Instant;
 import java.util.Set;
 
-public record User(UserId userId, Instant createdAt, Set<CalendarId> calendars, Set<AnimeAccountLinkId> animeAccountLinks) {
+public record User(UserId userId, Instant createdAt, HashedUserToken hashedUserToken, Set<CalendarId> calendars,
+                   Set<AnimeAccountLinkId> animeAccountLinks) {
+
 }

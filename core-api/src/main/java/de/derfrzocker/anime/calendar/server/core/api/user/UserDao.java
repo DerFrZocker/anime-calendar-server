@@ -1,16 +1,13 @@
 package de.derfrzocker.anime.calendar.server.core.api.user;
 
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.user.CreatedUserHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
-import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
+import de.derfrzocker.anime.calendar.server.model.domain.user.UserCreateData;
 import java.util.Optional;
 
-public interface UserService {
+public interface UserDao {
 
     Optional<User> getById(UserId id);
 
-    CreatedUserHolder createUser();
-
-    boolean isValidToken(UserToken token);
+    User createUser(UserCreateData userCreateData);
 }
