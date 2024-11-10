@@ -10,6 +10,6 @@ final class UserDataMapper {
     }
 
     static User toDomain(UserDO data) {
-        return new User(data.userId, data.createdAt, data.hashedUserToken, data.calendars, data.animeAccountLinks);
+        return new User(data.id, data.createdAt, data.hashedToken, data.calendars, data.animeAccountLinks);
     }
 }

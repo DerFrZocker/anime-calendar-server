@@ -13,9 +13,9 @@ import org.bson.codecs.pojo.annotations.BsonId;
 public class UserDO {
 
     @BsonId
-    public UserId userId;
+    public UserId id;
     public Instant createdAt;
-    public HashedUserToken hashedUserToken;
+    public HashedUserToken hashedToken;
     public Set<CalendarId> calendars;
     public Set<AnimeAccountLinkId> animeAccountLinks;
 }

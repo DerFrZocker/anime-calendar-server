@@ -9,6 +9,6 @@ final class UserDomainMapper {
     }
 
     static UserTO toTransfer(User domain) {
-        return new UserTO(domain.userId());
+        return new UserTO(domain.id());
     }
 }

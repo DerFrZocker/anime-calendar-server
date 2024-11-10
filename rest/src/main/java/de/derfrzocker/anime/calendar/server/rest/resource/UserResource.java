@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.rest.resource;
 
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UserNotFoundException;
 import de.derfrzocker.anime.calendar.server.rest.aggregator.UserAggregator;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateId;
@@ -27,7 +28,7 @@ public class UserResource {
     @GET
     @Path("{id}")
     @PermitAll
-    public UserResponse getById(@ValidateId @PathParam("id") UserId id) throws UserNotFoundException {
+    public UserResponse getById(@ValidateId @PathParam("id") UserId id) throws UserNotFoundException, UnauthenticatedException {
         return userAggregator.getById(id);
     }
 

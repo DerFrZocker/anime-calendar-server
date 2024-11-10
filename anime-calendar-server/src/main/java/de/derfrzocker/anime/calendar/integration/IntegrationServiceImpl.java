@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.integration;
 
-import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
+import de.derfrzocker.anime.calendar.server.core.api.calendar.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationAnimeDao;
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationService;
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationUserDao;
@@ -25,11 +25,13 @@ public class IntegrationServiceImpl implements IntegrationService {
     @Inject
     Instance<IntegrationUserDao> integrationUserDao;
     @Inject
-    CalendarService calendarService;
+    ICalCalendarService calendarService;
 
     @Override
     public Calendar getCalendar(IntegrationId integrationId, IntegrationUserId userId) {
-        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.raw() + "-user-dao")).get().getUserIds(userId);
+        Set<IntegrationAnimeId> integrationAnimeIds = integrationUserDao.select(NamedLiteral.of(integrationId.raw() + "-user-dao"))
+                                                                        .get()
+                                                                        .getUserIds(userId);
         return getCalendar(integrationId, integrationAnimeIds);
     }
 

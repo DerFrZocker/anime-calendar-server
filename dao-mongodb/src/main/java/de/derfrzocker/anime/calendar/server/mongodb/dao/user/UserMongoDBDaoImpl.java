@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.mongodb.dao.user;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserDao;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
+import de.derfrzocker.anime.calendar.server.model.domain.user.UserChangeData;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserCreateData;
 import de.derfrzocker.anime.calendar.server.mongodb.data.UserDO;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.Data;
@@ -24,12 +25,21 @@ public class UserMongoDBDaoImpl implements UserDao {
     }
 
     @Override
-    public User createUser(UserCreateData userCreateData) {
+    public User createWithData(UserCreateData userCreateData) {
         UserDO userDO = Domain.toData(userCreateData);
 
         userDO.createdAt = Instant.now();
 
         repository.persist(userDO);
+
+        return Data.toDomain(userDO);
+    }
+
+    @Override
+    public User updateWithChangeData(User user, UserChangeData userChangeData) {
+        UserDO userDO = Domain.toData(user, userChangeData);
+
+        repository.update(userDO);
 
         return Data.toDomain(userDO);
     }

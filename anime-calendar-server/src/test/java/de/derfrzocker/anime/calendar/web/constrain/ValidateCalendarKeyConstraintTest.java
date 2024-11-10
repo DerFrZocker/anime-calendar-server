@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class ValidateCalendarKeyConstraintTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"CNAUSHDX92KUYACKH1HJ25S3D8SRH8"})
+    @ValueSource(strings = {"CNAUSHDX92KUYACKH1HJ25S3D8SRH825S3D8SRH8"})
     void testCorrectCalendarKey(String value) {
         ValidateCalendarKeyConstraint constraint = new ValidateCalendarKeyConstraint();
 
@@ -18,10 +18,20 @@ public class ValidateCalendarKeyConstraintTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"ANAUSHDX92KUYACKH1HJ25S3D8SRH8", "cNAUSHDX92KUYACKH1HJ25S3D8SRH8", "CNAUSHDX92VUYACKH1HJ25S3D8SRH8", "CNAUSHDX92kUYACKH1HJ25S3D8SRH8", "CNAUSHDX92KUYACKH1HJ25S3D8srh8", "CNAUSHDX92KUYACKH1HJ2*S3D8SRH8", "CNAUSHDX92KUYACKH1HJ2OS3D8SRH8", "CNAUSHDX92KUYACKH1HJ20S3D8SRH8", "CNAUSHDX92KUYACKH1HJ25S3D8SRH8R", "CNAUSHDX92KUYACKH1HJ25S3D8SR"})
+    @ValueSource(strings = {"ANAUSHDX92KUYACKH1HJ25S3D8SRH825S3D8SRH8",
+                            "cNAUSHDX92KUYACKH1HJ25S3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92VUYACKH1HJ25S3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92kUYACKH1HJ25S3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ25S3D8srh825S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ2*S3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ2OS3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ20S3D8SRH825S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ25S3D8SRH8R25S3D8SRH8",
+                            "CNAUSHDX92KUYACKH1HJ25S3D8SR25S3D8SRH8"})
     void testIncorrectAnimeId(String value) {
         ValidateCalendarKeyConstraint constraint = new ValidateCalendarKeyConstraint();
 
-        assertFalse(constraint.isValid(new CalendarKey(value), null), format("CalendarKey %s should be invalid", value));
+        assertFalse(constraint.isValid(new CalendarKey(value), null),
+                    format("CalendarKey %s should be invalid", value));
     }
 }

@@ -1,7 +1,10 @@
 package de.derfrzocker.anime.calendar.server.mongodb.codec;
 
+import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
+import de.derfrzocker.anime.calendar.server.model.core.calendar.AnimeOverrideID;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.HashedUserToken;
 import java.util.HashMap;
@@ -24,7 +27,10 @@ public class CustomCodecProvider implements CodecProvider {
         putString(UserId.class, UserId::raw, UserId::new);
         putString(HashedUserToken.class, HashedUserToken::raw, HashedUserToken::new);
         putString(CalendarId.class, CalendarId::raw, CalendarId::new);
+        putString(CalendarKey.class, CalendarKey::raw, CalendarKey::new);
         putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
+        putString(AnimeOverrideID.class, AnimeOverrideID::raw, AnimeOverrideID::new);
+        putString(AnimeId.class, AnimeId::raw, AnimeId::new);
     }
 
     @Override
