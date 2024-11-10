@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.integration.myanimelist;
 
-import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationUserDao;
 import de.derfrzocker.anime.calendar.integration.Integrations;
+import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationUserDao;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import io.quarkus.cache.CacheResult;
@@ -24,8 +24,12 @@ class IntegrationUserDaoImpl implements IntegrationUserDao {
     @Override
     @CacheResult(cacheName = "my-anime-list-integration-user-rest-call")
     public Set<IntegrationAnimeId> getUserIds(IntegrationUserId user) {
-        IntegrationUserListResponse watching = integrationUserRestClient.getAnimeList(user.raw(), Status.watching);
-        IntegrationUserListResponse planToWatch = integrationUserRestClient.getAnimeList(user.raw(), Status.plan_to_watch);
+        IntegrationUserListResponse watching = integrationUserRestClient.getAnimeList(user.raw(),
+                                                                                      Status.watching,
+                                                                                      true);
+        IntegrationUserListResponse planToWatch = integrationUserRestClient.getAnimeList(user.raw(),
+                                                                                         Status.plan_to_watch,
+                                                                                         true);
 
         Set<IntegrationAnimeId> userIds = new HashSet<>();
         userIds.addAll(parseResponse(watching));

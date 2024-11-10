@@ -14,5 +14,7 @@ public interface IntegrationUserRestClient {
 
     @GET
     @Path("/{user_name}/animelist")
-    IntegrationUserListResponse getAnimeList(@PathParam("user_name") String userName, @QueryParam("status") Status status);
+    IntegrationUserListResponse getAnimeList(@PathParam("user_name") String userName,
+                                             @QueryParam("status") Status status,
+                                             @QueryParam("nsfw") boolean nsfw);
 }

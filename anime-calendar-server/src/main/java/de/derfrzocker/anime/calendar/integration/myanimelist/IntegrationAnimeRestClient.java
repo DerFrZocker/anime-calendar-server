@@ -14,5 +14,7 @@ public interface IntegrationAnimeRestClient {
 
     @GET
     @Path("/season/{year}/{season}")
-    IntegrationAnimeNameListResponse getSeasonAnime(@PathParam("year") int year, @PathParam("season") Season season, @QueryParam("limit") int limit);
+    IntegrationAnimeNameListResponse getSeasonAnime(@PathParam("year") int year,
+                                                    @PathParam("season") Season season,
+                                                    @QueryParam("limit") int limit);
 }

@@ -23,7 +23,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import java.util.Set;
 
-@Path("ical")
+@Path("v3/ical")
 @RequestScoped
 @DenyAll
 public class ICalRessource {
