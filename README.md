@@ -10,35 +10,16 @@ If the anime is licensed, it will show the time when it is available to stream, 
 
 ## Usage:
 
-As of now, the setup is a bit complicated, since there is no frontend for this service.
+You have the following options for using this service. 
 
-<p>
+### Using MyAnimeList
 
-Before you can sync your animes to your calendar,
-you need to let anime-calendar know which animes you watch / want to keep track of,
-for this you need to first create a user by sending an empty `POST` request to following endpoint.
-This will create and return a new user token, with which you can access the other endpoints.
+If you use [MyAnimeList](https://myanimelist.net/)
+and have set your watchlist to `public`, you can access the following endpoint
+to generate an iCal calendar containing all the animes from your watchlist.
 
-`POST https://api.anime-calendar.com/v3/users`
+`https://api.anime-calendar.com/v3/ical/myanimelist/<myanimelist-username>`
 
-Next you need to set which animes you watch, for this make a `PUT` request to the following REST Endpoint:
+### Using the Anime Calendar User and Calendar System
 
-`PUT https://api.anime-calendar.com/v3/calendars/<user-token>/animes`
-
-In the body you need to put a JsonArray with the ids of the animes you watch. You can find a list of animes and there ids [here](https://github.com/DerFrZocker/anime-calendar-server/wiki/Anime-List).
-The format is as followed: 
-```json
-{
-  "animeIds": [
-    "W2JBQNSVRI",
-    "VEXU7MT8S1"
-  ]
-}
-```
-
-After you send the `PUT` request you can add the following url to your calendar.
-
-`https://api.anime-calendar.com/v3/ical/<user-token>`
-
-How you add an iCal feed to your calendar, depends on the calendar which you are using. Simple search
-for `How to add iCal feed to <calendar>` and there should be guid for it.
+*Feature in progress.*
