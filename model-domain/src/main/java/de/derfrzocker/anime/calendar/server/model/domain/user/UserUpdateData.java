@@ -5,9 +5,9 @@ import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import de.derfrzocker.anime.calendar.server.model.domain.util.SetAddChange;
 import java.util.Set;
 
-public record UserChangeData(Change<Set<CalendarId>> calendars) {
+public record UserUpdateData(Change<Set<CalendarId>> calendars) {
 
-    public static UserChangeData addCalendar(CalendarId calendarId) {
-        return new UserChangeData(new SetAddChange<>(calendarId));
+    public static UserUpdateData addCalendar(CalendarId calendarId) {
+        return new UserUpdateData(new SetAddChange<>(calendarId));
     }
 }

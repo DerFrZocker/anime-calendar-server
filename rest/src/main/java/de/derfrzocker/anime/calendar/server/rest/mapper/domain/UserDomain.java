@@ -3,12 +3,13 @@ package de.derfrzocker.anime.calendar.server.rest.mapper.domain;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.server.rest.transfer.user.UserTO;
 
-final class UserDomainMapper {
+public final class UserDomain {
 
-    private UserDomainMapper() {
+    public static UserTO toTransfer(User domain) {
+        return new UserTO(domain.id());
     }
 
-    static UserTO toTransfer(User domain) {
-        return new UserTO(domain.id());
+    private UserDomain() {
+
     }
 }

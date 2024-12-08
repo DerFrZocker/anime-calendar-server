@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.server.rest.filter;
 
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
@@ -39,7 +40,8 @@ public class CustomSecurityFilter implements ContainerRequestFilter {
 
         UserToken userToken = new UserToken(header);
 
-        if (!isValidToken(userToken)) {
+        // TODO 2024-12-08: Create Context
+        if (!isValidToken(userToken, null)) {
             applyEmptySecurityContext(requestContext);
             return;
         }
@@ -136,7 +138,7 @@ public class CustomSecurityFilter implements ContainerRequestFilter {
         return true;
     }
 
-    private boolean isValidToken(UserToken token) {
-        return userService.isValidToken(token);
+    private boolean isValidToken(UserToken token, RequestContext context) {
+        return userService.isValidToken(token, context);
     }
 }

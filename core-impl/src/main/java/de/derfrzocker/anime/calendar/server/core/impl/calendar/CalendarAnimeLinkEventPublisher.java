@@ -40,7 +40,7 @@ public class CalendarAnimeLinkEventPublisher {
                                    CalendarAnimeLink link,
                                    RequestContext context) {
 
-        preCreateEvent.fire(new PreCalendarAnimeLinkCreateEvent(calendarId, animeId, createData, link, context));
+        this.preCreateEvent.fire(new PreCalendarAnimeLinkCreateEvent(calendarId, animeId, createData, link, context));
     }
 
     public void firePostCreateEvent(CalendarId calendarId,
@@ -49,7 +49,7 @@ public class CalendarAnimeLinkEventPublisher {
                                     CalendarAnimeLink link,
                                     RequestContext context) {
 
-        postCreateEvent.fire(new PostCalendarAnimeLinkCreateEvent(calendarId, animeId, createData, link, context));
+        this.postCreateEvent.fire(new PostCalendarAnimeLinkCreateEvent(calendarId, animeId, createData, link, context));
     }
 
     public void firePreUpdateEvent(CalendarId calendarId,
@@ -59,12 +59,12 @@ public class CalendarAnimeLinkEventPublisher {
                                    CalendarAnimeLink updated,
                                    RequestContext context) {
 
-        preUpdateEvent.fire(new PreCalendarAnimeLinkUpdateEvent(calendarId,
-                                                                animeId,
-                                                                updateData,
-                                                                current,
-                                                                updated,
-                                                                context));
+        this.preUpdateEvent.fire(new PreCalendarAnimeLinkUpdateEvent(calendarId,
+                                                                     animeId,
+                                                                     updateData,
+                                                                     current,
+                                                                     updated,
+                                                                     context));
     }
 
     public void firePostUpdateEvent(CalendarId calendarId,
@@ -74,12 +74,12 @@ public class CalendarAnimeLinkEventPublisher {
                                     CalendarAnimeLink updated,
                                     RequestContext context) {
 
-        postUpdateEvent.fire(new PostCalendarAnimeLinkUpdateEvent(calendarId,
-                                                                  animeId,
-                                                                  updateData,
-                                                                  current,
-                                                                  updated,
-                                                                  context));
+        this.postUpdateEvent.fire(new PostCalendarAnimeLinkUpdateEvent(calendarId,
+                                                                       animeId,
+                                                                       updateData,
+                                                                       current,
+                                                                       updated,
+                                                                       context));
     }
 
     public void firePreDeleteEvent(CalendarId calendarId,
@@ -87,7 +87,7 @@ public class CalendarAnimeLinkEventPublisher {
                                    CalendarAnimeLink link,
                                    RequestContext context) {
 
-        preDeleteEvent.fire(new PreCalendarAnimeLinkDeleteEvent(calendarId, animeId, link, context));
+        this.preDeleteEvent.fire(new PreCalendarAnimeLinkDeleteEvent(calendarId, animeId, link, context));
     }
 
     public void firePostDeleteEvent(CalendarId calendarId,
@@ -95,6 +95,6 @@ public class CalendarAnimeLinkEventPublisher {
                                     CalendarAnimeLink link,
                                     RequestContext context) {
 
-        postDeleteEvent.fire(new PostCalendarAnimeLinkDeleteEvent(calendarId, animeId, link, context));
+        this.postDeleteEvent.fire(new PostCalendarAnimeLinkDeleteEvent(calendarId, animeId, link, context));
     }
 }

@@ -1,10 +1,10 @@
-package de.derfrzocker.anime.calendar.server.rest.resource;
+package de.derfrzocker.anime.calendar.server.rest.resource.user;
 
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.rest.aggregator.UserAggregator;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateUserId;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserCreateResponse;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserResponse;
+import de.derfrzocker.anime.calendar.server.rest.security.SecuredUserRequestHandler;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -21,18 +21,18 @@ import jakarta.ws.rs.core.MediaType;
 public class UserResource {
 
     @Inject
-    UserAggregator userAggregator;
+    SecuredUserRequestHandler requestHandler;
 
     @GET
     @Path("{id}")
     @PermitAll
     public UserResponse getById(@ValidateUserId @PathParam("id") UserId id) {
-        return userAggregator.getById(id);
+        return this.requestHandler.getById(id);
     }
 
     @POST
     @PermitAll
     public UserCreateResponse create() {
-        return userAggregator.create();
+        return this.requestHandler.create();
     }
 }
