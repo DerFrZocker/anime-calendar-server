@@ -5,7 +5,6 @@ import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.handler.calendar.CalendarAnimeLinkRequestHandler;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarAnimeLinkCreateOrUpdateRequest;
@@ -25,7 +24,7 @@ public class SecuredCalendarAnimeLinkRequestHandler {
     @Inject
     UserSecurityProvider securityProvider;
 
-    public CalendarAnimeLinkListResponse getAllWithId(CalendarId calendarId) throws UnauthenticatedException {
+    public CalendarAnimeLinkListResponse getAllWithId(CalendarId calendarId) {
         ensureAccessToCalendar(calendarId);
 
         return this.requestHandler.getAllWithId(calendarId, this.securityProvider.createRequestContext());
@@ -33,8 +32,7 @@ public class SecuredCalendarAnimeLinkRequestHandler {
 
     public CalendarAnimeLinkResponse createOrUpdateWithData(CalendarId calendarId,
                                                             AnimeId animeId,
-                                                            CalendarAnimeLinkCreateOrUpdateRequest request) throws
-                                                                                                            UnauthenticatedException {
+                                                            CalendarAnimeLinkCreateOrUpdateRequest request) {
         ensureAccessToCalendar(calendarId);
 
         return this.requestHandler.createOrUpdateWithData(calendarId,
@@ -43,19 +41,21 @@ public class SecuredCalendarAnimeLinkRequestHandler {
                                                           this.securityProvider.createRequestContext());
     }
 
-    public void deleteById(CalendarId calendarId, AnimeId animeId) throws UnauthenticatedException {
+    public void deleteById(CalendarId calendarId, AnimeId animeId) {
         ensureAccessToCalendar(calendarId);
 
         this.requestHandler.deleteById(calendarId, animeId, this.securityProvider.createRequestContext());
     }
 
-    private void ensureAccessToCalendar(CalendarId id) throws UnauthenticatedException {
+    private void ensureAccessToCalendar(CalendarId id) {
         Optional<Calendar> calendar = this.calendarService.getById(id, this.securityProvider.createSecurityContext());
 
         if (calendar.isEmpty()) {
             throw ResourceNotFoundException.with(id).get();
         }
 
-        this.securityProvider.ensureAccessToUserData(calendar.get().owner());
+        if (!this.securityProvider.hasAccessToUserData(calendar.get().owner())) {
+            throw ResourceNotFoundException.with(id).get();
+        }
     }
 }

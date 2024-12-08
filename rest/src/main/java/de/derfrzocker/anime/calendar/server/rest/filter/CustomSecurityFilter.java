@@ -26,18 +26,21 @@ public class CustomSecurityFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String header = requestContext.getHeaderString("Authorization");
         if (header == null) {
+            applyEmptySecurityContext(requestContext);
             return;
         }
 
         header = header.trim();
 
         if (!isValidTokenFormat(header)) {
+            applyEmptySecurityContext(requestContext);
             return;
         }
 
         UserToken userToken = new UserToken(header);
 
         if (!isValidToken(userToken)) {
+            applyEmptySecurityContext(requestContext);
             return;
         }
 
@@ -71,6 +74,33 @@ public class CustomSecurityFilter implements ContainerRequestFilter {
             @Override
             public String getAuthenticationScheme() {
                 return "Token";
+            }
+        });
+    }
+
+    private void applyEmptySecurityContext(ContainerRequestContext requestContext) {
+        SecurityContext oldContext = requestContext.getSecurityContext();
+        requestContext.setSecurityContext(new SecurityContext() {
+            private final Principal principal = () -> "";
+
+            @Override
+            public Principal getUserPrincipal() {
+                return principal;
+            }
+
+            @Override
+            public boolean isUserInRole(String role) {
+                return false;
+            }
+
+            @Override
+            public boolean isSecure() {
+                return oldContext.isSecure();
+            }
+
+            @Override
+            public String getAuthenticationScheme() {
+                return null;
             }
         });
     }

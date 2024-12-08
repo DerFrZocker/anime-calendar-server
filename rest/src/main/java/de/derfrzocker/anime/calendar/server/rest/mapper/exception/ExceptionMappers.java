@@ -1,6 +1,8 @@
 package de.derfrzocker.anime.calendar.server.rest.mapper.exception;
 
+import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -16,6 +18,16 @@ public class ExceptionMappers {
     @ServerExceptionMapper
     public RestResponse<ExceptionTO> mapException(ResourceNotFoundException exception) {
         return build(Response.Status.NOT_FOUND, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(UnauthenticatedException exception) {
+        return build(Response.Status.UNAUTHORIZED, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(BadRequestException exception) {
+        return build(Response.Status.BAD_REQUEST, exception.getMessage());
     }
 
     private RestResponse<ExceptionTO> build(Response.StatusType status, String message) {

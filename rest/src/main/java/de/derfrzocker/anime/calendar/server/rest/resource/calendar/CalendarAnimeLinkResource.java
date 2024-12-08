@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateAnimeId;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarId;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarAnimeLinkCreateOrUpdateRequest;
@@ -35,8 +34,7 @@ public class CalendarAnimeLinkResource {
     @GET
     @Path("{id}/animes")
     @PermitAll
-    public CalendarAnimeLinkListResponse getAllWithId(@ValidateCalendarId @PathParam("id") CalendarId id) throws
-                                                                                                          UnauthenticatedException {
+    public CalendarAnimeLinkListResponse getAllWithId(@ValidateCalendarId @PathParam("id") CalendarId id) {
         return this.requestHandler.getAllWithId(id);
     }
 
@@ -45,8 +43,7 @@ public class CalendarAnimeLinkResource {
     @PermitAll
     public CalendarAnimeLinkResponse createOrUpdateWithData(@ValidateCalendarId @PathParam("id") CalendarId id,
                                                             @ValidateAnimeId @PathParam("animeId") AnimeId animeId,
-                                                            @Valid @NotNull CalendarAnimeLinkCreateOrUpdateRequest request) throws
-                                                                                                                            UnauthenticatedException {
+                                                            @Valid @NotNull CalendarAnimeLinkCreateOrUpdateRequest request) {
         return this.requestHandler.createOrUpdateWithData(id, animeId, request);
     }
 
@@ -54,7 +51,7 @@ public class CalendarAnimeLinkResource {
     @Path("{id}/animes/{animeId}")
     @PermitAll
     public void deleteById(@ValidateCalendarId @PathParam("id") CalendarId id,
-                           @ValidateAnimeId @PathParam("animeId") AnimeId animeId) throws UnauthenticatedException {
+                           @ValidateAnimeId @PathParam("animeId") AnimeId animeId) {
         this.requestHandler.deleteById(id, animeId);
     }
 }

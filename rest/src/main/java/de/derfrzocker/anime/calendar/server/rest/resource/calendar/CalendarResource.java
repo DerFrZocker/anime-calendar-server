@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarId;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarCreateRequest;
 import de.derfrzocker.anime.calendar.server.rest.response.calendar.CalendarResponse;
@@ -31,15 +30,13 @@ public class CalendarResource {
     @GET
     @Path("{id}")
     @PermitAll
-    public CalendarResponse getById(@ValidateCalendarId @PathParam("id") CalendarId id) throws
-                                                                                        UnauthenticatedException {
+    public CalendarResponse getById(@ValidateCalendarId @PathParam("id") CalendarId id) {
         return this.requestHandler.getById(id);
     }
 
     @POST
     @PermitAll
-    public CalendarResponse createWithData(@Valid @NotNull CalendarCreateRequest request) throws
-                                                                                          UnauthenticatedException {
+    public CalendarResponse createWithData(@Valid @NotNull CalendarCreateRequest request) {
         return this.requestHandler.createWithData(request);
     }
 }
