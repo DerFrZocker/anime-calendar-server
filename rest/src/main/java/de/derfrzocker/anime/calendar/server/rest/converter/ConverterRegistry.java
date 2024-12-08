@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.AnimeOverrideID;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
@@ -34,10 +33,6 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
               .addDeserializer(CalendarId.class, createJsonDeserializer(p -> new CalendarId(p.getValueAsString())))
               .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> new CalendarKey(p.getValueAsString())))
-              .addSerializer(AnimeOverrideID.class,
-                             createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(AnimeOverrideID.class,
-                               createJsonDeserializer(p -> new AnimeOverrideID(p.getValueAsString())))
               .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(AnimeId.class, createJsonDeserializer(p -> new AnimeId(p.getValueAsString())));
 

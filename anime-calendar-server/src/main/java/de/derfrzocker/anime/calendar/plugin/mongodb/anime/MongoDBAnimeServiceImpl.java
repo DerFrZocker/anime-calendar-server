@@ -89,7 +89,7 @@ public class MongoDBAnimeServiceImpl implements AnimeService {
     @Override
     public boolean isAnime(AnimeId id) {
         validateId(id);
-        return animeDODao.count("_id", id) >= 1;
+        return animeDODao.count("_id", id.raw()) >= 1;
     }
 
     @Override

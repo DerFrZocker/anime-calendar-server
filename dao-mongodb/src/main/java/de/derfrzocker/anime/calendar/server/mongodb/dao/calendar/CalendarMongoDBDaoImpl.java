@@ -2,15 +2,12 @@ package de.derfrzocker.anime.calendar.server.mongodb.dao.calendar;
 
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarDao;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
-import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarChangeData;
-import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarCreateData;
-import de.derfrzocker.anime.calendar.server.mongodb.data.CalendarDO;
-import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.Data;
-import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.Domain;
+import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.CalendarData;
+import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.CalendarDomain;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import java.time.Instant;
 import java.util.Optional;
 
 @RequestScoped
@@ -20,27 +17,22 @@ public class CalendarMongoDBDaoImpl implements CalendarDao {
     CalendarMongoDBRepository repository;
 
     @Override
-    public Optional<Calendar> getById(CalendarId id) {
-        return Optional.ofNullable(repository.findById(id)).map(Data::toDomain);
+    public Optional<Calendar> getById(CalendarId id, RequestContext context) {
+        return this.repository.findByIdOptional(id).map(CalendarData::toDomain);
     }
 
     @Override
-    public Calendar createWithData(CalendarCreateData calendarCreateData) {
-        CalendarDO calendarDao = Domain.toData(calendarCreateData);
-
-        calendarDao.createdAt = Instant.now();
-
-        repository.persist(calendarDao);
-
-        return Data.toDomain(calendarDao);
+    public void create(Calendar calendar, RequestContext context) {
+        this.repository.persist(CalendarDomain.toData(calendar));
     }
 
     @Override
-    public Calendar updateWithChangeData(Calendar calendar, CalendarChangeData calendarChangeData) {
-        CalendarDO calendarDO = Domain.toData(calendar, calendarChangeData);
+    public void update(Calendar calendar, RequestContext context) {
+        this.repository.update(CalendarDomain.toData(calendar));
+    }
 
-        repository.update(calendarDO);
-
-        return Data.toDomain(calendarDO);
+    @Override
+    public void delete(Calendar calendar, RequestContext context) {
+        this.repository.deleteById(calendar.id());
     }
 }

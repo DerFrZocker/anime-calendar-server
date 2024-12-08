@@ -10,13 +10,13 @@ If the anime is licensed, it will show the time when it is available to stream, 
 
 ## Usage:
 
-You have the following options for using this service. 
+You have the following options for using this service:
 
 ### Using MyAnimeList
 
 If you use [MyAnimeList](https://myanimelist.net/)
 and have set your watchlist to `public`, you can access the following endpoint
-to generate an iCal calendar containing all the animes from your watchlist.
+to generate an iCal calendar containing all the animes from your watchlist:
 
 `https://api.anime-calendar.com/v3/ical/myanimelist/<myanimelist-username>`
 

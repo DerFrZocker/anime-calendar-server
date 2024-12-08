@@ -1,15 +1,23 @@
 package de.derfrzocker.anime.calendar.server.model.domain.calendar;
 
-import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.AnimeOverrideID;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
+import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import java.time.Instant;
-import java.util.Map;
-import java.util.Set;
 
-public record Calendar(CalendarId id, CalendarKey key, Instant createdAt, UserId owner,
-                       Set<AnimeAccountLinkId> animeAccountLinks, Map<AnimeOverrideID, AnimeOverride> animeOverrides) {
+public record Calendar(CalendarId id, CalendarKey key, Instant createdAt, UserId createdBy, Instant updatedAt,
+                       UserId updatedBy, UserId owner, String name) implements ModificationInfo {
 
+    public static Calendar from(CalendarId id, CalendarKey key, CalendarCreateData createData, RequestContext context) {
+        return new Calendar(id,
+                            key,
+                            context.requestTime(),
+                            context.requestUser(),
+                            context.requestTime(),
+                            context.requestUser(),
+                            createData.owner(),
+                            createData.name());
+    }
 }

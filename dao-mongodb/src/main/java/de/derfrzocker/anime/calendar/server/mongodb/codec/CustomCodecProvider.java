@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.mongodb.codec;
 
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.AnimeOverrideID;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
@@ -29,7 +28,6 @@ public class CustomCodecProvider implements CodecProvider {
         putString(CalendarId.class, CalendarId::raw, CalendarId::new);
         putString(CalendarKey.class, CalendarKey::raw, CalendarKey::new);
         putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
-        putString(AnimeOverrideID.class, AnimeOverrideID::raw, AnimeOverrideID::new);
         putString(AnimeId.class, AnimeId::raw, AnimeId::new);
     }
 

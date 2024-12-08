@@ -4,7 +4,6 @@ import de.derfrzocker.anime.calendar.server.model.core.Id;
 import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.AnimeOverrideID;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
@@ -44,11 +43,6 @@ public final class StringGenerator {
     public static UserToken generateUserToken(UserId id) {
         return new UserToken(id.raw() + generateStringId(UserToken.TOKEN_PREFIX_CHAR,
                                                          UserToken.TOKEN_KEY_LENGTH - UserId.ID_LENGTH));
-    }
-
-    public static AnimeOverrideID generateAnimeOverrideId() {
-        return new AnimeOverrideID(generateStringId(AnimeOverrideID.ANIME_OVERRIDE_PREFIX_CHAR,
-                                                    AnimeOverrideID.ANIME_OVERRIDE_KEY_LENGTH));
     }
 
     private static String generateStringId(char prefix, int length) {
