@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.rest.security;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.handler.calendar.CalendarRequestHandler;
@@ -38,8 +39,7 @@ public class SecuredCalendarRequestHandler {
         Optional<Calendar> calendar = this.calendarService.getById(id, this.securityProvider.createSecurityContext());
 
         if (calendar.isEmpty()) {
-            // TODO 2024-12-07: Better exception
-            throw new RuntimeException();
+            throw ResourceNotFoundException.with(id).get();
         }
 
         this.securityProvider.ensureAccessToUserData(calendar.get().owner());

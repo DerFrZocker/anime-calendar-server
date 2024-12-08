@@ -8,6 +8,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLink;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLinkCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLinkUpdateData;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -72,8 +73,9 @@ public class CalendarAnimeLinkServiceImpl implements CalendarAnimeLinkService {
 
     @Override
     public void deleteById(CalendarId calendarId, AnimeId animeId, RequestContext context) {
-        // TODO 2024-12-07: Better exception
-        CalendarAnimeLink link = getById(calendarId, animeId, context).orElseThrow();
+        CalendarAnimeLink link = getById(calendarId, animeId, context).orElseThrow(ResourceNotFoundException.with(
+                calendarId,
+                animeId));
 
         this.eventPublisher.firePreDeleteEvent(calendarId, animeId, link, context);
         this.dao.delete(link, context);

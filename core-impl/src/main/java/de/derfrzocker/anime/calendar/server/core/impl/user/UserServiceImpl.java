@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.server.core.impl.util.StringGenerator;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.event.user.PostUserCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.user.PreUserCreateEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.UserNotFoundException;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.user.CreatedUserHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.user.HashedUserToken;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateWithChangeData(UserId id, UserChangeData userChangeData) throws UserNotFoundException {
+    public User updateWithChangeData(UserId id, UserChangeData userChangeData) {
         return getById(id).map(user -> userDao.updateWithChangeData(user, userChangeData))
-                          .orElseThrow(UserNotFoundException.withId(id));
+                          .orElseThrow(ResourceNotFoundException.with(id));
     }
 
     private UserId createNewUserId() {

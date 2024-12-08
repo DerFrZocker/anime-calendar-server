@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.server.rest.aggregator;
 
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.UserNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.user.CreatedUserHolder;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.mapper.domain.Domain;
@@ -20,13 +20,13 @@ public class UserAggregator {
     @Inject
     UserSecurityProvider userSecurityProvider;
 
-    public UserResponse getById(UserId id) throws UserNotFoundException, UnauthenticatedException {
+    public UserResponse getById(UserId id) throws UnauthenticatedException {
         userSecurityProvider.ensureAccessToUserData(id);
 
         return userService.getById(id)
                           .map(Domain::toTransfer)
                           .map(UserResponse::new)
-                          .orElseThrow(UserNotFoundException.withId(id));
+                          .orElseThrow(ResourceNotFoundException.with(id));
     }
 
     public UserCreateResponse create() {
