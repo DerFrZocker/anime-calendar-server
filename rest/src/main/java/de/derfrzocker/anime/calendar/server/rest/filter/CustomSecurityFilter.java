@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.filter;
 
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
-import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import jakarta.annotation.Priority;
@@ -85,7 +84,7 @@ public class CustomSecurityFilter implements ContainerRequestFilter {
             return false;
         }
 
-        if (token.charAt(0) != IdType.USER.prefix()) {
+        if (token.charAt(0) != UserId.ID_PREFIX) {
             return false;
         }
 

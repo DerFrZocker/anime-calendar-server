@@ -1,17 +1,15 @@
 package de.derfrzocker.anime.calendar.server.model.domain;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class AnimeOptionsBuilder {
-    private @NotNull
-    final Region region;
+
+    private final Region region;
     private boolean useRegionName = true;
 
-    private AnimeOptionsBuilder(@NotNull Region region) {
+    private AnimeOptionsBuilder(Region region) {
         this.region = region;
     }
 
-    public static AnimeOptionsBuilder anAnimeOptions(@NotNull Region region) {
+    public static AnimeOptionsBuilder anAnimeOptions(Region region) {
         return new AnimeOptionsBuilder(region);
     }
 

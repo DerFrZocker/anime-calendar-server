@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.rest;
 
-import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
+import de.derfrzocker.anime.calendar.server.validation.IdValidator;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.SecurityContext;
@@ -61,29 +61,6 @@ public class UserSecurityProvider {
     }
 
     private boolean isValidUserId(UserId id) {
-        if (id.raw() == null) {
-            return false;
-        }
-
-        if (id.raw().length() != UserId.ID_LENGTH) {
-            return false;
-        }
-
-        if (id.raw().charAt(0) != IdType.USER.prefix()) {
-            return false;
-        }
-
-        for (int i = 0; i < id.raw().length(); i++) {
-            char c = id.raw().charAt(i);
-            if (c >= 'A' && c <= 'Z' && c != 'O') {
-                continue;
-            }
-            if (c >= '1' && c <= '9') {
-                continue;
-            }
-            return false;
-        }
-
-        return true;
+        return IdValidator.isValid(id);
     }
 }

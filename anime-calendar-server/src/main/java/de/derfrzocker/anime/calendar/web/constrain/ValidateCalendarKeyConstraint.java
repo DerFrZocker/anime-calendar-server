@@ -1,8 +1,7 @@
 package de.derfrzocker.anime.calendar.web.constrain;
 
+import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.model.core.Id;
-import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -22,11 +21,11 @@ public class ValidateCalendarKeyConstraint implements ConstraintValidator<Valida
             return false;
         }
 
-        if (value.raw().charAt(0) != IdType.CALENDAR.prefix()) {
+        if (value.raw().charAt(0) != CalendarId.ID_PREFIX) {
             return false;
         }
 
-        if (value.raw().charAt(Id.ID_LENGTH) != CalendarKey.KEY_PREFIX_CHAR) {
+        if (value.raw().charAt(CalendarId.ID_LENGTH) != CalendarKey.KEY_PREFIX_CHAR) {
             return false;
         }
 

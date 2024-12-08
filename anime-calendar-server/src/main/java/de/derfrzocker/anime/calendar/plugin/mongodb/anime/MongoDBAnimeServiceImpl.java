@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.plugin.mongodb.anime;
 
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.server.core.impl.util.StringGenerator;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
@@ -10,7 +11,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
-import de.derfrzocker.anime.calendar.utils.StringGenerator;
 import io.quarkus.vertx.ConsumeEvent;
 import io.vertx.core.eventbus.EventBus;
 import jakarta.enterprise.context.ApplicationScoped;

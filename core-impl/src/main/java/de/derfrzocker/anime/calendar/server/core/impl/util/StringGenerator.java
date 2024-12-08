@@ -1,7 +1,5 @@
 package de.derfrzocker.anime.calendar.server.core.impl.util;
 
-import de.derfrzocker.anime.calendar.server.model.core.Id;
-import de.derfrzocker.anime.calendar.server.model.core.IdType;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
@@ -20,24 +18,24 @@ public final class StringGenerator {
     }
 
     public static AnimeId generateAnimeId() {
-        return new AnimeId(generateStringId(IdType.ANIME.prefix(), Id.ID_LENGTH));
+        return new AnimeId(generateStringId(AnimeId.ID_PREFIX, AnimeId.ID_LENGTH));
     }
 
     public static UserId generateUserId() {
-        return new UserId(generateStringId(IdType.USER.prefix(), Id.ID_LENGTH));
+        return new UserId(generateStringId(UserId.ID_PREFIX, UserId.ID_LENGTH));
     }
 
     public static CalendarId generateCalendarId() {
-        return new CalendarId(generateStringId(IdType.CALENDAR.prefix(), Id.ID_LENGTH));
+        return new CalendarId(generateStringId(CalendarId.ID_PREFIX, CalendarId.ID_LENGTH));
     }
 
     public static AnimeAccountLinkId generateAnimeAccountLink() {
-        return new AnimeAccountLinkId(generateStringId(IdType.ANIME_ACCOUNT_LINK.prefix(), Id.ID_LENGTH));
+        return new AnimeAccountLinkId(generateStringId(AnimeAccountLinkId.ID_PREFIX, AnimeAccountLinkId.ID_LENGTH));
     }
 
     public static CalendarKey generateCalendarKey(CalendarId calendarId) {
         return new CalendarKey(calendarId.raw() + generateStringId(CalendarKey.KEY_PREFIX_CHAR,
-                                                                   CalendarKey.CALENDAR_KEY_LENGTH - Id.ID_LENGTH));
+                                                                   CalendarKey.CALENDAR_KEY_LENGTH - CalendarId.ID_LENGTH));
     }
 
     public static UserToken generateUserToken(UserId id) {
