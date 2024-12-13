@@ -18,6 +18,10 @@ import java.util.Map;
 @RequestScoped
 public class LayerParser {
 
+    private static final String LAYER_KEY = "layer_key";
+    private static final String FILTERS = "filters";
+    private static final String TRANSFORMER = "transformer";
+
     @Inject
     LayerService layerService;
 
@@ -25,8 +29,8 @@ public class LayerParser {
         List<LayerHolder> layerHolders = new ArrayList<>();
         for (Map<String, Object> map : episodeLayers) {
             List<LayerFilterDataHolder<?>> filterDataHolders = readFilters(map);
-            Map<String, Object> transformerData = (Map<String, Object>) map.get("transformer");
-            LayerKey transformerKey = new LayerKey((String) transformerData.get("layer_key"));
+            Map<String, Object> transformerData = (Map<String, Object>) map.get(TRANSFORMER);
+            LayerKey transformerKey = new LayerKey((String) transformerData.get(LAYER_KEY));
             LayerTransformer<?> transformer = layerService.getLayerTransformer(transformerKey);
 
             if (transformer == null) {
@@ -46,17 +50,17 @@ public class LayerParser {
 
             List<Map<String, Object>> filters = layerHolder.filters().stream().map(filterData -> {
                 Map<String, Object> filter = filterData.encode();
-                filter.put("layer_key", filterData.filter().getLayerKey().raw());
+                filter.put(LAYER_KEY, filterData.filter().getLayerKey().raw());
                 return filter;
             }).toList();
 
             if (!filters.isEmpty()) {
-                map.put("filters", filters);
+                map.put(FILTERS, filters);
             }
 
             Map<String, Object> transformerData = layerHolder.layerDataHolder().encode();
-            transformerData.put("layer_key", layerHolder.layerDataHolder().layer().getLayerKey().raw());
-            map.put("transformer", transformerData);
+            transformerData.put(LAYER_KEY, layerHolder.layerDataHolder().layer().getLayerKey().raw());
+            map.put(TRANSFORMER, transformerData);
 
             layerDocuments.add(map);
         }
@@ -65,7 +69,7 @@ public class LayerParser {
     }
 
     private List<LayerFilterDataHolder<?>> readFilters(Map<String, Object> map) {
-        List<Map<String, Object>> filters = (List<Map<String, Object>>) map.get("filters");
+        List<Map<String, Object>> filters = (List<Map<String, Object>>) map.get(FILTERS);
 
         if (filters == null) {
             return Collections.emptyList();
@@ -73,7 +77,7 @@ public class LayerParser {
 
         List<LayerFilterDataHolder<?>> result = new ArrayList<>();
         filters.stream().map(data -> {
-            LayerKey filterKey = new LayerKey((String) data.get("layer_key"));
+            LayerKey filterKey = new LayerKey((String) data.get(LAYER_KEY));
             LayerFilter<?> filter = layerService.getLayerFilter(filterKey);
 
             if (filter == null) {
