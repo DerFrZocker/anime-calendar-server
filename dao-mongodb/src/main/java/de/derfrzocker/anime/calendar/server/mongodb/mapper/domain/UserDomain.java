@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.mongodb.mapper.domain;
 
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
-import de.derfrzocker.anime.calendar.server.mongodb.data.UserDO;
+import de.derfrzocker.anime.calendar.server.mongodb.data.user.UserDO;
 
 public final class UserDomain {
 

@@ -18,7 +18,8 @@ public class AnimePresentListener {
     }
 
     private void ensureIsPresent(AnimeId id) {
-        if (!this.service.isAnime(id)) {
+        // TODO 2024-12-09: Null Context
+        if (this.service.getById(id, null).isEmpty()) {
             // TODO 2024-12-08: Better exception
             throw new RuntimeException();
         }

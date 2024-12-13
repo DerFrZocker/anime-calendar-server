@@ -99,7 +99,9 @@ public class SyoboiScheduleService {
     }
 
     private void checkAnime(AnimeId animeId, Data data) {
-        Anime anime = animeService.getAnime(animeId);
+        // TODO 2024-12-09: Null Context
+        // TODO 2024-12-09: Better error handling
+        Anime anime = animeService.getById(animeId, null).orElseThrow();
         Episode episode = getEpisode(anime, data);
 
         checkBaseStreamTime(anime, episode, data);
@@ -117,7 +119,7 @@ public class SyoboiScheduleService {
         LayerTransformerDataHolder<SimpleIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(EpisodeLengthLayer.INSTANCE, new SimpleIntegerLayerConfig((int) duration));
         LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
 
-        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
+        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.id(), layerHolder));
     }
 
     private void checkEpisode(Anime anime, Episode episode, Data data) {
@@ -129,7 +131,7 @@ public class SyoboiScheduleService {
         LayerTransformerDataHolder<SimpleOffsetIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(EpisodeNumberLayer.INSTANCE, new SimpleOffsetIntegerLayerConfig(data.scheduleData.episode(), data.scheduleData().episode() - 1));
         LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
 
-        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
+        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.id(), layerHolder));
     }
 
     private void checkBaseStreamTime(Anime anime, Episode episode, Data data) {
@@ -141,7 +143,7 @@ public class SyoboiScheduleService {
         LayerTransformerDataHolder<StreamingTimeLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(StreamingTimeLayer.INSTANCE, new StreamingTimeLayerConfig(data.scheduleData().startTime(), Period.ofDays(7), data.scheduleData().episode() - 1, "org"));
         LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
 
-        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
+        eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.id(), layerHolder));
     }
 
     private boolean isCorrectTime(Episode episode, Data data) {
@@ -154,7 +156,7 @@ public class SyoboiScheduleService {
     private Episode getEpisode(Anime anime, Data data) {
         EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(data.scheduleData().episode() - 1);
         AnimeOptions animeOptions = new AnimeOptions(Region.DE_DE, false, "org");
-        for (LayerHolder layerHolder : anime.transformerData().reversed()) {
+        for (LayerHolder layerHolder : anime.episodeLayers().reversed()) {
             if (layerHolder.shouldSkip(anime, animeOptions, episodeBuilder)) {
                 continue;
             }

@@ -52,7 +52,7 @@ public class BasicCalendarBuilder implements ICalCalendarBuilder {
             return;
         }
 
-        // Don't add episodes older than 14 days
+        // Don't add episodeCount older than 14 days
         if (Instant.now().isAfter(episode.streamingTime().plus(Period.ofDays(14)))) {
             return;
         }
@@ -61,7 +61,7 @@ public class BasicCalendarBuilder implements ICalCalendarBuilder {
             return;
         }
 
-        String title = anime.animeName();
+        String title = anime.title();
         if (episode.episodeName() != null) {
             title = episode.episodeName();
         }

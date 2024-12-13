@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.core.impl.user;
 
 import de.derfrzocker.anime.calendar.server.core.api.user.UserDao;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
-import de.derfrzocker.anime.calendar.server.core.impl.calendar.UserEventPublisher;
 import de.derfrzocker.anime.calendar.server.core.impl.util.StringGenerator;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;

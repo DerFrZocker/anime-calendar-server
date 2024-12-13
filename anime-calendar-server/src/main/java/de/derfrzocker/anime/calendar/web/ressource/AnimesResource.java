@@ -39,8 +39,8 @@ public class AnimesResource {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        Anime anime = animeService.createAnime(animePostRequest.animeTitle(), animePostRequest.episodeCount(), animePostRequest.episodeLayers());
+        Anime anime = null; // animeService.createWithData(animePostRequest.animeTitle(), animePostRequest.episodeCount(), animePostRequest.episodeLayers());
 
-        return Response.ok(new AnimeTo(anime.animeId().raw())).build();
+        return Response.ok(new AnimeTo(anime.id().raw())).build();
     }
 }

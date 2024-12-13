@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface CalendarDao {
 
-    Optional<Calendar> getById(CalendarId calendarId, RequestContext context);
+    Optional<Calendar> getById(CalendarId id, RequestContext context);
 
     void create(Calendar calendar, RequestContext context);
 

@@ -34,7 +34,8 @@ public class ICalCalendarServiceImpl implements ICalCalendarService {
     public Calendar buildCalendar(Set<AnimeId> animeIds, AnimeOptions options) {
         List<AnimeEpisodes> animeEpisodes = new ArrayList<>();
         for (AnimeId animeId : animeIds) {
-            Anime anime = animeService.getAnime(animeId);
+            // TODO 2024-12-09: Null Context
+            Anime anime = animeService.getById(animeId, null).orElse(null);
 
             if (anime == null) {
                 continue;

@@ -60,7 +60,7 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
 
     @Override
     public Set<IntegrationAnimeId> linkAnime(IntegrationId integrationId, Anime anime) {
-        Set<IntegrationAnimeId> current = integrationAnimeDao.getIntegrationIds(integrationId, anime.animeId());
+        Set<IntegrationAnimeId> current = integrationAnimeDao.getIntegrationIds(integrationId, anime.id());
 
         IntegrationAnimeNameDao integrationAnimeNameDao = integrationAnimeNameDaos.select(NamedLiteral.of(integrationId.raw() + "-name-dao")).get();
         Set<IntegrationNameIdData> allAnimes = integrationAnimeNameDao.getAllAnimes();
@@ -90,7 +90,7 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
         for (IntegrationNameIdData integrationNameIdData : nameId) {
             for (String integrationName : integrationNameIdData.names()) {
 
-                int distance = levenshteinDistance.apply(integrationName, anime.animeName());
+                int distance = levenshteinDistance.apply(integrationName, anime.title());
                 if (distance == -1) {
                     continue;
                 }
