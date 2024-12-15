@@ -60,8 +60,9 @@ public class CalendarAnimeLinkServiceImpl implements CalendarAnimeLinkService {
                                             CalendarAnimeLinkUpdateData updateData,
                                             RequestContext context) {
 
-        // TODO 2024-12-07: Better exception
-        CalendarAnimeLink current = getById(calendarId, animeId, context).orElseThrow();
+        CalendarAnimeLink current = getById(calendarId, animeId, context).orElseThrow(ResourceNotFoundException.with(
+                calendarId,
+                animeId));
         CalendarAnimeLink updated = current.updateWithData(updateData, context);
 
         this.eventPublisher.firePreUpdateEvent(calendarId, animeId, updateData, current, updated, context);
