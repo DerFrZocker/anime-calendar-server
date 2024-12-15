@@ -41,7 +41,7 @@ public class CustomCodecProvider implements CodecProvider {
     }
 
     private <T> void put(Class<T> clazz, BiConsumer<T, BsonWriter> consumer, Function<BsonReader, T> producer) {
-        codecs.put(clazz, new InlineCodec<>(clazz, consumer, producer));
+        this.codecs.put(clazz, new InlineCodec<>(clazz, consumer, producer));
     }
 
     private record InlineCodec<T>(Class<T> clazz, BiConsumer<T, BsonWriter> consumer,
@@ -49,17 +49,17 @@ public class CustomCodecProvider implements CodecProvider {
 
         @Override
         public T decode(BsonReader reader, DecoderContext decoderContext) {
-            return producer.apply(reader);
+            return this.producer.apply(reader);
         }
 
         @Override
         public void encode(BsonWriter writer, T value, EncoderContext encoderContext) {
-            consumer.accept(value, writer);
+            this.consumer.accept(value, writer);
         }
 
         @Override
         public Class<T> getEncoderClass() {
-            return clazz;
+            return this.clazz;
         }
     }
 }

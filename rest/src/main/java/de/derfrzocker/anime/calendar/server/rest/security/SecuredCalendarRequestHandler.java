@@ -1,36 +1,41 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
-import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthorizedException;
+import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionAction;
+import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.handler.calendar.CalendarRequestHandler;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarCreateRequest;
 import de.derfrzocker.anime.calendar.server.rest.response.calendar.CalendarResponse;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import java.util.Optional;
 
 @RequestScoped
 public class SecuredCalendarRequestHandler {
 
-    @Inject
-    CalendarService calendarService;
+    private static final PermissionAction CALENDAR_CREATE_OWNER = new PermissionAction("calendar.create.owner");
+
     @Inject
     UserSecurityProvider securityProvider;
     @Inject
     CalendarRequestHandler requestHandler;
 
     public CalendarResponse getById(CalendarId id) {
-        ensureAccessToCalendar(id);
+        ensureAccess(id, PermissionType.READ);
 
         return this.requestHandler.getById(id, this.securityProvider.createRequestContext());
     }
 
     public CalendarResponse createWithData(CalendarCreateRequest request) {
-        if (!this.securityProvider.hasAccessToUserData(request.calendar().owner())) {
+        ensureAccess(null, PermissionType.CREATE);
+
+        if (!this.securityProvider.hasPermission(request.calendar().owner(),
+                                                 CALENDAR_CREATE_OWNER,
+                                                 this.securityProvider.createRequestContext())) {
             throw BadRequestException.with("Cannot create Calendar with owner id '%s'.",
                                            request.calendar().owner().raw()).get();
         }
@@ -38,14 +43,12 @@ public class SecuredCalendarRequestHandler {
         return this.requestHandler.createWithData(request, this.securityProvider.createRequestContext());
     }
 
-    private void ensureAccessToCalendar(CalendarId id) {
-        Optional<Calendar> calendar = this.calendarService.getById(id, this.securityProvider.createSecurityContext());
+    private void ensureAccess(CalendarId id, PermissionType type) {
+        if (!this.securityProvider.hasPermission(id, type, this.securityProvider.createRequestContext())) {
+            if (type == PermissionType.CREATE) {
+                throw new UnauthorizedException();
+            }
 
-        if (calendar.isEmpty()) {
-            throw ResourceNotFoundException.with(id).get();
-        }
-
-        if (!this.securityProvider.hasAccessToUserData(calendar.get().owner())) {
             throw ResourceNotFoundException.with(id).get();
         }
     }

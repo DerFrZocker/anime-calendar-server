@@ -3,14 +3,13 @@ package de.derfrzocker.anime.calendar.server.rest.security;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
-import de.derfrzocker.anime.calendar.server.model.domain.user.User;
+import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.handler.user.UserRequestHandler;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserCreateResponse;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserResponse;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import java.util.Optional;
 
 @RequestScoped
 public class SecuredUserRequestHandler {
@@ -23,7 +22,7 @@ public class SecuredUserRequestHandler {
     UserRequestHandler userRequestHandler;
 
     public UserResponse getById(UserId id) {
-        ensureAccessToUser(id);
+        ensureAccess(id, PermissionType.READ);
 
         return this.userRequestHandler.getById(id, this.securityProvider.createRequestContext());
     }
@@ -32,14 +31,8 @@ public class SecuredUserRequestHandler {
         return this.userRequestHandler.create();
     }
 
-    private void ensureAccessToUser(UserId id) {
-        Optional<User> user = this.userService.getById(id, this.securityProvider.createSecurityContext());
-
-        if (user.isEmpty()) {
-            throw ResourceNotFoundException.with(id).get();
-        }
-
-        if (!this.securityProvider.hasAccessToUserData(user.get().id())) {
+    private void ensureAccess(UserId id, PermissionType type) {
+        if (!this.securityProvider.hasPermission(id, type, this.securityProvider.createRequestContext())) {
             throw ResourceNotFoundException.with(id).get();
         }
     }

@@ -1,15 +1,15 @@
 package de.derfrzocker.anime.calendar.integration.linker;
 
 import de.derfrzocker.anime.calendar.impl.layer.config.IntegrationUrlLayerConfig;
+import de.derfrzocker.anime.calendar.impl.layer.transformer.IntegrationUrlLayer;
+import de.derfrzocker.anime.calendar.integration.Integrations;
+import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationAnimeDao;
+import de.derfrzocker.anime.calendar.server.core.api.integration.linker.IntegrationAnimeNameDao;
+import de.derfrzocker.anime.calendar.server.core.api.integration.linker.IntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.event.AnimeAddLayerEvent;
-import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationAnimeDao;
-import de.derfrzocker.anime.calendar.server.core.api.integration.linker.IntegrationAnimeNameDao;
-import de.derfrzocker.anime.calendar.server.core.api.integration.linker.IntegrationLinkService;
-import de.derfrzocker.anime.calendar.impl.layer.transformer.IntegrationUrlLayer;
-import de.derfrzocker.anime.calendar.integration.Integrations;
 import de.derfrzocker.anime.calendar.server.model.domain.integration.linker.IntegrationNameIdData;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformerDataHolder;
@@ -53,8 +53,14 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
 
         for (IntegrationAnimeId integrationAnimeId : newLinks) {
             // TODO 2024-09-24: Clean up and make better
-            LayerHolder layerHolder = new LayerHolder(List.of(), new LayerTransformerDataHolder<>(IntegrationUrlLayer.INSTANCE, new IntegrationUrlLayerConfig(Integrations.MY_ANIME_LIST, String.format("https://myanimelist.net/anime/%s", integrationAnimeId.raw()))));
-            eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.animeId(), layerHolder));
+            LayerHolder layerHolder = new LayerHolder(List.of(),
+                                                      new LayerTransformerDataHolder<>(IntegrationUrlLayer.INSTANCE,
+                                                                                       new IntegrationUrlLayerConfig(
+                                                                                               Integrations.MY_ANIME_LIST,
+                                                                                               String.format(
+                                                                                                       "https://myanimelist.net/anime/%s",
+                                                                                                       integrationAnimeId.raw()))));
+            eventBus.publish("anime-add-layer", new AnimeAddLayerEvent(anime.id(), layerHolder));
         }
     }
 
@@ -62,7 +68,8 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
     public Set<IntegrationAnimeId> linkAnime(IntegrationId integrationId, Anime anime) {
         Set<IntegrationAnimeId> current = integrationAnimeDao.getIntegrationIds(integrationId, anime.id());
 
-        IntegrationAnimeNameDao integrationAnimeNameDao = integrationAnimeNameDaos.select(NamedLiteral.of(integrationId.raw() + "-name-dao")).get();
+        IntegrationAnimeNameDao integrationAnimeNameDao = integrationAnimeNameDaos.select(NamedLiteral.of(integrationId.raw() + "-name-dao"))
+                                                                                  .get();
         Set<IntegrationNameIdData> allAnimes = integrationAnimeNameDao.getAllAnimes();
 
         Pair<Set<IntegrationNameIdData>, Integer> best = getBest(allAnimes, anime);
@@ -78,7 +85,11 @@ public class IntegrationLinkServiceImpl implements IntegrationLinkService {
         Set<IntegrationNameIdData> result = new HashSet<>(best.getLeft());
         best.getLeft().stream().filter(data -> current.contains(data.integrationAnimeId())).forEach(result::remove);
 
-        result.stream().map(IntegrationNameIdData::integrationAnimeId).forEach(integrationAnimeId -> integrationAnimeDao.saveOrMerge(integrationId, integrationAnimeId, anime.animeId()));
+        result.stream()
+              .map(IntegrationNameIdData::integrationAnimeId)
+              .forEach(integrationAnimeId -> integrationAnimeDao.saveOrMerge(integrationId,
+                                                                             integrationAnimeId,
+                                                                             anime.id()));
 
         return result.stream().map(IntegrationNameIdData::integrationAnimeId).collect(Collectors.toSet());
     }

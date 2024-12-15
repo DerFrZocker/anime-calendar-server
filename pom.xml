@@ -138,6 +138,7 @@
         <module>core-impl</module>
         <module>dao-mongodb</module>
         <module>rest</module>
+        <module>user-permission</module>
         <module>validation</module>
     </modules>
 

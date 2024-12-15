@@ -15,6 +15,7 @@ public class ResourceNotFoundException extends RuntimeException {
     private static final String ANIME_ID = "Anime" + NOT_FOUND;
     private static final String USER_ID = "User" + NOT_FOUND;
     private static final String CALENDAR_ID = "Calendar" + NOT_FOUND;
+    private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND;
     private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id " + "'%s' not found.";
 
     public static Supplier<ResourceNotFoundException> with(AnimeId id) {
@@ -32,6 +33,10 @@ public class ResourceNotFoundException extends RuntimeException {
     public static Supplier<ResourceNotFoundException> with(CalendarId calendarId, AnimeId animeId) {
         return () -> new ResourceNotFoundException(CALENDAR_ANIME_ID.formatted(unwrapSafe(calendarId, CalendarId::raw),
                                                                                unwrapSafe(animeId, AnimeId::raw)));
+    }
+
+    public static Supplier<ResourceNotFoundException> withPermission(UserId id) {
+        return () -> new ResourceNotFoundException(String.format(USER_PERMISSION, id));
     }
 
     private static Supplier<ResourceNotFoundException> with(String id, String message) {
