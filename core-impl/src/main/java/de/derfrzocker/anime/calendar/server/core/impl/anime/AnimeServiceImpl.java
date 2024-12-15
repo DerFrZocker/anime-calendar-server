@@ -51,6 +51,15 @@ public class AnimeServiceImpl implements AnimeService {
         return updated;
     }
 
+    @Override
+    public void deleteById(AnimeId id, RequestContext context) {
+        Anime anime = getById(id, context).orElseThrow(ResourceNotFoundException.with(id));
+
+        this.eventPublisher.firePreDeleteEvent(anime, context);
+        this.dao.delete(anime, context);
+        this.eventPublisher.firePostDeleteEvent(anime, context);
+    }
+
     private AnimeId createNewAnimeId(RequestContext context) {
         AnimeId animeId;
         do {

@@ -8,4 +8,8 @@ public final class CalendarTransfer {
     public static CalendarCreateData toDomain(CalendarCreateDataTO transfer) {
         return new CalendarCreateData(transfer.owner(), transfer.name());
     }
+
+    private CalendarTransfer() {
+
+    }
 }

@@ -14,4 +14,6 @@ public interface AnimeService {
     Anime createWithData(AnimeCreateData createData, RequestContext context);
 
     Anime updateWithData(AnimeId id, AnimeUpdateData updateData, RequestContext context);
+
+    void deleteById(AnimeId id, RequestContext context);
 }

@@ -1,6 +1,5 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
-import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
@@ -14,8 +13,6 @@ import jakarta.inject.Inject;
 @RequestScoped
 public class SecuredUserRequestHandler {
 
-    @Inject
-    UserService userService;
     @Inject
     UserSecurityProvider securityProvider;
     @Inject

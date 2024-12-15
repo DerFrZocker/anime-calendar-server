@@ -6,8 +6,10 @@ import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostAnimeCreateEvent;
+import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostAnimeDeleteEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostAnimeUpdateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeCreateEvent;
+import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeDeleteEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeUpdateEvent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
@@ -25,6 +27,11 @@ public class AnimeEventPublisher {
     Event<PreAnimeUpdateEvent> preUpdateEvent;
     @Inject
     Event<PostAnimeUpdateEvent> postUpdateEvent;
+
+    @Inject
+    Event<PreAnimeDeleteEvent> preDeleteEvent;
+    @Inject
+    Event<PostAnimeDeleteEvent> postDeleteEvent;
 
     public void firePreCreateEvent(AnimeCreateData createData, Anime anime, RequestContext context) {
         this.preCreateEvent.fire(new PreAnimeCreateEvent(createData, anime, context));
@@ -50,5 +57,13 @@ public class AnimeEventPublisher {
                                     RequestContext context) {
 
         this.postUpdateEvent.fire(new PostAnimeUpdateEvent(id, updateData, current, updated, context));
+    }
+
+    public void firePreDeleteEvent(Anime anime, RequestContext context) {
+        this.preDeleteEvent.fire(new PreAnimeDeleteEvent(anime, context));
+    }
+
+    public void firePostDeleteEvent(Anime anime, RequestContext context) {
+        this.postDeleteEvent.fire(new PostAnimeDeleteEvent(anime, context));
     }
 }
