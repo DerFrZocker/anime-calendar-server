@@ -9,6 +9,8 @@ import de.derfrzocker.anime.calendar.server.rest.security.SecuredAnimeRequestHan
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -37,14 +39,14 @@ public class AnimeResource {
 
     @POST
     @PermitAll
-    public AnimeResponse createWithData(AnimeCreateRequest request) {
+    public AnimeResponse createWithData(@Valid @NotNull AnimeCreateRequest request) {
         return this.requestHandler.createWithData(request);
     }
 
     @PUT
     @Path("{id}")
     @PermitAll
-    public AnimeResponse updateWithData(@ValidateAnimeId @PathParam("id") AnimeId id, AnimeUpdateRequest request) {
+    public AnimeResponse updateWithData(@ValidateAnimeId @PathParam("id") AnimeId id, @Valid @NotNull AnimeUpdateRequest request) {
         return this.requestHandler.updateWithData(id, request);
     }
 
