@@ -1,14 +1,14 @@
 package de.derfrzocker.anime.calendar.web.ressource;
 
 import de.derfrzocker.anime.calendar.integration.Integrations;
-import de.derfrzocker.anime.calendar.server.core.api.calendar.ICalCalendarService;
+import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.integration.IntegrationService;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptionsBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.Region;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.Region;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateCalendarKey;
 import de.derfrzocker.anime.calendar.web.constrain.ValidateMyAnimeListUsername;
 import jakarta.annotation.security.DenyAll;
@@ -57,7 +57,8 @@ public class ICalRessource {
     @Path("{calendarKey}")
     @Produces("text/calendar")
     public Response getPersonal(@ValidateCalendarKey @PathParam("calendarKey") CalendarKey calendarKey) {
-        return Response.ok(calendarService.buildCalendar(null, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build())
+        // TODO 2024-12-15: Null Request Context
+        return Response.ok(calendarService.build(null, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build(), null)
                                           .toString()).build();
     }
 }

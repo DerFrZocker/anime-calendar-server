@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.model.domain.layer;
 
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;

@@ -3,8 +3,8 @@ package de.derfrzocker.anime.calendar.impl.layer.transformer;
 import com.spencerwi.either.Either;
 import de.derfrzocker.anime.calendar.impl.layer.config.SimpleOffsetIntegerLayerConfig;
 import de.derfrzocker.anime.calendar.impl.layer.parser.SimpleOffsetIntegerLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import org.jetbrains.annotations.NotNull;
 

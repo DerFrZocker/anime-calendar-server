@@ -1,10 +1,17 @@
-package de.derfrzocker.anime.calendar.impl;
+package de.derfrzocker.anime.calendar.service.impl.ical4j;
 
-import de.derfrzocker.anime.calendar.server.core.api.ICalCalendarBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeEpisodes;
-import de.derfrzocker.anime.calendar.server.model.domain.Episode;
+import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeEpisodes;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
 import jakarta.enterprise.context.ApplicationScoped;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.Period;
+import java.util.List;
+import java.util.UUID;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
@@ -12,42 +19,35 @@ import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
-import org.jetbrains.annotations.NotNull;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.time.Period;
-import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
-public class BasicCalendarBuilder implements ICalCalendarBuilder {
+public class ICalCalendarICal4jBuilderImpl implements ICalCalendarBuilder {
 
     private final static String PROID = "-//Marvin (DerFrZocker)//anime calendar 2.0//DE";
 
     @Override
-    public @NotNull Calendar buildCalendar(@NotNull List<AnimeEpisodes> animeEpisodes) {
+    public ICalCalendar build(List<AnimeEpisodes> episodes, RequestContext context) {
         Calendar calendar = new Calendar();
         calendar.add(new ProdId.Factory().createProperty(PROID));
         calendar.add(new Version.Factory().createProperty(Version.VALUE_2_0));
         calendar.add(new Version.Factory().createProperty(CalScale.VALUE_GREGORIAN));
         calendar.add(new Uid.Factory().createProperty(UUID.randomUUID().toString()));
 
-        for (AnimeEpisodes animeEpisode : animeEpisodes) {
+        for (AnimeEpisodes animeEpisode : episodes) {
             addAnime(calendar, animeEpisode);
         }
 
         calendar.validate();
-        return calendar;
+        return new ICalCalendar(calendar.toString());
     }
 
-    private void addAnime(@NotNull Calendar calendar, @NotNull AnimeEpisodes animeEpisodes) {
+    private void addAnime(Calendar calendar, AnimeEpisodes animeEpisodes) {
         for (Episode episode : animeEpisodes.episodes()) {
             addEpisode(calendar, animeEpisodes.anime(), episode);
         }
     }
 
-    private void addEpisode(@NotNull Calendar calendar, @NotNull Anime anime, @NotNull Episode episode) {
+    private void addEpisode(Calendar calendar, Anime anime, Episode episode) {
         if (episode.streamingTime() == null) {
             return;
         }
@@ -107,7 +107,9 @@ public class BasicCalendarBuilder implements ICalCalendarBuilder {
             description.append(episode.integrationLink());
         }
 
-        VEvent calendarEntry = new VEvent(episode.streamingTime(), Duration.ofMinutes(episode.episodeLength()), summary.toString());
+        VEvent calendarEntry = new VEvent(episode.streamingTime(),
+                                          Duration.ofMinutes(episode.episodeLength()),
+                                          summary.toString());
         calendarEntry.add(new Description(description.toString()));
         calendar.add(calendarEntry);
     }

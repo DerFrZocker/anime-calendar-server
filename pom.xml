@@ -113,11 +113,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.mnode.ical4j</groupId>
-            <artifactId>ical4j</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.eduardomcb</groupId>
             <artifactId>discord-webhook</artifactId>
             <version>1.0.0</version>
@@ -132,11 +127,12 @@
 
     <modules>
         <module>anime-calendar-server</module>
-        <module>model-core</module>
-        <module>model-domain</module>
         <module>core-api</module>
         <module>core-impl</module>
         <module>dao-mongodb</module>
+        <module>ical-builder-ical4j</module>
+        <module>model-core</module>
+        <module>model-domain</module>
         <module>rest</module>
         <module>user-permission</module>
         <module>validation</module>

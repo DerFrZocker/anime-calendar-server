@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.model.domain;
+package de.derfrzocker.anime.calendar.server.model.domain.ical;
 
 import com.spencerwi.either.Either;
 import java.time.Instant;

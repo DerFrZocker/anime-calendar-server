@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.impl.layer.filter;
 
 import de.derfrzocker.anime.calendar.impl.layer.config.RegionFilterConfig;
 import de.derfrzocker.anime.calendar.impl.layer.parser.RegionFilterLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 
 public final class RegionLayerFilter extends AbstractLayerFilter<RegionFilterConfig> {

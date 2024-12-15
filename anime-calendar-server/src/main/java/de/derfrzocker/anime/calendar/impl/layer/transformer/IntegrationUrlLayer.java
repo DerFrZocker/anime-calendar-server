@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.impl.layer.transformer;
 
 import de.derfrzocker.anime.calendar.impl.layer.config.IntegrationUrlLayerConfig;
 import de.derfrzocker.anime.calendar.impl.layer.parser.IntegrationUrlLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import org.jetbrains.annotations.NotNull;
 

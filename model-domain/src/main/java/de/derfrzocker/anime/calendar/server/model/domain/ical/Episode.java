@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.model.domain;
+package de.derfrzocker.anime.calendar.server.model.domain.ical;
 
 import java.time.Instant;
 import org.jetbrains.annotations.Nullable;
