@@ -35,7 +35,7 @@ public final class StringGenerator {
 
     public static CalendarKey generateCalendarKey(CalendarId calendarId) {
         return new CalendarKey(calendarId.raw() + generateStringId(CalendarKey.KEY_PREFIX_CHAR,
-                                                                   CalendarKey.CALENDAR_KEY_LENGTH - CalendarId.ID_LENGTH));
+                                                                   CalendarKey.KEY_LENGTH - CalendarId.ID_LENGTH));
     }
 
     public static UserToken generateUserToken(UserId id) {

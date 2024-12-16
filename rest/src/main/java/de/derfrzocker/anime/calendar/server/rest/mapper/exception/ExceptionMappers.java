@@ -5,6 +5,8 @@ import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFo
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthorizedException;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;
+import de.derfrzocker.anime.calendar.server.validation.exception.InvalidKeyException;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
@@ -13,6 +15,11 @@ public class ExceptionMappers {
 
     @ServerExceptionMapper
     public RestResponse<ExceptionTO> mapException(InvalidIdException exception) {
+        return build(Response.Status.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(InvalidKeyException exception) {
         return build(Response.Status.BAD_REQUEST, exception.getMessage());
     }
 
@@ -37,7 +44,9 @@ public class ExceptionMappers {
     }
 
     private RestResponse<ExceptionTO> build(Response.StatusType status, String message) {
-        return RestResponse.status(status, new ExceptionTO(message, status.getStatusCode()));
+        return RestResponse.ResponseBuilder.create(status, new ExceptionTO(message, status.getStatusCode()))
+                                           .type(MediaType.APPLICATION_JSON_TYPE)
+                                           .build();
     }
 
     public record ExceptionTO(String message, int code) {
