@@ -7,6 +7,8 @@ import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
+import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
 import de.derfrzocker.anime.calendar.server.model.domain.user.HashedUserToken;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,8 @@ public class CustomCodecProvider implements CodecProvider {
         putString(AnimeId.class, AnimeId::raw, AnimeId::new);
         putString(IntegrationId.class, IntegrationId::raw, IntegrationId::new);
         putString(IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
+        putString(NameType.class, NameType::raw, NameType::new);
+        putString(NameLanguage.class, NameLanguage::raw, NameLanguage::new);
     }
 
     @Override

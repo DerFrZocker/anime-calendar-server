@@ -2,6 +2,8 @@ package de.derfrzocker.anime.calendar.server.model.domain.exception;
 
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -16,7 +18,8 @@ public class ResourceNotFoundException extends RuntimeException {
     private static final String USER_ID = "User" + NOT_FOUND;
     private static final String CALENDAR_ID = "Calendar" + NOT_FOUND;
     private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND;
-    private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id " + "'%s' not found.";
+    private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id '%s' not found.";
+    private static final String ANIME_NAME = "Anime name for integration '%s' and integration anime id '%s' not found.";
 
     public static Supplier<ResourceNotFoundException> with(AnimeId id) {
         return with(unwrapSafe(id, AnimeId::raw), ANIME_ID);
@@ -36,7 +39,14 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public static Supplier<ResourceNotFoundException> withPermission(UserId id) {
-        return () -> new ResourceNotFoundException(String.format(USER_PERMISSION, id));
+        return () -> new ResourceNotFoundException(USER_PERMISSION.formatted(unwrapSafe(id, UserId::raw)));
+    }
+
+    public static Supplier<ResourceNotFoundException> withAnimeName(IntegrationId integrationId,
+                                                                    IntegrationAnimeId integrationAnimeId) {
+        return () -> new ResourceNotFoundException(ANIME_NAME.formatted(unwrapSafe(integrationId, IntegrationId::raw),
+                                                                        unwrapSafe(integrationAnimeId,
+                                                                                   IntegrationAnimeId::raw)));
     }
 
     private static Supplier<ResourceNotFoundException> with(String id, String message) {
