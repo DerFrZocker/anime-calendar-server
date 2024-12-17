@@ -5,6 +5,7 @@ import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -20,6 +21,7 @@ public class ResourceNotFoundException extends RuntimeException {
     private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND;
     private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id '%s' not found.";
     private static final String ANIME_NAME = "Anime name for integration '%s' and integration anime id '%s' not found.";
+    private static final String SEASON_INFO = "Anime season info for integration '%s', integration anime id '%s', year '%d' and season '%s' not found.";
 
     public static Supplier<ResourceNotFoundException> with(AnimeId id) {
         return with(unwrapSafe(id, AnimeId::raw), ANIME_ID);
@@ -47,6 +49,17 @@ public class ResourceNotFoundException extends RuntimeException {
         return () -> new ResourceNotFoundException(ANIME_NAME.formatted(unwrapSafe(integrationId, IntegrationId::raw),
                                                                         unwrapSafe(integrationAnimeId,
                                                                                    IntegrationAnimeId::raw)));
+    }
+
+    public static Supplier<ResourceNotFoundException> withSeasonInfo(IntegrationId integrationId,
+                                                                     IntegrationAnimeId integrationAnimeId,
+                                                                     int year,
+                                                                     Season season) {
+        return () -> new ResourceNotFoundException(SEASON_INFO.formatted(unwrapSafe(integrationId, IntegrationId::raw),
+                                                                         unwrapSafe(integrationAnimeId,
+                                                                                    IntegrationAnimeId::raw),
+                                                                         year,
+                                                                         season));
     }
 
     private static Supplier<ResourceNotFoundException> with(String id, String message) {
