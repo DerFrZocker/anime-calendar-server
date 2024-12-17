@@ -131,9 +131,9 @@
         <module>core-impl</module>
         <module>dao-mongodb</module>
         <module>ical-builder-ical4j</module>
+        <module>integration-anidb</module>
         <module>model-core</module>
         <module>model-domain</module>
-        <module>name-anidb</module>
         <module>rest</module>
         <module>user-permission</module>
         <module>validation</module>

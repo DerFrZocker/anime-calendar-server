@@ -10,7 +10,7 @@
         <version>0.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>anime-calendar-server-name-anidb</artifactId>
+    <artifactId>anime-calendar-server-integration-anidb</artifactId>
     <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
