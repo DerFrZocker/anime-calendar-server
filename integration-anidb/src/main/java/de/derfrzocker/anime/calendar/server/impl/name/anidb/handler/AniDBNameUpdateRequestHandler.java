@@ -57,7 +57,7 @@ public class AniDBNameUpdateRequestHandler {
         return Multi.createFrom()
                     .iterable(nameHolders)
                     .emitOn(Infrastructure.getDefaultExecutor())
-                    .invoke(holder -> this.createOrUpdate(holder, context))
+                    .invoke(holder -> createOrUpdate(holder, context))
                     .collect()
                     .asList()
                     .onFailure()
