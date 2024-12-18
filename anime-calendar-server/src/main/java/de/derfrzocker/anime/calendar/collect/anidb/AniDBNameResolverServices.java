@@ -1,53 +1,34 @@
 package de.derfrzocker.anime.calendar.collect.anidb;
 
-import de.derfrzocker.anime.calendar.collect.anidb.mongodb.AnimeNamesListDO;
-import de.derfrzocker.anime.calendar.collect.anidb.mongodb.AnimeNamesListRepository;
-import de.derfrzocker.anime.calendar.collect.anidb.season.SeasonService;
-import de.derfrzocker.anime.calendar.collect.anidb.season.udp.SeasonData;
+import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
+import de.derfrzocker.anime.calendar.server.core.api.season.AnimeSeasonInfoService;
+import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
+import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolder;
+import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
+import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.zip.GZIPInputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 @ApplicationScoped
 public class AniDBNameResolverServices {
 
-    @RestClient
-    AniDBRestDao aniDBRestDao;
     @ConfigProperty(name = "anidb-name-resolver.distance-threshold")
     int distanceThreshold;
     LevenshteinDistance levenshteinDistance;
     @ConfigProperty(name = "anidb-name-resolver.language")
     String language;
     @Inject
-    AnimeNamesListRepository animeNamesListRepository;
+    AnimeSeasonInfoService seasonService;
     @Inject
-    SeasonService seasonService;
-    @ConfigProperty(name = "anidb-name-resolver.anime-names-valid-duration")
-    Duration animeNamesValidDuration;
-
+    AnimeNameHolderService nameService;
 
     @PostConstruct
     void init() {
@@ -55,10 +36,12 @@ public class AniDBNameResolverServices {
     }
 
     public AnimeNameSearchResult convertName(String name) {
-        List<AnimeNames> allAnimeNames = readAnimeNames();
-        List<AnimeNames> animeNames = filterAnimeNames(allAnimeNames, seasonService.getSeasonData());
+        // TODO 2024-12-18: Null context
+        List<AnimeNameHolder> allAnimeNames = nameService.getAll(null).toList();
+        // TODO 2024-12-18: Null context
+        List<AnimeNameHolder> animeNames = filterAnimeNames(allAnimeNames, seasonService.getAll(null).toList());
 
-        Pair<Set<AnimeNames>, Integer> best = getBest(animeNames, name);
+        Pair<Set<AnimeNameHolder>, Integer> best = getBest(animeNames, name);
 
         if (!isValid(best)) {
             best = getBest(allAnimeNames, name);
@@ -74,14 +57,18 @@ public class AniDBNameResolverServices {
             return null;
         }
 
-        AnimeNames result = best.getLeft().iterator().next();
+        AnimeNameHolder result = best.getLeft().iterator().next();
 
-        AnimeTitle animeTitle = findBestTitle(result);
+        AnimeName animeTitle = findBestTitle(result);
 
-        return new AnimeNameSearchResult(result.externalAnimeId(), animeTitle.title(), best.getRight());
+        if (animeTitle == null) {
+            return null;
+        }
+
+        return new AnimeNameSearchResult(result.integrationAnimeId(), animeTitle.name(), best.getRight());
     }
 
-    private boolean isValid(Pair<Set<AnimeNames>, Integer> best) {
+    private boolean isValid(Pair<Set<AnimeNameHolder>, Integer> best) {
         if (best.getRight() > distanceThreshold) {
             return false;
         }
@@ -93,101 +80,46 @@ public class AniDBNameResolverServices {
         return true;
     }
 
-    private AnimeTitle findBestTitle(AnimeNames animeNames) {
-        for (AnimeTitle animeTitle : animeNames.animeTitles()) {
-            if (animeTitle.titleType() == TitleType.MAIN && animeTitle.language().equals(language)) {
+    private AnimeName findBestTitle(AnimeNameHolder animeNames) {
+        for (AnimeName animeTitle : animeNames.names()) {
+            if (animeTitle.type().equals(new NameType("main")) && animeTitle.language().equals(language)) {
                 return animeTitle;
             }
         }
 
-        throw new RuntimeException("No main language set for " + animeNames);
+//        throw new RuntimeException("No main language set for " + animeNames);
+        return null;
     }
 
-    private List<AnimeNames> filterAnimeNames(List<AnimeNames> animeNames, List<SeasonData> seasonData) {
-        List<AnimeNames> filteredAnimeNames = new ArrayList<>();
+    private List<AnimeNameHolder> filterAnimeNames(List<AnimeNameHolder> animeNames, List<AnimeSeasonInfo> seasonData) {
+        List<AnimeNameHolder> filteredAnimeNames = new ArrayList<>();
 
-        seasonData.forEach(season -> animeNames
-                .stream()
-                .filter(names -> names.externalAnimeId().equals(season.externalAnimeId()))
-                .forEach(filteredAnimeNames::add)
-        );
+        seasonData.forEach(season -> animeNames.stream()
+                                               .filter(names -> names.integrationAnimeId()
+                                                                     .equals(season.integrationAnimeId()))
+                                               .forEach(filteredAnimeNames::add));
 
         return filteredAnimeNames;
     }
 
-    private List<AnimeNames> readAnimeNames() {
-        AnimeNamesListDO animeNamesListDO = animeNamesListRepository.findAll().firstResult();
-        if (animeNamesListDO == null || animeNamesListDO.validUntil.isBefore(Instant.now())) {
-            if (animeNamesListDO != null) {
-                animeNamesListRepository.delete(animeNamesListDO);
-            }
-            animeNamesListDO = new AnimeNamesListDO();
-            animeNamesListDO.validUntil = Instant.now().plus(animeNamesValidDuration);
-            animeNamesListDO.animeNames = readAnimeNames(aniDBRestDao.getAnimeNames());
-
-            animeNamesListRepository.persist(animeNamesListDO);
-        }
-
-        return animeNamesListDO.animeNames;
-    }
-
-    private List<AnimeNames> readAnimeNames(File file) {
-        List<AnimeNames> animeNames = new ArrayList<>();
-        try {
-            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            try (GZIPInputStream inputStream = new GZIPInputStream(new FileInputStream(file))) {
-                Document document = documentBuilder.parse(inputStream);
-
-                Element root = (Element) document.getElementsByTagName("animetitles").item(0);
-                NodeList animes = root.getElementsByTagName("anime");
-                for (int i = 0; i < animes.getLength(); i++) {
-                    Node childNode = animes.item(i);
-                    if (childNode.getNodeType() != Node.ELEMENT_NODE) {
-                        continue;
-                    }
-
-                    Element element = (Element) childNode;
-                    ExternalAnimeId externalAnimeId = new ExternalAnimeId(element.getAttribute("aid"));
-                    NodeList titles = element.getElementsByTagName("title");
-
-                    List<AnimeTitle> animeTitles = new ArrayList<>();
-                    for (int j = 0; j < titles.getLength(); j++) {
-                        Node titleNode = titles.item(j);
-                        if (titleNode.getNodeType() != Node.ELEMENT_NODE) {
-                            continue;
-                        }
-                        Element titleElement = (Element) titleNode;
-                        animeTitles.add(new AnimeTitle(titleElement.getAttribute("xml:lang"), TitleType.valueOf(titleElement.getAttribute("type").toUpperCase(Locale.ROOT)), titleElement.getTextContent()));
-                    }
-
-                    animeNames.add(new AnimeNames(externalAnimeId, animeTitles));
-                }
-            }
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new RuntimeException(e);
-        }
-
-        file.delete();
-
-        return animeNames;
-    }
-
-    private Pair<Set<AnimeNames>, Integer> getBest(List<AnimeNames> names, String name) {
-        Set<AnimeNames> best = new HashSet<>();
+    private Pair<Set<AnimeNameHolder>, Integer> getBest(List<AnimeNameHolder> names, String name) {
+        Set<AnimeNameHolder> best = new HashSet<>();
         int currentBest = Integer.MAX_VALUE;
 
-        for (AnimeNames animeName : names) {
-            for (AnimeTitle animeTitle : animeName.animeTitles()) {
+        for (AnimeNameHolder animeName : names) {
+            for (AnimeName animeTitle : animeName.names()) {
                 // TODO 2024-09-30: Magic value
-                if (!animeTitle.language().equals("ja") && !animeTitle.language().equals("en") && !animeTitle.title().equals(language)) {
+                if (!animeTitle.language().equals("ja") && !animeTitle.language().equals("en") && !animeTitle.name()
+                                                                                                             .equals(language)) {
                     continue;
                 }
 
-                if (!animeTitle.titleType().equals(TitleType.MAIN) && !animeTitle.titleType().equals(TitleType.OFFICIAL)) {
+                if (!animeTitle.type().equals(new NameType("main")) && !animeTitle.type()
+                                                                                  .equals(new NameType("official"))) {
                     continue;
                 }
 
-                int distance = levenshteinDistance.apply(animeTitle.title(), name);
+                int distance = levenshteinDistance.apply(animeTitle.name(), name);
                 if (distance == -1) {
                     continue;
                 }

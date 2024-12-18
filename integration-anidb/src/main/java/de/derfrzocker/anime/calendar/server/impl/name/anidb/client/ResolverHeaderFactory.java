@@ -14,7 +14,6 @@ class ResolverHeaderFactory implements ClientHeadersFactory {
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders,
                                                  MultivaluedMap<String, String> clientOutgoingHeaders) {
         MultivaluedMap<String, String> result = new MultivaluedHashMap<>();
-        System.out.println(userAgent);
 
         result.add("User-Agent", userAgent);
 
