@@ -5,7 +5,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
-class ResolverHeaderFactory implements ClientHeadersFactory {
+class AniDBHeaderFactory implements ClientHeadersFactory {
 
     @ConfigProperty(name = "anidb.name-update.client.user-agent")
     String userAgent;

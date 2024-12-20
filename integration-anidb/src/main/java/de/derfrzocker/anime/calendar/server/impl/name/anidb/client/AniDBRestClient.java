@@ -8,7 +8,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @Path("/api")
 @RegisterRestClient(configKey = "anidb-name-update")
-@RegisterClientHeaders(ResolverHeaderFactory.class)
+@RegisterClientHeaders(AniDBHeaderFactory.class)
 public interface AniDBRestClient {
 
     @GET

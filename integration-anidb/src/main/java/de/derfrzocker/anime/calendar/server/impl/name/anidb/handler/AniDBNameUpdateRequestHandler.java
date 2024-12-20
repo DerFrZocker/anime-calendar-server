@@ -51,7 +51,7 @@ public class AniDBNameUpdateRequestHandler {
     public Uni<Void> createOrUpdate(RequestContext context) {
         List<ParsedAnimeNameHolder> nameHolders = readAll();
 
-        LOG.info("Creating or updating '%d' anime names".formatted(nameHolders.size()));
+        LOG.info("Creating or updating '%d' anime names.".formatted(nameHolders.size()));
 
         // TODO 2024-12-17: Read a bit more into context propagation, can this be done better?
         return Multi.createFrom()

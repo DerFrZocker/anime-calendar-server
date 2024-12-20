@@ -132,6 +132,7 @@
         <module>dao-mongodb</module>
         <module>ical-builder-ical4j</module>
         <module>integration-anidb</module>
+        <module>integration-myanimelist</module>
         <module>model-core</module>
         <module>model-domain</module>
         <module>rest</module>
