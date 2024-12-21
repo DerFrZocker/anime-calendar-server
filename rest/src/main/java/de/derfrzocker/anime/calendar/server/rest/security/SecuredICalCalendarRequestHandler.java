@@ -1,14 +1,12 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.rest.handler.calendar.ICalCalendarRequestHandler;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
-import java.util.Set;
 
 @RequestScoped
 public class SecuredICalCalendarRequestHandler {
@@ -20,10 +18,6 @@ public class SecuredICalCalendarRequestHandler {
 
     public String getByKey(CalendarKey key) {
         return this.requestHandler.getByKey(key, createRequestContext());
-    }
-
-    public String getByMyAnimeListId(Set<IntegrationAnimeId> ids) {
-        return this.requestHandler.getByMyAnimeListId(ids, createRequestContext());
     }
 
     private RequestContext createRequestContext() {
