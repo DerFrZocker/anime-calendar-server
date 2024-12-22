@@ -16,7 +16,6 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +52,6 @@ public class AniDBNameUpdateRequestHandler {
 
         LOG.info("Creating or updating '%d' anime names.".formatted(nameHolders.size()));
 
-        // TODO 2024-12-17: Read a bit more into context propagation, can this be done better?
         return Multi.createFrom()
                     .iterable(nameHolders)
                     .emitOn(Infrastructure.getDefaultExecutor())
@@ -70,9 +68,7 @@ public class AniDBNameUpdateRequestHandler {
                     .replaceWithVoid();
     }
 
-    // Need to have this annotation otherwise multi won't work, because of missing active context :|
-    @ActivateRequestContext
-    void createOrUpdate(ParsedAnimeNameHolder read, RequestContext context) {
+    private void createOrUpdate(ParsedAnimeNameHolder read, RequestContext context) {
         Optional<AnimeNameHolder> current = this.service.getById(ANIDB, read.integrationAnimeId(), context);
 
         if (current.isPresent()) {

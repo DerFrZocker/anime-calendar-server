@@ -10,6 +10,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoC
 import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
@@ -37,6 +38,7 @@ public class AniDBSeasonUpdateRequestHandler {
 
         return Multi.createFrom()
                     .iterable(seasonInfos)
+                    .emitOn(Infrastructure.getDefaultExecutor())
                     .invoke(info -> createOrUpdate(info, context))
                     .collect()
                     .asList()

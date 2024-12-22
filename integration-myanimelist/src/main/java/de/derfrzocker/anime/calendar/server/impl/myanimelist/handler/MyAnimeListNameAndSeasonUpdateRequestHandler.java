@@ -22,7 +22,6 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -74,7 +73,6 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
 
         LOG.info("Creating or updating '%d' anime names and season.".formatted(data.size()));
 
-        // TODO 2024-12-17: Read a bit more into context propagation, can this be done better?
         return Multi.createFrom()
                     .iterable(data)
                     .emitOn(Infrastructure.getDefaultExecutor())
@@ -92,9 +90,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
                     .replaceWithVoid();
     }
 
-    // Need to have this annotation otherwise multi won't work, because of missing active context :|
-    @ActivateRequestContext
-    void createOrUpdateName(DataHolder read, RequestContext context) {
+    private void createOrUpdateName(DataHolder read, RequestContext context) {
         Optional<AnimeNameHolder> current = this.nameService.getById(MY_ANIME_LIST, read.id(), context);
 
         if (current.isPresent()) {
@@ -104,9 +100,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
         }
     }
 
-    // Need to have this annotation otherwise multi won't work, because of missing active context :|
-    @ActivateRequestContext
-    void createOrUpdateSeason(DataHolder read, RequestContext context) {
+    private void createOrUpdateSeason(DataHolder read, RequestContext context) {
         Optional<AnimeSeasonInfo> current = this.seasonService.getById(MY_ANIME_LIST,
                                                                        read.id(),
                                                                        read.year(),
@@ -120,16 +114,14 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
         }
     }
 
-    @ActivateRequestContext
-    void createName(DataHolder read, RequestContext context) {
+    private void createName(DataHolder read, RequestContext context) {
         this.nameService.createWithData(MY_ANIME_LIST,
                                         read.id(),
                                         new AnimeNameHolderCreateData(List.of(read.name())),
                                         context);
     }
 
-    @ActivateRequestContext
-    void updateName(DataHolder read, AnimeNameHolder current, RequestContext context) {
+    private void updateName(DataHolder read, AnimeNameHolder current, RequestContext context) {
         AnimeName main = null;
         for (AnimeName name : current.names()) {
             if (!DEFAULT_NAME_TYPE.equals(name.type())) {
@@ -168,8 +160,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
                                         context);
     }
 
-    @ActivateRequestContext
-    void createSeason(DataHolder read, RequestContext context) {
+    private void createSeason(DataHolder read, RequestContext context) {
         this.seasonService.createWithData(MY_ANIME_LIST,
                                           read.id(),
                                           read.year(),
