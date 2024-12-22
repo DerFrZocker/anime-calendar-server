@@ -17,12 +17,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import de.derfrzocker.anime.calendar.server.model.domain.util.ListAddChange;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import java.time.OffsetDateTime;
@@ -35,7 +34,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-@RequestScoped
+@ApplicationScoped
 public class MyAnimeListNameAndSeasonUpdateRequestHandler {
 
     private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");

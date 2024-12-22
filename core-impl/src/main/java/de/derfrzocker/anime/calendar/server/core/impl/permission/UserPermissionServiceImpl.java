@@ -8,11 +8,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFo
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionUpdateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class UserPermissionServiceImpl implements UserPermissionService {
 
     @Inject

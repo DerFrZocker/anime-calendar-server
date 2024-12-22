@@ -9,11 +9,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class AnimeServiceImpl implements AnimeService {
 
     @Inject

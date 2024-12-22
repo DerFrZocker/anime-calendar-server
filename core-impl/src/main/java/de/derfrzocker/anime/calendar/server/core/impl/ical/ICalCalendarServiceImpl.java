@@ -11,14 +11,14 @@ import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@RequestScoped
+@Dependent
 public class ICalCalendarServiceImpl implements ICalCalendarService {
 
     @Inject

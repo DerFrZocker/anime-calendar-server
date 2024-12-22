@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListU
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import io.quarkus.cache.CacheResult;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-@RequestScoped
+@Dependent
 public class MyAnimeListIntegrationUserService {
 
     @RestClient

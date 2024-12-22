@@ -8,12 +8,12 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolder;
 import de.derfrzocker.anime.calendar.server.mongodb.data.name.AnimeNameHolderDO;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.AnimeNameHolderData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.AnimeNameHolderDomain;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RequestScoped
+@Dependent
 public class AnimeNameHolderMongoDBDaoImpl implements AnimeNameHolderDao {
 
     @Inject

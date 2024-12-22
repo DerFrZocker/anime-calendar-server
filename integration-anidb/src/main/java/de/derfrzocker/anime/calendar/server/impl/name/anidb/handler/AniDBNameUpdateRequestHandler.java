@@ -15,7 +15,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.util.FixedChange;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import java.io.File;
@@ -36,7 +36,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-@RequestScoped
+@ApplicationScoped
 public class AniDBNameUpdateRequestHandler {
 
     private static final IntegrationId ANIDB = new IntegrationId("anidb");

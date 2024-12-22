@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.client;
 
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-@RequestScoped
+@Dependent
 public class AniDBUDPClient {
 
     private static final String ANI_DB_UDP_VERSION = "3";

@@ -10,13 +10,13 @@ import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RequestScoped
+@Dependent
 public class AnimeSeasonInfoServiceImpl implements AnimeSeasonInfoService {
 
     @Inject

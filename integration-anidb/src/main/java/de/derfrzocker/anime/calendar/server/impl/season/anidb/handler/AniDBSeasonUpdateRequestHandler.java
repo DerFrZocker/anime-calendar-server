@@ -10,7 +10,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoC
 import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
 
-@RequestScoped
+@ApplicationScoped
 public class AniDBSeasonUpdateRequestHandler {
 
     private static final IntegrationId ANIDB = new IntegrationId("anidb");

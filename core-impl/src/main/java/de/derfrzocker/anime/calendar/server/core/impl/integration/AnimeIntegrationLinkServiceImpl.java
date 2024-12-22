@@ -7,13 +7,13 @@ import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAn
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.integration.AnimeIntegrationLink;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RequestScoped
+@Dependent
 public class AnimeIntegrationLinkServiceImpl implements AnimeIntegrationLinkService {
 
     @Inject

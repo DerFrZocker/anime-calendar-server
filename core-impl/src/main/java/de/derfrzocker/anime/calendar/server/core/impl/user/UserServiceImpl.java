@@ -11,12 +11,12 @@ import de.derfrzocker.anime.calendar.server.model.domain.user.HashedUserToken;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserUpdateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 import org.apache.commons.codec.digest.DigestUtils;
 
-@RequestScoped
+@Dependent
 public class UserServiceImpl implements UserService {
 
     @Inject

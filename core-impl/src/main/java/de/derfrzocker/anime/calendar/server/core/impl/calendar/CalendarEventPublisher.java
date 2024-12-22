@@ -5,11 +5,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PostCalendarCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PreCalendarCreateEvent;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
-@RequestScoped
+@Dependent
 public class CalendarEventPublisher {
 
     @Inject

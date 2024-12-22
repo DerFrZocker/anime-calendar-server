@@ -3,11 +3,11 @@ package de.derfrzocker.anime.calendar.server.core.listener;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PostCalendarCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserUpdateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 
-@RequestScoped
+@Dependent
 public class UserServiceListener {
 
     @Inject

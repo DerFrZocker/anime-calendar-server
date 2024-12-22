@@ -6,11 +6,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.CalendarData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.CalendarDomain;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class CalendarMongoDBDaoImpl implements CalendarDao {
 
     @Inject

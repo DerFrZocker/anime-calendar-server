@@ -7,11 +7,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.UserPermissionData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.UserPermissionDomain;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class UserPermissionMongoDBDaoImpl implements UserPermissionDao {
 
     @Inject

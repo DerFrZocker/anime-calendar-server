@@ -11,11 +11,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostAnimeUp
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeDeleteEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PreAnimeUpdateEvent;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
-@RequestScoped
+@Dependent
 public class AnimeEventPublisher {
 
     @Inject

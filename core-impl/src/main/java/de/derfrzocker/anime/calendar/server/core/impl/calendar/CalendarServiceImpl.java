@@ -8,11 +8,11 @@ import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarCreateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class CalendarServiceImpl implements CalendarService {
 
     @Inject

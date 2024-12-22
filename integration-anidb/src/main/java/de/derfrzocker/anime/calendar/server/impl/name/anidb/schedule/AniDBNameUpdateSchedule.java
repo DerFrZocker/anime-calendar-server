@@ -4,11 +4,11 @@ import de.derfrzocker.anime.calendar.server.impl.name.anidb.handler.AniDBNameUpd
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import io.quarkus.scheduler.Scheduled;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
 
-@RequestScoped
+@ApplicationScoped
 public class AniDBNameUpdateSchedule {
 
     private static final UserId ANIDB_NAME_UPDATE_USER = new UserId("UANIDBNAUP");

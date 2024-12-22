@@ -8,11 +8,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.event.user.PreUserCreat
 import de.derfrzocker.anime.calendar.server.model.domain.event.user.PreUserUpdateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserUpdateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
-@RequestScoped
+@Dependent
 public class UserEventPublisher {
 
     @Inject

@@ -9,13 +9,13 @@ import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFo
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderUpdateData;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RequestScoped
+@Dependent
 public class AnimeNameHolderServiceImpl implements AnimeNameHolderService {
 
     @Inject

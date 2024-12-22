@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 // TODO 2024-12-09: Make this whole better
-@RequestScoped
+@Dependent
 public class LayerParser {
 
     private static final String LAYER_KEY = "layer_key";

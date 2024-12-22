@@ -7,11 +7,11 @@ import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.event.integration.PostAnimeIntegrationLinkCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.integration.PreAnimeIntegrationLinkCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.integration.AnimeIntegrationLink;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 
-@RequestScoped
+@Dependent
 public class AnimeIntegrationLinkEventPublisher {
 
     @Inject

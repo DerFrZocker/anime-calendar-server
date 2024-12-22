@@ -4,11 +4,11 @@ import de.derfrzocker.anime.calendar.server.impl.myanimelist.handler.MyAnimeList
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import io.quarkus.scheduler.Scheduled;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
 
-@RequestScoped
+@ApplicationScoped
 public class MyAnimeListNameAndSeasonUpdateSchedule {
 
     private static final UserId MY_ANIME_LIST_NAME_AND_SEASON_UPDATE_USER = new UserId("UMALNASEUP");

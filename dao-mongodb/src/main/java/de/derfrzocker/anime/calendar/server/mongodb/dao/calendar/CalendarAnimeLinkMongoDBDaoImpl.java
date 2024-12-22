@@ -8,12 +8,12 @@ import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeL
 import de.derfrzocker.anime.calendar.server.mongodb.data.calendar.CalendarAnimeLinkDO;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.CalendarAnimeLinkData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.CalendarAnimeLinkDomain;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@RequestScoped
+@Dependent
 public class CalendarAnimeLinkMongoDBDaoImpl implements CalendarAnimeLinkDao {
 
     @Inject
