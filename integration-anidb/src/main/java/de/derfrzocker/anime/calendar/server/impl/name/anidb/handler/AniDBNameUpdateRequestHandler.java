@@ -11,7 +11,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCre
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
-import de.derfrzocker.anime.calendar.server.model.domain.util.FixedChange;
+import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -89,7 +89,7 @@ public class AniDBNameUpdateRequestHandler {
         if (read.names().size() != current.names().size()) {
             this.service.updateWithData(ANIDB,
                                         read.integrationAnimeId(),
-                                        new AnimeNameHolderUpdateData(FixedChange.of(read.names())),
+                                        new AnimeNameHolderUpdateData(Change.to(read.names())),
                                         context);
         }
 
@@ -107,7 +107,7 @@ public class AniDBNameUpdateRequestHandler {
 
         this.service.updateWithData(ANIDB,
                                     read.integrationAnimeId(),
-                                    new AnimeNameHolderUpdateData(FixedChange.of(read.names())),
+                                    new AnimeNameHolderUpdateData(Change.to(read.names())),
                                     context);
     }
 

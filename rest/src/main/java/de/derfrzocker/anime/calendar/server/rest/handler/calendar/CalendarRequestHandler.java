@@ -17,7 +17,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionTy
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import de.derfrzocker.anime.calendar.server.model.domain.util.ChangeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.util.NoChange;
 import de.derfrzocker.anime.calendar.server.rest.mapper.domain.CalendarDomain;
 import de.derfrzocker.anime.calendar.server.rest.mapper.transfer.CalendarTransfer;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarCreateRequest;
@@ -53,7 +52,7 @@ public class CalendarRequestHandler {
     }
 
     private UserPermissionUpdateData createDefaultPermission(CalendarId id) {
-        return new UserPermissionUpdateData(NoChange.noChange(),
+        return new UserPermissionUpdateData(Change.nothing(),
                                             createCalendarDefaultPermission(id),
                                             createAnimeDefaultPermission(id),
                                             createCalendarAnimeLinkDefaultPermission(id));

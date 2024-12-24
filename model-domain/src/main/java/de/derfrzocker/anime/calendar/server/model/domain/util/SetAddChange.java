@@ -3,20 +3,14 @@ package de.derfrzocker.anime.calendar.server.model.domain.util;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class SetAddChange<I, T extends Set<I>> implements Change<T> {
-
-    private final I item;
-
-    public SetAddChange(I item) {
-        this.item = item;
-    }
+record SetAddChange<I>(I value) implements Change<Set<I>> {
 
     @Override
-    public T apply(T current) {
+    public Set<I> apply(Set<I> current) {
         Set<I> newSet = new LinkedHashSet<>(current);
 
-        newSet.add(item);
+        newSet.add(value());
 
-        return (T) newSet;
+        return newSet;
     }
 }

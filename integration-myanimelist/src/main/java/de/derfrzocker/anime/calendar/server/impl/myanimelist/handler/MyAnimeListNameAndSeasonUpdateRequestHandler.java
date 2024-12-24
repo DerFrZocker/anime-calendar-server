@@ -17,7 +17,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
-import de.derfrzocker.anime.calendar.server.model.domain.util.ListAddChange;
+import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -156,7 +156,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
 
         this.nameService.updateWithData(MY_ANIME_LIST,
                                         read.id(),
-                                        new AnimeNameHolderUpdateData(new ListAddChange<>(read.name())),
+                                        new AnimeNameHolderUpdateData(Change.addingToList(read.name())),
                                         context);
     }
 

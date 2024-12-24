@@ -20,7 +20,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissi
 import de.derfrzocker.anime.calendar.server.model.domain.user.CreatedUserHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import de.derfrzocker.anime.calendar.server.model.domain.util.ChangeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.util.NoChange;
 import de.derfrzocker.anime.calendar.server.rest.mapper.domain.UserDomain;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserCreateResponse;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserResponse;
@@ -85,10 +84,10 @@ public class UserRequestHandler {
     }
 
     private Change<ObjectPermission<AnimeId>> createAnimeDefaultPermission(UserId id) {
-        return ChangeBuilder.<ObjectPermission<AnimeId>>builder().add(NoChange.noChange()).build();
+        return ChangeBuilder.<ObjectPermission<AnimeId>>builder().add(Change.nothing()).build();
     }
 
     private Change<ObjectPermission<CalendarId>> createCalendarAnimeLinkDefaultPermission(UserId id) {
-        return ChangeBuilder.<ObjectPermission<CalendarId>>builder().add(NoChange.noChange()).build();
+        return ChangeBuilder.<ObjectPermission<CalendarId>>builder().add(Change.nothing()).build();
     }
 }

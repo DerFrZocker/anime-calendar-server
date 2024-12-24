@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.model.domain.util;
 
-public class NoChange<T> implements Change<T> {
+final class NoChange<T> implements Change<T> {
 
-    private static final NoChange<?> NO_CHANGE = new NoChange<>();
+    private static final NoChange<?> INSTANCE = new NoChange<>();
 
-    public static <T> NoChange<T> noChange() {
-        return (NoChange<T>) NO_CHANGE;
+    static <T> Change<T> get() {
+        return (Change<T>) INSTANCE;
     }
 
     private NoChange() {

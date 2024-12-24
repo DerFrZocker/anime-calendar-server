@@ -3,19 +3,13 @@ package de.derfrzocker.anime.calendar.server.model.domain.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAddChange<I> implements Change<List<I>> {
-
-    private final I item;
-
-    public ListAddChange(I item) {
-        this.item = item;
-    }
+record ListAddChange<I>(I value) implements Change<List<I>> {
 
     @Override
     public List<I> apply(List<I> current) {
         List<I> newList = new ArrayList<>(current);
 
-        newList.add(item);
+        newList.add(value());
 
         return newList;
     }

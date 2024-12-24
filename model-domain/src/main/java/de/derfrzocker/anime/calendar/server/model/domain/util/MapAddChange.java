@@ -3,22 +3,14 @@ package de.derfrzocker.anime.calendar.server.model.domain.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MapAddChange<K, V, T extends Map<K, V>> implements Change<T> {
-
-    private final K key;
-    private final V value;
-
-    public MapAddChange(K key, V value) {
-        this.key = key;
-        this.value = value;
-    }
+record MapAddChange<K, V>(K key, V value) implements Change<Map<K, V>> {
 
     @Override
-    public T apply(T current) {
+    public Map<K, V> apply(Map<K, V> current) {
         Map<K, V> newMap = new LinkedHashMap<>(current);
 
-        newMap.put(key, value);
+        newMap.put(key(), value());
 
-        return (T) newMap;
+        return newMap;
     }
 }
