@@ -29,6 +29,11 @@ public class AnimeNameHolderServiceImpl implements AnimeNameHolderService {
     }
 
     @Override
+    public Stream<AnimeNameHolder> getAllWithId(IntegrationId integrationId, RequestContext context) {
+        return this.dao.getAllWithId(integrationId, context);
+    }
+
+    @Override
     public Optional<AnimeNameHolder> getById(IntegrationId integrationId,
                                              IntegrationAnimeId integrationAnimeId,
                                              RequestContext context) {

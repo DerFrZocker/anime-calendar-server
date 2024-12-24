@@ -25,6 +25,11 @@ public class AnimeNameHolderMongoDBDaoImpl implements AnimeNameHolderDao {
     }
 
     @Override
+    public Stream<AnimeNameHolder> getAllWithId(IntegrationId integrationId, RequestContext context) {
+        return this.repository.find("integrationId", integrationId.raw()).stream().map(AnimeNameHolderData::toDomain);
+    }
+
+    @Override
     public Optional<AnimeNameHolder> getById(IntegrationId integrationId,
                                              IntegrationAnimeId integrationAnimeId,
                                              RequestContext context) {

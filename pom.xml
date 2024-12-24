@@ -133,8 +133,10 @@
         <module>ical-builder-ical4j</module>
         <module>integration-anidb</module>
         <module>integration-myanimelist</module>
+        <module>integration-name-link</module>
         <module>model-core</module>
         <module>model-domain</module>
+        <module>notify-discord</module>
         <module>rest</module>
         <module>user-permission</module>
         <module>validation</module>

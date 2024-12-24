@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import io.quarkus.jackson.ObjectMapperCustomizer;
@@ -34,7 +36,14 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
               .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> new CalendarKey(p.getValueAsString())))
               .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(AnimeId.class, createJsonDeserializer(p -> new AnimeId(p.getValueAsString())));
+              .addDeserializer(AnimeId.class, createJsonDeserializer(p -> new AnimeId(p.getValueAsString())))
+              .addSerializer(IntegrationId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
+              .addDeserializer(IntegrationId.class,
+                               createJsonDeserializer(p -> new IntegrationId(p.getValueAsString())))
+              .addSerializer(IntegrationAnimeId.class,
+                             createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
+              .addDeserializer(IntegrationAnimeId.class,
+                               createJsonDeserializer(p -> new IntegrationAnimeId(p.getValueAsString())));
 
         objectMapper.registerModule(module);
     }
