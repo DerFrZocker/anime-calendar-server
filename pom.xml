@@ -134,6 +134,7 @@
         <module>integration-anidb</module>
         <module>integration-myanimelist</module>
         <module>integration-name-link</module>
+        <module>layer</module>
         <module>model-core</module>
         <module>model-domain</module>
         <module>notify-discord</module>
