@@ -16,7 +16,7 @@ public class SyoboiAnimeCreateAndUpdateSchedule {
     @Inject
     SyoboiAnimeCreateAndUpdateRequestHandler requestHandler;
 
-    @Scheduled(cron = "{syobio.anime-create-and-update.cron:off}")
+    @Scheduled(cron = "{syoboi.anime-create-and-update.cron:off}")
     public void schedule() {
         this.requestHandler.createOrUpdate(new RequestContext(SYOBOI_ANIME_CREATE_AND_UPDATE_UPDATE_USER,
                                                               Instant.now())).subscribe().asCompletionStage();
