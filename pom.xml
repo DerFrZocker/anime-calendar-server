@@ -34,13 +34,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://www.jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -111,11 +104,6 @@
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.eduardomcb</groupId>
-            <artifactId>discord-webhook</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
