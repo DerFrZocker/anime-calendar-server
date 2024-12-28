@@ -16,7 +16,7 @@ public class AniDBNameUpdateSchedule {
     @Inject
     AniDBNameUpdateRequestHandler requestHandler;
 
-    @Scheduled(cron = "{anidb.name-update.cron:off}")
+    @Scheduled(cron = "{anidb.name-update.cron:off}", executionMaxDelay = "{anidb.name-update.jitter}")
     public void schedule() {
         this.requestHandler.createOrUpdate(new RequestContext(ANIDB_NAME_UPDATE_USER, Instant.now()))
                            .subscribe()

@@ -16,7 +16,7 @@ public class AniDBSeasonUpdateSchedule {
     @Inject
     AniDBSeasonUpdateRequestHandler requestHandler;
 
-    @Scheduled(cron = "{anidb.season-update.cron:off}")
+    @Scheduled(cron = "{anidb.season-update.cron:off}", executionMaxDelay = "{anidb.season-update.jitter}")
     public void schedule() {
         this.requestHandler.createOrUpdate(new RequestContext(ANIDB_SEASON_UPDATE_USER, Instant.now()))
                            .subscribe()
