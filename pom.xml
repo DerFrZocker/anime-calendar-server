@@ -22,6 +22,7 @@
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
         <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
+        <jandex-plugin.version>3.2.2</jandex-plugin.version>
     </properties>
 
     <dependencyManagement>
