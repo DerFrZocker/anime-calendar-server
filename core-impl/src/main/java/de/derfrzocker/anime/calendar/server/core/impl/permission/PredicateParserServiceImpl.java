@@ -105,7 +105,7 @@ public class PredicateParserServiceImpl implements PredicateParserService {
         registerParser("bi-same-action-and-user-id",
                        SameActionAndUserIdBiPredicate.class,
                        new SameActionAndUserIdBiPredicateParser());
-        registerParser("bi-fixed", FixedBiPredicate.class, new FixedBiPredicateParser());
+        registerParser("bi-fixed", FixedBiPredicate.class, new FixedBiPredicateParser<>());
     }
 
     private <T extends Predicate<V>, V> void registerParser(String key,
