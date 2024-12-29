@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -38,7 +39,8 @@ public class NameLinkFoundListener {
 
         // TODO 2024-12-23: Account for message limits
         List<LowLevelComponent> buttons = new ArrayList<>();
-        for (Map.Entry<IntegrationId, List<NameSearchResult>> searchResultEntry : event.searchResults().entrySet()) {
+        for (Map.Entry<IntegrationId, Collection<NameSearchResult>> searchResultEntry : event.searchResults()
+                                                                                             .entrySet()) {
             IntegrationId integrationId = searchResultEntry.getKey();
             for (NameSearchResult searchResult : searchResultEntry.getValue()) {
                 embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
