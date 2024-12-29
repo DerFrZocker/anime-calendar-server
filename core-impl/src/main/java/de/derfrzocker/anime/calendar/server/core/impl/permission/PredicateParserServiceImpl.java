@@ -90,14 +90,14 @@ public class PredicateParserServiceImpl implements PredicateParserService {
 
     @PostConstruct
     void registerParsers() {
-        registerParser("and", AndPredicate.class, new AndPredicateParser(this::decode, this::encode));
-        registerParser("or", OrPredicate.class, new OrPredicateParser(this::decode, this::encode));
+        registerParser("and", AndPredicate.class, new AndPredicateParser<>(this::decode, this::encode));
+        registerParser("or", OrPredicate.class, new OrPredicateParser<>(this::decode, this::encode));
         registerParser("same-anime-id", SameAnimeIdPredicate.class, new SameAnimeIdPredicateParser());
         registerParser("same-calendar-id", SameCalendarIdPredicate.class, new SameCalendarIdPredicateParser());
         registerParser("same-user-id", SameUserIdPredicate.class, new SameUserIdPredicateParser());
-        registerParser("fixed", FixedPredicate.class, new FixedPredicateParser());
+        registerParser("fixed", FixedPredicate.class, new FixedPredicateParser<>());
 
-        registerParser("bi-or", OrBiPredicate.class, new OrBiPredicateParser(this::decodeBi, this::encodeBi));
+        registerParser("bi-or", OrBiPredicate.class, new OrBiPredicateParser<>(this::decodeBi, this::encodeBi));
         registerParser("bi-same-action", SameActionBiPredicate.class, new SameActionBiPredicateParser<>());
         registerParser("bi-same-action-and-calendar-id",
                        SameActionAndCalendarIdBiPredicate.class,
@@ -108,13 +108,17 @@ public class PredicateParserServiceImpl implements PredicateParserService {
         registerParser("bi-fixed", FixedBiPredicate.class, new FixedBiPredicateParser());
     }
 
-    private <T> void registerParser(String key, Class<?> clazz, PredicateParser<?> parser) {
+    private <T extends Predicate<V>, V> void registerParser(String key,
+                                                            Class<T> clazz,
+                                                            PredicateParser<? extends T> parser) {
         this.parserByClass.put(clazz, parser);
         this.keyByClass.put(clazz, new PredicateKey(key));
         this.parserByKey.put(new PredicateKey(key), parser);
     }
 
-    private <T> void registerParser(String key, Class<?> clazz, BiPredicateParser<?> parser) {
+    private <T extends BiPredicate<A, V>, A, V> void registerParser(String key,
+                                                                    Class<T> clazz,
+                                                                    BiPredicateParser<? extends T> parser) {
         this.biParserByClass.put(clazz, parser);
         this.keyByClass.put(clazz, new PredicateKey(key));
         this.biParserByKey.put(new PredicateKey(key), parser);

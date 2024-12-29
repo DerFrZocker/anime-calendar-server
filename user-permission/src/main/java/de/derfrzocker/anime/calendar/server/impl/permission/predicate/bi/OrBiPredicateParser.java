@@ -10,41 +10,41 @@ import java.util.Map;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-public class OrBiPredicateParser implements BiPredicateParser<OrBiPredicate<?>> {
+public class OrBiPredicateParser<V> implements BiPredicateParser<OrBiPredicate<V>> {
 
     private static final String PREDICATES = "predicates";
 
-    private final Function<Map<String, Object>, BiPredicate<PermissionAction, ?>> subDecoder;
-    private final Function<BiPredicate<PermissionAction, ?>, Map<String, Object>> subEncoder;
+    private final Function<Map<String, Object>, BiPredicate<PermissionAction, V>> subDecoder;
+    private final Function<BiPredicate<PermissionAction, V>, Map<String, Object>> subEncoder;
 
-    public OrBiPredicateParser(Function<Map<String, Object>, BiPredicate<PermissionAction, ?>> subDecoder,
-                               Function<BiPredicate<PermissionAction, ?>, Map<String, Object>> subEncoder) {
+    public OrBiPredicateParser(Function<Map<String, Object>, BiPredicate<PermissionAction, V>> subDecoder,
+                               Function<BiPredicate<PermissionAction, V>, Map<String, Object>> subEncoder) {
         this.subDecoder = subDecoder;
         this.subEncoder = subEncoder;
     }
 
     @Override
-    public OrBiPredicate<?> decode(Map<String, Object> values) {
+    public OrBiPredicate<V> decode(Map<String, Object> values) {
         List<Map<String, Object>> value = (List<Map<String, Object>>) values.get(PREDICATES);
 
         if (value == null) {
             return new OrBiPredicate<>(List.of());
         }
 
-        List<BiPredicate<PermissionAction, ?>> predicates = new ArrayList<>(value.size());
+        List<BiPredicate<PermissionAction, V>> predicates = new ArrayList<>(value.size());
         for (Map<String, Object> subPredicate : value) {
             predicates.add(this.subDecoder.apply(subPredicate));
         }
 
-        return new OrBiPredicate(Collections.unmodifiableList(predicates));
+        return new OrBiPredicate<>(Collections.unmodifiableList(predicates));
     }
 
     @Override
-    public Map<String, Object> encode(OrBiPredicate<?> predicate) {
+    public Map<String, Object> encode(OrBiPredicate<V> predicate) {
         Map<String, Object> values = new HashMap<>();
         List<Map<String, Object>> predicates = new ArrayList<>();
 
-        for (BiPredicate<PermissionAction, ?> other : predicate.predicates()) {
+        for (BiPredicate<PermissionAction, V> other : predicate.predicates()) {
             predicates.add(this.subEncoder.apply(other));
         }
 
