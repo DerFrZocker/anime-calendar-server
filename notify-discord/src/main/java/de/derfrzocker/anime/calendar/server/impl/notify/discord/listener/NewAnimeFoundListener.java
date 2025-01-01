@@ -11,6 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.javacord.api.DiscordApi;
@@ -52,7 +53,9 @@ public class NewAnimeFoundListener {
 
         // TODO 2024-12-23: Account for message limits
         List<LowLevelComponent> buttons = new ArrayList<>();
-        for (NameSearchResult name : event.potentialNames()) {
+        List<NameSearchResult> results = new ArrayList<>(event.potentialNames());
+        results.sort(Comparator.comparingInt(NameSearchResult::score));
+        for (NameSearchResult name : results) {
             IntegrationId integrationId = name.animeNameHolder().integrationId();
             IntegrationAnimeId integrationAnimeId = name.animeNameHolder().integrationAnimeId();
             String title = name.bestName().name();

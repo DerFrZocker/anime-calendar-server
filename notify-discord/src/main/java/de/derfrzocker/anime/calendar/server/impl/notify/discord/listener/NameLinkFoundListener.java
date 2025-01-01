@@ -8,9 +8,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.Channel;
@@ -39,30 +38,30 @@ public class NameLinkFoundListener {
 
         // TODO 2024-12-23: Account for message limits
         List<LowLevelComponent> buttons = new ArrayList<>();
-        for (Map.Entry<IntegrationId, Collection<NameSearchResult>> searchResultEntry : event.searchResults()
-                                                                                             .entrySet()) {
-            IntegrationId integrationId = searchResultEntry.getKey();
-            for (NameSearchResult searchResult : searchResultEntry.getValue()) {
-                embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
-                                                             searchResult.animeNameHolder().integrationAnimeId().raw(),
-                                                             searchResult.score(),
-                                                             searchResult.bestName().name()),
-                               getUrl(searchResultEntry.getKey(), searchResult.animeNameHolder().integrationAnimeId()));
-                if (buttons.size() >= 5) {
-                    continue;
-                }
-
-                buttons.add(Button.create("link$%s$%s$%s".formatted(event.anime().id().raw(),
-                                                                    integrationId.raw(),
-                                                                    searchResult.animeNameHolder()
-                                                                                .integrationAnimeId()
-                                                                                .raw()),
-                                          ButtonStyle.PRIMARY,
-                                          "Link [%s] %s".formatted(integrationId.raw(),
-                                                                   searchResult.animeNameHolder()
-                                                                               .integrationAnimeId()
-                                                                               .raw())));
+        List<NameSearchResult> searchResults = new ArrayList<>();
+        event.searchResults().forEach((key, value) -> searchResults.addAll(value));
+        searchResults.sort(Comparator.comparingInt(NameSearchResult::score));
+        for (NameSearchResult searchResult : searchResults) {
+            IntegrationId integrationId = searchResult.animeNameHolder().integrationId();
+            embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
+                                                         searchResult.animeNameHolder().integrationAnimeId().raw(),
+                                                         searchResult.score(),
+                                                         searchResult.bestName().name()),
+                           getUrl(integrationId, searchResult.animeNameHolder().integrationAnimeId()));
+            if (buttons.size() >= 5) {
+                continue;
             }
+
+            buttons.add(Button.create("link$%s$%s$%s".formatted(event.anime().id().raw(),
+                                                                integrationId.raw(),
+                                                                searchResult.animeNameHolder()
+                                                                            .integrationAnimeId()
+                                                                            .raw()),
+                                      ButtonStyle.PRIMARY,
+                                      "Link [%s] %s".formatted(integrationId.raw(),
+                                                               searchResult.animeNameHolder()
+                                                                           .integrationAnimeId()
+                                                                           .raw())));
         }
 
         // TODO 2024-12-23: Better error handling
