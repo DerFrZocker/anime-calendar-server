@@ -96,7 +96,7 @@ public class SyoboiTIDDataService {
             incompleteData.firstStart = YearMonth.of(Integer.parseInt(data.FirstYear()),
                                                      Integer.parseInt(data.FirstMonth()));
             incompleteData.validUntil = Instant.now().plus(this.incompleteDataValidDuration);
-            incompleteData.include = true;
+            incompleteData.include = presentIncompleteData.map(d -> d.include).orElse(true);
 
             presentIncompleteData.ifPresentOrElse(d -> this.incompleteDataDao.update(incompleteData, context),
                                                   () -> this.incompleteDataDao.create(incompleteData, context));
