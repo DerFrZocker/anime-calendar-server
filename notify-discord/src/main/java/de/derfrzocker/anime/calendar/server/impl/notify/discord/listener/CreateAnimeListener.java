@@ -1,7 +1,8 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.listener;
 
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
-import de.derfrzocker.anime.calendar.server.core.api.integration.AnimeIntegrationLinkService;
+import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLinkCreateData;
+import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
@@ -54,6 +55,10 @@ public class CreateAnimeListener {
 
         // TODO 2024-12-27: Better episode count
         Anime anime = this.animeService.createWithData(new AnimeCreateData(title.toString(), 12, List.of()), context);
-        this.linkService.createWithData(anime.id(), integrationId, integrationAnimeId, context);
+        this.linkService.createWithData(anime.id(),
+                                        integrationId,
+                                        integrationAnimeId,
+                                        new AnimeIntegrationLinkCreateData(),
+                                        context);
     }
 }

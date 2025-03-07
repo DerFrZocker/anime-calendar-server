@@ -3,13 +3,14 @@ package de.derfrzocker.anime.calendar.server.core.listener.validation;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
+import de.derfrzocker.anime.calendar.server.integration.event.PreAnimeIntegrationLinkCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.exception.InvalidValueException;
 import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PreCalendarAnimeLinkCreateEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.event.integration.PreAnimeIntegrationLinkCreateEvent;
 import java.time.Instant;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,11 +72,14 @@ class AnimePresentListenerTest {
     // <editor-fold desc="#onPreAnimeIntegrationLinkCreate(PreAnimeIntegrationLinkCreateEvent)" defaultstate="collapsed">
     @Test
     void testOnPreAnimeIntegrationLinkCreate_NotPresent() {
-        PreAnimeIntegrationLinkCreateEvent event = new PreAnimeIntegrationLinkCreateEvent(ANIME_ID,
-                                                                                          null,
-                                                                                          null,
-                                                                                          null,
-                                                                                          REQUEST_CONTEXT);
+        PreAnimeIntegrationLinkCreateEvent event = new PreAnimeIntegrationLinkCreateEvent(new AnimeIntegrationLink(
+                ANIME_ID,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null), null, REQUEST_CONTEXT);
 
         assertThrows(InvalidValueException.class, () -> this.listener.onPreAnimeIntegrationLinkCreate(event));
 
@@ -87,11 +91,14 @@ class AnimePresentListenerTest {
     void testOnPreAnimeIntegrationLinkCreate_Present() {
         when(this.service.getById(ANIME_ID, REQUEST_CONTEXT)).thenReturn(Optional.of(ANIME));
 
-        PreAnimeIntegrationLinkCreateEvent event = new PreAnimeIntegrationLinkCreateEvent(ANIME_ID,
-                                                                                          null,
-                                                                                          null,
-                                                                                          null,
-                                                                                          REQUEST_CONTEXT);
+        PreAnimeIntegrationLinkCreateEvent event = new PreAnimeIntegrationLinkCreateEvent(new AnimeIntegrationLink(
+                ANIME_ID,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null), null, REQUEST_CONTEXT);
 
         assertDoesNotThrow(() -> this.listener.onPreAnimeIntegrationLinkCreate(event));
 

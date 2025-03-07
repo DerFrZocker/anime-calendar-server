@@ -1,6 +1,5 @@
 package de.derfrzocker.anime.calendar.server.impl.syoboi.handler;
 
-import de.derfrzocker.anime.calendar.server.core.api.integration.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.client.ScheduleResponse;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.client.SyoboiRestClient;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.domain.Channel;
@@ -8,10 +7,11 @@ import de.derfrzocker.anime.calendar.server.impl.syoboi.domain.SyoboiAnimeData;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.domain.SyoboiAnimeSchedule;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.domain.TID;
 import de.derfrzocker.anime.calendar.server.impl.syoboi.service.SyoboiTIDDataService;
+import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
+import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
-import de.derfrzocker.anime.calendar.server.model.domain.integration.AnimeIntegrationLink;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;

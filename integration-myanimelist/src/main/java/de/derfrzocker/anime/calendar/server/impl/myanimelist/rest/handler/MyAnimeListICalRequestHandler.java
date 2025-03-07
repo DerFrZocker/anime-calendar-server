@@ -1,8 +1,9 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.rest.handler;
 
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
-import de.derfrzocker.anime.calendar.server.core.api.integration.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.user.MyAnimeListIntegrationUserService;
+import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
+import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
@@ -11,7 +12,6 @@ import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Region;
-import de.derfrzocker.anime.calendar.server.model.domain.integration.AnimeIntegrationLink;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;

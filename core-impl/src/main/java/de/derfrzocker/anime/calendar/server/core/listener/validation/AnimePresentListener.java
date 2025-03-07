@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.core.listener.validation;
 
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.server.integration.event.PreAnimeIntegrationLinkCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.exception.InvalidValueException;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PreCalendarAnimeLinkCreateEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.event.integration.PreAnimeIntegrationLinkCreateEvent;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -21,7 +21,7 @@ public class AnimePresentListener {
     }
 
     public void onPreAnimeIntegrationLinkCreate(@Observes PreAnimeIntegrationLinkCreateEvent event) {
-        ensurePresent(event.animeId(), event.context());
+        ensurePresent(event.animeIntegrationLink().animeId(), event.context());
     }
 
     private void ensurePresent(AnimeId id, RequestContext context) {

@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.mongodb.data.name;
 
+import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.mongodb.data.ModificationInfoDO;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import java.util.List;
 import org.bson.codecs.pojo.annotations.BsonId;

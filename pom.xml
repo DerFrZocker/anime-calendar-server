@@ -123,10 +123,13 @@
 
     <modules>
         <module>anime-calendar-server</module>
+        <module>core</module>
         <module>core-api</module>
         <module>core-impl</module>
         <module>dao-mongodb</module>
+        <module>dao-mongodb-base</module>
         <module>ical-builder-ical4j</module>
+        <module>integration</module>
         <module>integration-anidb</module>
         <module>integration-myanimelist</module>
         <module>integration-name-link</module>
@@ -134,6 +137,7 @@
         <module>layer</module>
         <module>model-core</module>
         <module>model-domain</module>
+        <module>notify</module>
         <module>notify-discord</module>
         <module>rest</module>
         <module>user-permission</module>

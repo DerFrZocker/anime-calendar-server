@@ -10,18 +10,23 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * Indicates that the requested value could not be found
+ * Indicates that the requested value could not be found.
  */
 public class ResourceNotFoundException extends RuntimeException {
 
-    private static final String NOT_FOUND = " with id '%s' not found.";
-    private static final String ANIME_ID = "Anime" + NOT_FOUND;
-    private static final String USER_ID = "User" + NOT_FOUND;
-    private static final String CALENDAR_ID = "Calendar" + NOT_FOUND;
-    private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND;
+    private static final String NOT_FOUND = "%s with id '%s' not found.";
+    private static final String NOT_FOUND_OLD = " with id '%s' not found.";
+    private static final String ANIME_ID = "Anime" + NOT_FOUND_OLD;
+    private static final String USER_ID = "User" + NOT_FOUND_OLD;
+    private static final String CALENDAR_ID = "Calendar" + NOT_FOUND_OLD;
+    private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND_OLD;
     private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id '%s' not found.";
     private static final String ANIME_NAME = "Anime name for integration '%s' and integration anime id '%s' not found.";
     private static final String SEASON_INFO = "Anime season info for integration '%s', integration anime id '%s', year '%d' and season '%s' not found.";
+
+    public static Supplier<ResourceNotFoundException> from(String message) {
+        return () -> new ResourceNotFoundException(message);
+    }
 
     public static Supplier<ResourceNotFoundException> with(AnimeId id) {
         return with(unwrapSafe(id, AnimeId::raw), ANIME_ID);
@@ -33,6 +38,10 @@ public class ResourceNotFoundException extends RuntimeException {
 
     public static Supplier<ResourceNotFoundException> with(CalendarId id) {
         return with(unwrapSafe(id, CalendarId::raw), CALENDAR_ID);
+    }
+
+    public static <T> Supplier<ResourceNotFoundException> with(T id, String resourceName) {
+        return () -> new ResourceNotFoundException(NOT_FOUND.formatted(resourceName, toString(id)));
     }
 
     public static Supplier<ResourceNotFoundException> with(CalendarId calendarId, AnimeId animeId) {
@@ -72,6 +81,14 @@ public class ResourceNotFoundException extends RuntimeException {
         }
 
         return String.valueOf(function.apply(value));
+    }
+
+    private static <T> String toString(T id) {
+        if (id == null) {
+            return "<null>";
+        }
+
+        return String.valueOf(id);
     }
 
     private ResourceNotFoundException(String message) {
