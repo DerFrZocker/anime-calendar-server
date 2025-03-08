@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.listener;
 
+import de.derfrzocker.anime.calendar.server.impl.notify.discord.config.DiscordConfig;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
@@ -13,7 +14,6 @@ import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.message.MessageBuilder;
@@ -38,8 +38,8 @@ public class NewAnimeFoundListener {
 
     @Inject
     DiscordApi api;
-    @ConfigProperty(name = "discord.bot.name-link.channel-id")
-    String channelId;
+    @Inject
+    DiscordConfig config;
 
     public void onNewAnimeFound(@Observes PostNewAnimeFoundEvent event) {
         EmbedBuilder embed = new EmbedBuilder();
@@ -97,7 +97,7 @@ public class NewAnimeFoundListener {
         // TODO 2024-12-23: Better error handling
         new MessageBuilder().addEmbed(embed)
                             .addComponents(ActionRow.of(buttons))
-                            .send(this.api.getChannelById(this.channelId)
+                            .send(this.api.getChannelById(this.config.getChannelId())
                                           .flatMap(Channel::asTextChannel)
                                           .orElseThrow());
     }

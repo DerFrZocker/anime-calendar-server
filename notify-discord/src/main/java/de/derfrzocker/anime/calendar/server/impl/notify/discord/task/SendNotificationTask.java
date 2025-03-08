@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.task;
 
 import de.derfrzocker.anime.calendar.server.impl.notify.discord.api.DiscordMessageRenderer;
+import de.derfrzocker.anime.calendar.server.impl.notify.discord.config.DiscordConfig;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationType;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationSendEvent;
@@ -9,7 +10,6 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.message.MessageBuilder;
@@ -21,8 +21,8 @@ public class SendNotificationTask {
     Instance<DiscordMessageRenderer> rendererInstance;
     @Inject
     DiscordApi api;
-    @ConfigProperty(name = "discord.bot.name-link.channel-id")
-    String channelId;
+    @Inject
+    DiscordConfig config;
 
     public void onNotificationSend(@Observes NotificationSendEvent event) {
         DiscordMessageRenderer renderer = selectRenderer(event.notification().type());
@@ -30,7 +30,7 @@ public class SendNotificationTask {
         MessageBuilder builder = renderer.render(new NotificationHolder(event.notification(), event.actions()),
                                                  event.context());
 
-        builder.send(this.api.getChannelById(this.channelId).flatMap(Channel::asTextChannel).orElseThrow());
+        builder.send(this.api.getChannelById(this.config.getChannelId()).flatMap(Channel::asTextChannel).orElseThrow());
     }
 
     private DiscordMessageRenderer selectRenderer(NotificationType type) {
