@@ -12,51 +12,13 @@
 
     <artifactId>anime-calendar-server-integration-syoboi</artifactId>
     <version>0.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-core-api</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-layer</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-integration-api</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>integration-syoboi-api</module>
+        <module>integration-syoboi-dao-mongodb</module>
+        <module>integration-syoboi-dao-rest-client</module>
+        <module>integration-syoboi-impl</module>
+    </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-                <version>${quarkus.platform.version}</version>
-                <extensions>true</extensions>
-            </plugin>
-            <plugin>
-                <groupId>io.smallrye</groupId>
-                <artifactId>jandex-maven-plugin</artifactId>
-                <version>${jandex-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>make-index</id>
-                        <goals>
-                            <goal>jandex</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

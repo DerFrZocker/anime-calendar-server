@@ -1,0 +1,20 @@
+package de.derfrzocker.anime.calendar.server.integration.syoboi.exception;
+
+import static de.derfrzocker.anime.calendar.server.model.domain.util.WrapperUtil.unwrapSafe;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.InconsistentDataException;
+import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
+import java.util.function.Supplier;
+
+public final class TIDDataExceptions {
+
+    private static final String RESOURCE_NAME = "TIDData";
+
+    public static Supplier<ResourceNotFoundException> notFound(TID id) {
+        return ResourceNotFoundException.with(unwrapSafe(id, TID::raw), RESOURCE_NAME);
+    }
+
+    public static Supplier<InconsistentDataException> inconsistentNotFound(TID id) {
+        return InconsistentDataException.with(unwrapSafe(id, TID::raw), RESOURCE_NAME);
+    }
+}

@@ -34,6 +34,6 @@ public class SendNotificationTask {
     }
 
     private DiscordMessageRenderer selectRenderer(NotificationType type) {
-        return this.rendererInstance.select(NamedLiteral.of(type.raw())).get();
+        return this.rendererInstance.select(NamedLiteral.of(type.raw() + DiscordMessageRenderer.NAME_SUFFIX)).get();
     }
 }

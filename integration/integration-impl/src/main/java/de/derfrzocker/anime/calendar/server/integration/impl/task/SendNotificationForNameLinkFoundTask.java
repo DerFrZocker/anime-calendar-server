@@ -51,7 +51,6 @@ public class SendNotificationForNameLinkFoundTask {
             for (NameSearchResult result : entries.getValue()) {
                 NotificationAction notificationAction = createNewNotificationAction(notification.id(), event.context());
                 createNewNotificationAction(notificationAction.id(), event.anime().id(), result, event.context());
-
             }
         }
 

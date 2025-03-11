@@ -8,7 +8,7 @@ import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationAction
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import org.bson.codecs.pojo.annotations.BsonId;
 
-@MongoEntity(collection = "Notification")
+@MongoEntity(collection = "IntegrationLinkNotificationAction")
 public class IntegrationLinkNotificationActionDO extends ModificationInfoDO {
 
     @BsonId

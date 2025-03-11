@@ -1,0 +1,8 @@
+package de.derfrzocker.anime.calendar.server.integration.syoboi.event;
+
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
+import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+
+public record PreTIDDataDeleteEvent(TIDData tidData, RequestContext context) {
+
+}
