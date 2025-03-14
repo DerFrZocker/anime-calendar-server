@@ -45,14 +45,14 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
         // TODO 2024-12-23: Account for message limits
         List<LowLevelComponent> buttons = new ArrayList<>();
         for (TrackingChannelNotificationAction action : trackingChannels) {
-            embed.addField("Channel name:", action.channel().raw());
+            embed.addField("Channel name:", action.channelName());
             if (buttons.size() >= 5) {
                 continue;
             }
 
             buttons.add(Button.create(action.id().raw(),
                                       ButtonStyle.PRIMARY,
-                                      "Link %s".formatted(action.channel().raw())));
+                                      "Link %s".formatted(action.channelName())));
         }
 
         return new MessageBuilder().addEmbed(embed).addComponents(ActionRow.of(buttons));

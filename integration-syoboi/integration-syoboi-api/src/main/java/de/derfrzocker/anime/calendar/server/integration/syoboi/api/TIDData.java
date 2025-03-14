@@ -9,8 +9,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 public record TIDData(TID tid, Instant createdAt, UserId createdBy, Instant updatedAt, UserId updatedBy, String title,
-                      @Nullable Channel trackingChannel, YearMonth firstStart, @Nullable YearMonth firstEnd,
-                      List<Channel> firstChannels, boolean include,
+                      @Nullable ChannelId trackingChannelId, YearMonth firstStart, @Nullable YearMonth firstEnd,
+                      List<ChannelId> firstChannelIds, boolean include,
                       @Nullable Instant validUntil) implements ModificationInfo {
 
     public static TIDData from(TID tid, TIDDataCreateData createData, RequestContext context) {
@@ -20,10 +20,10 @@ public record TIDData(TID tid, Instant createdAt, UserId createdBy, Instant upda
                            context.requestTime(),
                            context.requestUser(),
                            createData.title(),
-                           createData.trackingChannel(),
+                           createData.trackingChannelId(),
                            createData.firstStart(),
                            createData.firstEnd(),
-                           createData.firstChannels(),
+                           createData.firstChannelIds(),
                            createData.include(),
                            createData.validUntil());
     }
@@ -35,10 +35,10 @@ public record TIDData(TID tid, Instant createdAt, UserId createdBy, Instant upda
                            context.requestTime(),
                            context.requestUser(),
                            updateData.title().apply(title()),
-                           updateData.trackingChannel().apply(trackingChannel()),
+                           updateData.trackingChannelId().apply(trackingChannelId()),
                            updateData.firstStart().apply(firstStart()),
                            updateData.firstEnd().apply(firstEnd()),
-                           updateData.firstChannels().apply(firstChannels()),
+                           updateData.firstChannelIds().apply(firstChannelIds()),
                            updateData.include().apply(include()),
                            updateData.validUntil().apply(validUntil()));
     }

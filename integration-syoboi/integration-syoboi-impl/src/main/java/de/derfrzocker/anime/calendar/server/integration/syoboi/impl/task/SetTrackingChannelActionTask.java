@@ -33,7 +33,7 @@ public class SetTrackingChannelActionTask {
 
         this.tidDataService.updateWithData(action.tid(),
                                            new TIDDataUpdateData(Change.nothing(),
-                                                                 Change.to(action.channel()),
+                                                                 Change.to(action.channelId()),
                                                                  Change.nothing(),
                                                                  Change.nothing(),
                                                                  Change.nothing(),

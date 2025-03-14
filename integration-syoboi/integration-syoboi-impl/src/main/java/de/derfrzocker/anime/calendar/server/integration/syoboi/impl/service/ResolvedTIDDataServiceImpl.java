@@ -63,7 +63,7 @@ public class ResolvedTIDDataServiceImpl implements ResolvedTIDDataService {
                                      Change.nothing(),
                                      Change.to(providedTIDData.firstStart()),
                                      Change.to(providedTIDData.firstEnd()),
-                                     Change.to(providedTIDData.firstChannels()),
+                                     Change.to(providedTIDData.firstChannelIds()),
                                      Change.nothing(),
                                      Change.to(createValidUntil(providedTIDData)));
     }
@@ -73,7 +73,7 @@ public class ResolvedTIDDataServiceImpl implements ResolvedTIDDataService {
                                      null,
                                      providedTIDData.firstStart(),
                                      providedTIDData.firstEnd(),
-                                     providedTIDData.firstChannels(),
+                                     providedTIDData.firstChannelIds(),
                                      true,
                                      createValidUntil(providedTIDData));
     }

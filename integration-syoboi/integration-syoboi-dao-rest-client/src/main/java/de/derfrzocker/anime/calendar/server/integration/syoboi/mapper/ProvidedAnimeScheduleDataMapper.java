@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.mapper;
 
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.Channel;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import java.time.Instant;
@@ -11,10 +11,10 @@ public final class ProvidedAnimeScheduleDataMapper {
     }
 
     public static ProvidedAnimeSchedule toDomain(TID tid,
-                                                 Channel channel,
+                                                 ChannelId channelId,
                                                  int episode,
                                                  Instant startTime,
                                                  Instant endTime) {
-        return new ProvidedAnimeSchedule(tid, channel, episode, startTime, endTime);
+        return new ProvidedAnimeSchedule(tid, channelId, episode, startTime, endTime);
     }
 }

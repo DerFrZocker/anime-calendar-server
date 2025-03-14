@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.mapper;
 
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.Channel;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedTIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import java.time.YearMonth;
@@ -15,7 +15,7 @@ public final class ProvidedTIDDataDataMapper {
                                            String title,
                                            YearMonth firstStart,
                                            YearMonth firstEnd,
-                                           List<Channel> firstChannels) {
-        return new ProvidedTIDData(tid, title, firstStart, firstEnd, firstChannels);
+                                           List<ChannelId> firstChannelIds) {
+        return new ProvidedTIDData(tid, title, firstStart, firstEnd, firstChannelIds);
     }
 }

@@ -102,7 +102,7 @@ public class SyoboiAnimeCreateAndUpdateRequestHandler {
             return false;
         }
 
-        if (!Objects.equals(data.tidData().trackingChannel(), data.schedule().channel())) {
+        if (!Objects.equals(data.tidData().trackingChannelId(), data.schedule().channelId())) {
             return false;
         }
 

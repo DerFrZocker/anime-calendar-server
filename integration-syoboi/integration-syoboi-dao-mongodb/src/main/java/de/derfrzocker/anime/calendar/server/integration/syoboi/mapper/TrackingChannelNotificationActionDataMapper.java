@@ -14,7 +14,8 @@ public final class TrackingChannelNotificationActionDataMapper {
         data.id = domain.id();
         data.tid = domain.tid();
         data.title = domain.title();
-        data.channel = domain.channel();
+        data.channelId = domain.channelId();
+        data.channelName = domain.channelName();
         data.apply(domain);
 
         return data;
@@ -28,6 +29,7 @@ public final class TrackingChannelNotificationActionDataMapper {
                                                      data.updatedBy,
                                                      data.tid,
                                                      data.title,
-                                                     data.channel);
+                                                     data.channelId,
+                                                     data.channelName);
     }
 }

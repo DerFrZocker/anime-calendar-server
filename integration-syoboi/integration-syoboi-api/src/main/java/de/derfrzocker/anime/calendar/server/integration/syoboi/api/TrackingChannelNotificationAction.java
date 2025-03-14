@@ -8,7 +8,7 @@ import java.time.Instant;
 
 public record TrackingChannelNotificationAction(NotificationActionId id, Instant createdAt, UserId createdBy,
                                                 Instant updatedAt, UserId updatedBy, TID tid, String title,
-                                                Channel channel) implements ModificationInfo {
+                                                ChannelId channelId, String channelName) implements ModificationInfo {
 
     public static TrackingChannelNotificationAction from(NotificationActionId id,
                                                          TrackingChannelNotificationActionCreateData createData,
@@ -20,7 +20,8 @@ public record TrackingChannelNotificationAction(NotificationActionId id, Instant
                                                      context.requestUser(),
                                                      createData.tid(),
                                                      createData.title(),
-                                                     createData.channel());
+                                                     createData.channelId(),
+                                                     createData.channelName());
     }
 
     public TrackingChannelNotificationAction updateWithData(TrackingChannelNotificationActionUpdateData updateData,
@@ -32,6 +33,7 @@ public record TrackingChannelNotificationAction(NotificationActionId id, Instant
                                                      context.requestUser(),
                                                      tid(),
                                                      title(),
-                                                     channel());
+                                                     channelId(),
+                                                     channelName());
     }
 }

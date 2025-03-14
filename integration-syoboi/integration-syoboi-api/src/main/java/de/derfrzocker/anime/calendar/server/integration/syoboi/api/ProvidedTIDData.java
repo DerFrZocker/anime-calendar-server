@@ -5,6 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 public record ProvidedTIDData(TID tid, String title, YearMonth firstStart, @Nullable YearMonth firstEnd,
-                              List<Channel> firstChannels) {
+                              List<ChannelId> firstChannelIds) {
 
 }

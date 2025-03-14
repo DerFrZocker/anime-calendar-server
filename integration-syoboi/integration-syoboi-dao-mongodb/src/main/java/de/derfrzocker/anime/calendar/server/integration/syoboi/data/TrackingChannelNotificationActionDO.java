@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.data;
 
 import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.Channel;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
 import io.quarkus.mongodb.panache.common.MongoEntity;
@@ -14,5 +14,6 @@ public class TrackingChannelNotificationActionDO extends ModificationInfoDO {
     public NotificationActionId id;
     public TID tid;
     public String title;
-    public Channel channel;
+    public ChannelId channelId;
+    public String channelName;
 }

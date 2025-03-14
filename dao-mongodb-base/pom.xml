@@ -20,6 +20,12 @@
             <artifactId>anime-calendar-server-model-domain</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- Mongodb -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-mongodb-panache</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

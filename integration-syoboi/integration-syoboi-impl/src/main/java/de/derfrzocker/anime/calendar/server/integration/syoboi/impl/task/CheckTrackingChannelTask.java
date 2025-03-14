@@ -1,12 +1,15 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.Channel;
+import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.ChannelExceptions.inconsistentNotFound;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ResolvedChannel;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataCreateEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataUpdateEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedChannelService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
 import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
@@ -45,10 +48,12 @@ public class CheckTrackingChannelTask {
     @Inject
     NotificationHelperService helperService;
     @Inject
+    ResolvedChannelService channelService;
+    @Inject
     SyoboiConfig config;
 
     public void onTIDDataCreate(@Observes PostTIDDataCreateEvent createEvent) {
-        if (createEvent.tidData().trackingChannel() != null) {
+        if (createEvent.tidData().trackingChannelId() != null) {
             return;
         }
 
@@ -56,7 +61,7 @@ public class CheckTrackingChannelTask {
     }
 
     public void onTIDDataUpdate(@Observes PostTIDDataUpdateEvent updateEvent) {
-        if (updateEvent.current().firstChannels().equals(updateEvent.updated().firstChannels())) {
+        if (updateEvent.current().firstChannelIds().equals(updateEvent.updated().firstChannelIds())) {
             return;
         }
 
@@ -64,14 +69,14 @@ public class CheckTrackingChannelTask {
     }
 
     private void checkTracking(TIDData tidData, RequestContext context) {
-        if (tidData.firstChannels().isEmpty()) {
+        if (tidData.firstChannelIds().isEmpty()) {
             return;
         }
 
-        if (tidData.firstChannels().size() == 1) {
+        if (tidData.firstChannelIds().size() == 1) {
             this.tidDataService.updateWithData(tidData.tid(),
                                                new TIDDataUpdateData(Change.nothing(),
-                                                                     Change.to(tidData.firstChannels().getFirst()),
+                                                                     Change.to(tidData.firstChannelIds().getFirst()),
                                                                      Change.nothing(),
                                                                      Change.nothing(),
                                                                      Change.nothing(),
@@ -93,8 +98,10 @@ public class CheckTrackingChannelTask {
     private void sendNotification(TIDData tidData, RequestContext context) {
         Notification notification = createNewNotification(context);
 
-        for (Channel channel : tidData.firstChannels()) {
+        for (ChannelId channelId : tidData.firstChannelIds()) {
             NotificationAction notificationAction = createNewNotificationAction(notification.id(), context);
+            ResolvedChannel channel = this.channelService.resolveById(channelId, context)
+                                                         .orElseThrow(inconsistentNotFound(channelId));
             createNewNotificationAction(notificationAction.id(), tidData, channel, context);
         }
 
@@ -115,13 +122,16 @@ public class CheckTrackingChannelTask {
 
     private void createNewNotificationAction(NotificationActionId actionId,
                                              TIDData tidData,
-                                             Channel channel,
+                                             ResolvedChannel channel,
                                              RequestContext context) {
         TrackingChannelNotificationActionCreateData createData = createData(tidData, channel);
         this.trackingActionService.createWithData(actionId, createData, context);
     }
 
-    private TrackingChannelNotificationActionCreateData createData(TIDData tidData, Channel channel) {
-        return new TrackingChannelNotificationActionCreateData(tidData.tid(), tidData.title(), channel);
+    private TrackingChannelNotificationActionCreateData createData(TIDData tidData, ResolvedChannel channel) {
+        return new TrackingChannelNotificationActionCreateData(tidData.tid(),
+                                                               tidData.title(),
+                                                               channel.id(),
+                                                               channel.name());
     }
 }

@@ -13,10 +13,10 @@ public final class TIDDataDataMapper {
 
         data.tid = domain.tid();
         data.title = domain.title();
-        data.trackingChannel = domain.trackingChannel();
+        data.trackingChannelId = domain.trackingChannelId();
         data.firstStart = domain.firstStart();
         data.firstEnd = domain.firstEnd();
-        data.firstChannels = domain.firstChannels();
+        data.firstChannelIds = domain.firstChannelIds();
         data.include = domain.include();
         data.validUntil = domain.validUntil();
         data.apply(domain);
@@ -31,10 +31,10 @@ public final class TIDDataDataMapper {
                            data.updatedAt,
                            data.updatedBy,
                            data.title,
-                           data.trackingChannel,
+                           data.trackingChannelId,
                            data.firstStart,
                            data.firstEnd,
-                           data.firstChannels,
+                           data.firstChannelIds,
                            data.include,
                            data.validUntil);
     }

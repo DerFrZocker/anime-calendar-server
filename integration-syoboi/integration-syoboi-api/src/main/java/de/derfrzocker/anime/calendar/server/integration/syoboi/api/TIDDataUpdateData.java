@@ -6,9 +6,9 @@ import java.time.YearMonth;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-public record TIDDataUpdateData(Change<String> title, Change<@Nullable Channel> trackingChannel,
+public record TIDDataUpdateData(Change<String> title, Change<@Nullable ChannelId> trackingChannelId,
                                 Change<YearMonth> firstStart, Change<@Nullable YearMonth> firstEnd,
-                                Change<@Nullable List<Channel>> firstChannels, Change<Boolean> include,
+                                Change<@Nullable List<ChannelId>> firstChannelIds, Change<Boolean> include,
                                 Change<@Nullable Instant> validUntil) {
 
 }
