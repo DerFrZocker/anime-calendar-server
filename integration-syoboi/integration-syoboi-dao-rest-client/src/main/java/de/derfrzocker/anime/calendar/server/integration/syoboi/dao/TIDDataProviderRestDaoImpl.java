@@ -67,6 +67,7 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
                        .stream()
                        .filter(Objects::nonNull)
                        .map(ProgramByCountTDO::ChID)
+                       .distinct()
                        .map(ChannelId::new)
                        .toList();
     }
