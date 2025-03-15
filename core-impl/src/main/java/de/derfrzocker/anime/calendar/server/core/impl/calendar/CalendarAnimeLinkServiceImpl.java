@@ -11,7 +11,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeL
 import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -42,7 +41,7 @@ public class CalendarAnimeLinkServiceImpl implements CalendarAnimeLinkService {
         Optional<CalendarAnimeLink> optional = getById(calendarId, animeId, context);
         if (optional.isPresent()) {
             // TODO 2024-12-07: Better exception
-            throw new BadRequestException();
+            throw new RuntimeException();
         }
 
         CalendarAnimeLink link = CalendarAnimeLink.from(calendarId, animeId, createData, context);

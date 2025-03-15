@@ -11,7 +11,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCre
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderUpdateData;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -48,7 +47,7 @@ public class AnimeNameHolderServiceImpl implements AnimeNameHolderService {
         Optional<AnimeNameHolder> optional = getById(integrationId, integrationAnimeId, context);
         if (optional.isPresent()) {
             // TODO 2024-12-17: Better exception
-            throw new BadRequestException();
+            throw new RuntimeException();
         }
 
         AnimeNameHolder animeNameHolder = AnimeNameHolder.from(integrationId, integrationAnimeId, createData, context);

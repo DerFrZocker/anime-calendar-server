@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.javacord</groupId>
             <artifactId>javacord</artifactId>
-            <version>3.8.0</version>
+            <version>${javacord.version}</version>
             <type>pom</type>
         </dependency>
     </dependencies>
