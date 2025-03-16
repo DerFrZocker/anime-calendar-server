@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.SyoboiRateLimitService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
@@ -7,16 +8,13 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProvidedAnim
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ScheduleResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.ProvidedAnimeScheduleDataMapper;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
-import io.smallrye.faulttolerance.api.RateLimit;
-import io.smallrye.faulttolerance.api.RateLimitException;
 import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Dependent
@@ -24,18 +22,18 @@ public class AnimeScheduleProviderRestDaoImpl implements AnimeScheduleProviderDa
 
     @RestClient
     AnimeScheduleProviderRestClient restClient;
+    @Inject
+    SyoboiRateLimitService rateLimitService;
 
-    @RateLimit(minSpacing = 1, minSpacingUnit = ChronoUnit.SECONDS)
-    @Retry(maxRetries = 16, delay = 2, delayUnit = ChronoUnit.SECONDS, retryOn = RateLimitException.class)
     @Override
     public Stream<ProvidedAnimeSchedule> provideAllWithDate(LocalDate start, int days, RequestContext context) {
-        return this.restClient.getProgramByDate(start.toString(), days)
-                              .map(ScheduleResponseTDO::Programs)
-                              .map(Map::values)
-                              .stream()
-                              .flatMap(Collection::stream)
-                              .filter(data -> data.Count() != null)
-                              .map(this::toDomain);
+        return this.rateLimitService.rateLimit(() -> this.restClient.getProgramByDate(start.toString(), days))
+                                    .map(ScheduleResponseTDO::Programs)
+                                    .map(Map::values)
+                                    .stream()
+                                    .flatMap(Collection::stream)
+                                    .filter(data -> data.Count() != null)
+                                    .map(this::toDomain);
     }
 
     private ProvidedAnimeSchedule toDomain(ProvidedAnimeScheduleTDO data) {

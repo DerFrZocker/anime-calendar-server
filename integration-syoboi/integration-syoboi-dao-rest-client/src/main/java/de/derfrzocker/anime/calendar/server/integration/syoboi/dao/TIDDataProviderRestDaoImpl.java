@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.SyoboiRateLimitService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedTIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
@@ -8,16 +9,13 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProvidedTIDD
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.TitleMediumAndProgramByCountResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.ProvidedTIDDataDataMapper;
 import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
-import io.smallrye.faulttolerance.api.RateLimit;
-import io.smallrye.faulttolerance.api.RateLimitException;
 import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import java.time.YearMonth;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Dependent
@@ -25,12 +23,13 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
 
     @RestClient
     TIDDataProviderRestClient restClient;
+    @Inject
+    SyoboiRateLimitService rateLimitService;
 
-    @RateLimit(minSpacing = 1, minSpacingUnit = ChronoUnit.SECONDS)
-    @Retry(maxRetries = 16, delay = 2, delayUnit = ChronoUnit.SECONDS, retryOn = RateLimitException.class)
     @Override
     public Optional<ProvidedTIDData> provideById(TID id, RequestContext context) {
-        return this.restClient.getTitleMediumAndFirstProgram(id.raw()).map(response -> toDomain(id, response));
+        return this.rateLimitService.rateLimit(() -> this.restClient.getTitleMediumAndFirstProgram(id.raw()))
+                                    .map(response -> toDomain(id, response));
     }
 
     private ProvidedTIDData toDomain(TID id, TitleMediumAndProgramByCountResponseTDO response) {
