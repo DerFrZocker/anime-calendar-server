@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
-import de.derfrzocker.anime.calendar.server.integration.syoboi.data.TitleMediumAndProgramByCountResponseTDO;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProgramByCountResponseTDO;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.data.TitleMediumAndProgramResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.header.SyoboiHeaderFactory;
 import io.quarkus.rest.client.reactive.ClientQueryParam;
 import jakarta.ws.rs.GET;
@@ -16,7 +17,12 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface TIDDataProviderRestClient {
 
     @GET
-    @ClientQueryParam(name = "Req", value = "TitleMedium,ProgramByCount")
-    @ClientQueryParam(name = "Count", value = "1")
-    Optional<TitleMediumAndProgramByCountResponseTDO> getTitleMediumAndFirstProgram(@QueryParam("TID") String tid);
+    @ClientQueryParam(name = "Req", value = "TitleMedium,ProgramByDate")
+    Optional<TitleMediumAndProgramResponseTDO> getTitleMediumAndProgramms(@QueryParam("TID") String tid,
+                                                                          @QueryParam("days") int days);
+
+    @GET
+    @ClientQueryParam(name = "Req", value = "ProgramByCount")
+    Optional<ProgramByCountResponseTDO> getProgrammByCount(@QueryParam("TID") String tid,
+                                                           @QueryParam("Count") String count);
 }

@@ -87,7 +87,7 @@ public class CheckTrackingChannelTask {
         }
 
         if (tidData.firstEnd() != null) {
-            if (tidData.firstEnd().isBefore(YearMonth.now().plusMonths(3))) {
+            if (tidData.firstEnd().isBefore(YearMonth.now().minusMonths(3))) {
                 return;
             }
         }
