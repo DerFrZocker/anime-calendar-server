@@ -20,7 +20,7 @@
         <!-- Versions -->
         <quarkus.platform.version>3.17.4</quarkus.platform.version>
         <wiremock.version>3.12.1</wiremock.version>
-        <javacord.version>3.8.0</javacord.version>
+        <jda.version>5.3.1</jda.version>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
         <jacoco-plugin.version>0.8.12</jacoco-plugin.version>

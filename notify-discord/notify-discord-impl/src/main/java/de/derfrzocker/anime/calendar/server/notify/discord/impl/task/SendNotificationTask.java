@@ -10,9 +10,8 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
-import org.javacord.api.DiscordApi;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.message.MessageBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 @ApplicationScoped
 public class SendNotificationTask {
@@ -20,17 +19,17 @@ public class SendNotificationTask {
     @Inject
     Instance<DiscordMessageRenderer> rendererInstance;
     @Inject
-    DiscordApi api;
+    JDA jda;
     @Inject
     DiscordConfig config;
 
     public void onNotificationSend(@Observes NotificationSendEvent event) {
         DiscordMessageRenderer renderer = selectRenderer(event.notification().type());
 
-        MessageBuilder builder = renderer.render(new NotificationHolder(event.notification(), event.actions()),
-                                                 event.context());
+        MessageCreateBuilder builder = renderer.render(new NotificationHolder(event.notification(), event.actions()),
+                                                       event.context());
 
-        builder.send(this.api.getChannelById(this.config.getChannelId()).flatMap(Channel::asTextChannel).orElseThrow());
+        this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
     }
 
     private DiscordMessageRenderer selectRenderer(NotificationType type) {

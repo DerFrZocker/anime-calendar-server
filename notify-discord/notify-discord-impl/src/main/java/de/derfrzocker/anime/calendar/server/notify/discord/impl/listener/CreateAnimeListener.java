@@ -14,8 +14,8 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.List;
-import org.javacord.api.event.interaction.ButtonClickEvent;
-import org.javacord.api.interaction.ButtonInteraction;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
 
 // TODO 2024-12-27: For better security in the future, we should link the discord account to a userid and check for
 //  the users permission, this way we can also drag which user exactly made the change.
@@ -32,15 +32,15 @@ public class CreateAnimeListener {
     @Inject
     AnimeIntegrationLinkService linkService;
 
-    public void onButtonClicked(@Observes ButtonClickEvent event) {
-        ButtonInteraction interaction = event.getButtonInteraction();
-        String customId = interaction.getCustomId();
+    public void onButtonClicked(@Observes ButtonInteractionEvent event) {
+        ButtonInteraction interaction = event.getInteraction();
+        String customId = interaction.getButton().getId();
 
-        if (!customId.startsWith("create$")) {
+        if (customId == null || !customId.startsWith("create$")) {
             return;
         }
 
-        interaction.acknowledge();
+        interaction.deferEdit().queue();
 
         String[] parts = customId.split("\\$");
         IntegrationId integrationId = new IntegrationId(parts[1]);

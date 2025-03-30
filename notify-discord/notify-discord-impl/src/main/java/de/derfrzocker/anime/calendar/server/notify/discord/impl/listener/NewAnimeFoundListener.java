@@ -14,14 +14,13 @@ import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import org.javacord.api.DiscordApi;
-import org.javacord.api.entity.channel.Channel;
-import org.javacord.api.entity.message.MessageBuilder;
-import org.javacord.api.entity.message.component.ActionRow;
-import org.javacord.api.entity.message.component.Button;
-import org.javacord.api.entity.message.component.ButtonStyle;
-import org.javacord.api.entity.message.component.LowLevelComponent;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
@@ -37,7 +36,7 @@ public class NewAnimeFoundListener {
     private static final NameLanguage NAME_LANGUAGE = new NameLanguage("x-jat");
 
     @Inject
-    DiscordApi api;
+    JDA jda;
     @Inject
     DiscordConfig config;
 
@@ -48,11 +47,12 @@ public class NewAnimeFoundListener {
         embed.addField("[%s] [%s] %s".formatted(event.fromIntegration().raw(),
                                                 event.fromAnimeId().raw(),
                                                 event.fromAnimeTitle()),
-                       getUrl(event.fromIntegration(), event.fromAnimeId()));
+                       getUrl(event.fromIntegration(), event.fromAnimeId()),
+                       false);
 
 
         // TODO 2024-12-23: Account for message limits
-        List<LowLevelComponent> buttons = new ArrayList<>();
+        List<ItemComponent> buttons = new ArrayList<>();
         List<NameSearchResult> results = new ArrayList<>(event.potentialNames());
         results.sort(Comparator.comparingInt(NameSearchResult::score));
         for (NameSearchResult name : results) {
@@ -62,9 +62,9 @@ public class NewAnimeFoundListener {
             embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
                                                          integrationAnimeId.raw(),
                                                          name.score(),
-                                                         title), getUrl(integrationId, integrationAnimeId));
+                                                         title), getUrl(integrationId, integrationAnimeId), false);
 
-            if (buttons.size() > 5) {
+            if (buttons.size() >= 5) {
                 continue;
             }
 
@@ -87,19 +87,21 @@ public class NewAnimeFoundListener {
                 return;
             }
 
-            buttons.add(Button.create("create$%s$%s$%s".formatted(event.fromIntegration().raw(),
-                                                                  event.fromAnimeId().raw(),
-                                                                  mainName.name()),
-                                      ButtonStyle.PRIMARY,
-                                      "Create %s".formatted(title)));
+            buttons.add(Button.of(ButtonStyle.PRIMARY,
+                                  "create$%s$%s$%s".formatted(event.fromIntegration().raw(),
+                                                              event.fromAnimeId().raw(),
+                                                              mainName.name()),
+                                  "Create %s".formatted(title)));
+        }
+
+        MessageCreateBuilder builder = new MessageCreateBuilder().addEmbeds(embed.build());
+
+        if (!buttons.isEmpty()) {
+            builder.addComponents(ActionRow.of(buttons));
         }
 
         // TODO 2024-12-23: Better error handling
-        new MessageBuilder().addEmbed(embed)
-                            .addComponents(ActionRow.of(buttons))
-                            .send(this.api.getChannelById(this.config.getChannelId())
-                                          .flatMap(Channel::asTextChannel)
-                                          .orElseThrow());
+        this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {

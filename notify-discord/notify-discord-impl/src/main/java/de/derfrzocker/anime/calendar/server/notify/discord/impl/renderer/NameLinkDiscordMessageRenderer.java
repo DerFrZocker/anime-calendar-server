@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import org.javacord.api.entity.message.MessageBuilder;
-import org.javacord.api.entity.message.component.ActionRow;
-import org.javacord.api.entity.message.component.Button;
-import org.javacord.api.entity.message.component.ButtonStyle;
-import org.javacord.api.entity.message.component.LowLevelComponent;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.ItemComponent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 @ApplicationScoped
 @Named("NameLink" + DiscordMessageRenderer.NAME_SUFFIX)
@@ -37,13 +37,13 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
     IntegrationLinkNotificationActionService integrationActionService;
 
     @Override
-    public MessageBuilder render(NotificationHolder holder, RequestContext context) {
+    public MessageCreateBuilder render(NotificationHolder holder, RequestContext context) {
         List<IntegrationLinkNotificationAction> integrationLinks = toSpecificAction(holder.actions(), context);
         EmbedBuilder embed = new EmbedBuilder();
 
         if (integrationLinks.isEmpty()) {
             // TODO 2025-02-23: Log better error here
-            return new MessageBuilder().addEmbed(new EmbedBuilder().setTitle("ERROR: Nothing found"));
+            return new MessageCreateBuilder().addEmbeds(new EmbedBuilder().setTitle("ERROR: Nothing found").build());
         }
 
         // TODO 2025-02-23: Better error handling
@@ -51,25 +51,25 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
         embed.setTitle("[%s] %s".formatted(anime.id().raw(), anime.title())).setDescription("Found following links:");
 
         // TODO 2024-12-23: Account for message limits
-        List<LowLevelComponent> buttons = new ArrayList<>();
+        List<ItemComponent> buttons = new ArrayList<>();
         for (IntegrationLinkNotificationAction action : integrationLinks) {
             IntegrationId integrationId = action.integrationId();
             embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
                                                          action.integrationAnimeId().raw(),
                                                          action.score(),
                                                          action.bestName()),
-                           getUrl(integrationId, action.integrationAnimeId()));
+                           getUrl(integrationId, action.integrationAnimeId()),
+                           false);
             if (buttons.size() >= 5) {
                 continue;
             }
 
-            buttons.add(Button.create(action.id().raw(),
-                                      ButtonStyle.PRIMARY,
-                                      "Link [%s] %s".formatted(integrationId.raw(),
-                                                               action.integrationAnimeId().raw())));
+            buttons.add(Button.of(ButtonStyle.PRIMARY,
+                                  action.id().raw(),
+                                  "Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw())));
         }
 
-        return new MessageBuilder().addEmbed(embed).addComponents(ActionRow.of(buttons));
+        return new MessageCreateBuilder().addEmbeds(embed.build()).addComponents(ActionRow.of(buttons));
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {

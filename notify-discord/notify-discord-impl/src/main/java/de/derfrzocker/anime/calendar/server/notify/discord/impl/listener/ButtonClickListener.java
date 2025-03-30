@@ -17,8 +17,8 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
-import org.javacord.api.event.interaction.ButtonClickEvent;
-import org.javacord.api.interaction.ButtonInteraction;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
 
 // TODO 2024-12-22: For better security in the future, we should link the discord account to a userid and check for
 //  the users permission, this way we can also drag which user exactly made the change.
@@ -37,9 +37,9 @@ public class ButtonClickListener {
     @Inject
     Event<NotificationActionTriggerEvent> notificationActionTriggerEvent;
 
-    public void onButtonClicked(@Observes ButtonClickEvent event) {
-        ButtonInteraction interaction = event.getButtonInteraction();
-        NotificationActionId customId = new NotificationActionId(interaction.getCustomId());
+    public void onButtonClicked(@Observes ButtonInteractionEvent event) {
+        ButtonInteraction interaction = event.getInteraction();
+        NotificationActionId customId = new NotificationActionId(interaction.getButton().getId());
         RequestContext context = new RequestContext(LINKING_USER, Instant.now());
 
         Optional<NotificationAction> oAction = this.actionService.getById(customId, context);
@@ -48,7 +48,7 @@ public class ButtonClickListener {
             return;
         }
 
-        interaction.acknowledge();
+        interaction.deferEdit().queue();
 
         NotificationAction action = oAction.get();
         if (action.executedAt() != null) {
