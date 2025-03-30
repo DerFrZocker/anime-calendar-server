@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.notify.mongodb.data;
 
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import java.time.Instant;

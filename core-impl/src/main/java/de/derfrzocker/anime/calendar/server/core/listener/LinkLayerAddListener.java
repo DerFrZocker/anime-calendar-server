@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.core.listener;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.event.PostAnimeIntegrationLinkCreateEvent;
 import de.derfrzocker.anime.calendar.server.layer.config.IntegrationUrlLayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.transformer.IntegrationUrlLayer;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformerDataHolder;

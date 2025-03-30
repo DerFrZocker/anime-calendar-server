@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.integration.service;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionUpdateData;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import java.util.Optional;
 import java.util.stream.Stream;
 

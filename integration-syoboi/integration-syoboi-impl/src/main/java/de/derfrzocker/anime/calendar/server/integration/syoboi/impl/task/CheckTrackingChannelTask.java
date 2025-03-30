@@ -1,6 +1,9 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.ChannelExceptions.inconsistentNotFound;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ResolvedChannel;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
@@ -12,9 +15,6 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.Syobo
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedChannelService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;

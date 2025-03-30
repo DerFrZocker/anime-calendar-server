@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
 import de.derfrzocker.anime.calendar.server.rest.UserSecurityProvider;
 import de.derfrzocker.anime.calendar.server.rest.handler.user.UserRequestHandler;

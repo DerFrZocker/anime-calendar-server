@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
@@ -9,7 +10,6 @@ import de.derfrzocker.anime.calendar.server.layer.config.StreamingTimeLayerConfi
 import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeLengthLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;

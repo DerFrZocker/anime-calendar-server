@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.impl.permission.predicate;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PredicateParser;
 import java.util.HashMap;
 import java.util.Map;

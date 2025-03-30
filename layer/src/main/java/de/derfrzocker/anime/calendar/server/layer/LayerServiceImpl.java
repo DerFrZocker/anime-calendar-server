@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.layer;
 
+import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
 import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.filter.RegionLayerFilter;
@@ -9,7 +10,6 @@ import de.derfrzocker.anime.calendar.server.layer.transformer.IntegrationUrlLaye
 import de.derfrzocker.anime.calendar.server.layer.transformer.NameLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingUrlLayer;
-import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;

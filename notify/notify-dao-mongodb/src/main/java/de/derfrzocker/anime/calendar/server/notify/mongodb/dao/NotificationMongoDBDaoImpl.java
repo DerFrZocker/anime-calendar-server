@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.notify.mongodb.dao;
 
 import static de.derfrzocker.anime.calendar.server.notify.mongodb.mapper.NotificationDataMapper.toData;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.dao.NotificationDao;
 import de.derfrzocker.anime.calendar.server.notify.mongodb.mapper.NotificationDataMapper;

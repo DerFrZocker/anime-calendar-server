@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.impl.name.anidb.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
 import de.derfrzocker.anime.calendar.server.impl.name.anidb.client.AniDBRestClient;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCreateData;

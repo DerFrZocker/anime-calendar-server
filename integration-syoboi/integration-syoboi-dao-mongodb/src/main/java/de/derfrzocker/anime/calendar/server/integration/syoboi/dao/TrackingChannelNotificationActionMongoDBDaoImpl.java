@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.TrackingChannelNotificationActionDataMapper.toData;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.TrackingChannelNotificationActionDataMapper;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

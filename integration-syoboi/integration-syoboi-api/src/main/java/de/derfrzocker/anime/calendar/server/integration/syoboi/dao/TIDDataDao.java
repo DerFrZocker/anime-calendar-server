@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import java.util.Optional;
 import java.util.stream.Stream;
 

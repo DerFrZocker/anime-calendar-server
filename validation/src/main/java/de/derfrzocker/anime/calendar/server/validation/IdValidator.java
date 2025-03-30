@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.validation;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;
 
 public final class IdValidator {

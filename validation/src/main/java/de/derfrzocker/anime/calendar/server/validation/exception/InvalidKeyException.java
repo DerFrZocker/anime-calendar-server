@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.validation.exception;
 
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 
 public class InvalidKeyException extends RuntimeException {
 

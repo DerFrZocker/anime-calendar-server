@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.core.api.permission;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionCreateData;

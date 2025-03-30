@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.schedule;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.impl.season.anidb.handler.AniDBSeasonUpdateRequestHandler;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

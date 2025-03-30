@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.model.domain.anime;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
 import java.time.Instant;
 import java.util.List;

@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.api;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 
 public record Channel(ChannelId id, Instant createdAt, UserId createdBy, Instant updatedAt, UserId updatedBy,

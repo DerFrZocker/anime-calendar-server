@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.client;
 
-import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
+import de.derfrzocker.anime.calendar.core.season.Season;
 
 public enum MyAnimeListSeason {
 

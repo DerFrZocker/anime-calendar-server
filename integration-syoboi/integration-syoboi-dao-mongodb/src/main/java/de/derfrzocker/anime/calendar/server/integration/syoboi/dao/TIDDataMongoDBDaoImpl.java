@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.TIDDataDataMapper.toData;
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.TIDDataDataMapper;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.notify.impl.generator;
 
-import de.derfrzocker.anime.calendar.generator.AbstractIdGenerator;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.generator.AbstractIdGenerator;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped

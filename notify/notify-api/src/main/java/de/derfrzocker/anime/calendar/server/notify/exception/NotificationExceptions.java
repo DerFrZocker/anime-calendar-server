@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.notify.exception;
 
 import static de.derfrzocker.anime.calendar.server.model.domain.util.WrapperUtil.unwrapSafe;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.InconsistentDataException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.core.exception.InconsistentDataException;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import java.util.function.Supplier;
 
 public final class NotificationExceptions {

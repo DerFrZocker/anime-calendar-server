@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.mongodb.dao.permission;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.core.api.permission.PredicateParserService;
 import de.derfrzocker.anime.calendar.server.core.api.permission.UserPermissionDao;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.UserPermissionData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.UserPermissionDomain;

@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.core.impl.util;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.animeaccountlink.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.animeaccountlink.AnimeAccountLinkId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import java.security.SecureRandom;
 import java.util.Random;

@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.model.domain.user;
 
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import java.util.Set;
 

@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.listener;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.impl.notify.discord.config.DiscordConfig;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;

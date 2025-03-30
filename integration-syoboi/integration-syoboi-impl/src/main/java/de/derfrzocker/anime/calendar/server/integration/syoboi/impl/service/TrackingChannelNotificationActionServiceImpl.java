@@ -2,13 +2,13 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.service;
 
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.TrackingChannelNotificationActionExceptions.inconsistentNotFound;
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.TrackingChannelNotificationActionExceptions.notFound;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.dao.TrackingChannelNotificationActionDao;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Optional;

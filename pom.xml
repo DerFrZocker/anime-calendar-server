@@ -105,7 +105,6 @@
         <module>integration-name-link</module>
         <module>integration-syoboi</module>
         <module>layer</module>
-        <module>model-core</module>
         <module>model-domain</module>
         <module>notify</module>
         <module>notify-discord</module>

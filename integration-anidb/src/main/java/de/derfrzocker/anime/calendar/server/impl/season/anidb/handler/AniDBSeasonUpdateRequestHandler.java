@@ -1,13 +1,13 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.core.api.season.AnimeSeasonInfoService;
 import de.derfrzocker.anime.calendar.server.impl.season.anidb.client.AniDBSeasonInfo;
 import de.derfrzocker.anime.calendar.server.impl.season.anidb.client.AniDBUDPClient;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
-import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
+import de.derfrzocker.anime.calendar.core.season.Season;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;

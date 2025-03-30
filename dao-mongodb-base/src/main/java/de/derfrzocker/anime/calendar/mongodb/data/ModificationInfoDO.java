@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.mongodb.data;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 
 public class ModificationInfoDO {

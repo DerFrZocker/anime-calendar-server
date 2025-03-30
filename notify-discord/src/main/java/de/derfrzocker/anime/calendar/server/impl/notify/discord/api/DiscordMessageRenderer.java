@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.api;
 
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import org.javacord.api.entity.message.MessageBuilder;
 

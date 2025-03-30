@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionAction;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;

@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.exception;
 
 import static de.derfrzocker.anime.calendar.server.model.domain.util.WrapperUtil.unwrapSafe;
+import de.derfrzocker.anime.calendar.core.exception.InconsistentDataException;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.InconsistentDataException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import java.util.function.Supplier;
 
 public final class TIDDataExceptions {

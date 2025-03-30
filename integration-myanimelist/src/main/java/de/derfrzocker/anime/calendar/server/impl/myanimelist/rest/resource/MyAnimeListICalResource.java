@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.rest.resource;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.rest.constrain.ValidateMyAnimeListUsername;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.rest.handler.MyAnimeListICalRequestHandler;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;

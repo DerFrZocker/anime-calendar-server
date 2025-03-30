@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.integration.mongodb.dao;
 
 import static de.derfrzocker.anime.calendar.server.integration.mongodb.mapper.IntegrationLinkNotificationActionDataMapper.toData;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.dao.IntegrationLinkNotificationActionDao;
 import de.derfrzocker.anime.calendar.server.integration.mongodb.mapper.IntegrationLinkNotificationActionDataMapper;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

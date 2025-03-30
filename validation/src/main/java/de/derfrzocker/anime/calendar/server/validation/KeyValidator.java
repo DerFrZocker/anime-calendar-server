@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.validation;
 
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidKeyException;
 
 public final class KeyValidator {

@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.api;
 
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 
 public record TrackingChannelNotificationAction(NotificationActionId id, Instant createdAt, UserId createdBy,

@@ -2,13 +2,13 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.service;
 
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.TIDDataExceptions.inconsistentNotFound;
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.TIDDataExceptions.notFound;
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.dao.TIDDataDao;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Optional;

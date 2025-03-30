@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.core.impl.season;
 
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.model.domain.event.season.PostAnimeSeasonInfoCreateEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.season.PostAnimeSeasonInfoDeleteEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.event.season.PostAnimeSeasonInfoUpdateEvent;
@@ -12,7 +12,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.event.season.PreAnimeSe
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoUpdateData;
-import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
+import de.derfrzocker.anime.calendar.core.season.Season;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;

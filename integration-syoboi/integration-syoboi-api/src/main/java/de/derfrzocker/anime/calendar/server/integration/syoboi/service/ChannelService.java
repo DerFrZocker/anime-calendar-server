@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.service;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.Channel;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelUpdateData;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import java.util.Optional;
 import java.util.stream.Stream;
 

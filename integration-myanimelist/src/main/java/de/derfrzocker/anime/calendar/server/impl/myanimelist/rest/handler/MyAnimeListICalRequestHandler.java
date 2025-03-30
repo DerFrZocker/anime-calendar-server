@@ -1,15 +1,15 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.rest.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.user.MyAnimeListIntegrationUserService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Region;
 import jakarta.enterprise.context.RequestScoped;

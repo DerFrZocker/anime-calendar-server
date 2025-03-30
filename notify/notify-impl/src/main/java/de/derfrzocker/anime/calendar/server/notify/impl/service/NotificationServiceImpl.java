@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.notify.impl.service;
 
 import static de.derfrzocker.anime.calendar.server.notify.exception.NotificationExceptions.notFound;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationCreateData;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationUpdateData;

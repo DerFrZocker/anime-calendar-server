@@ -1,14 +1,14 @@
 package de.derfrzocker.anime.calendar.server.integration.impl.service;
 
 import static de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions.notFound;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.integration.dao.IntegrationLinkNotificationActionDao;
 import de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

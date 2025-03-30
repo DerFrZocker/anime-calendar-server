@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.core.api.layer;
 
-import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
+import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;

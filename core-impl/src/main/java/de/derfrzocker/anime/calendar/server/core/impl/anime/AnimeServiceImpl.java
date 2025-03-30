@@ -1,14 +1,14 @@
 package de.derfrzocker.anime.calendar.server.core.impl.anime;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeDao;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.impl.util.StringGenerator;
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

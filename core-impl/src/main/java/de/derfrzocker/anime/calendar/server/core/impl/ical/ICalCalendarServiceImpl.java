@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.core.impl.ical;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;

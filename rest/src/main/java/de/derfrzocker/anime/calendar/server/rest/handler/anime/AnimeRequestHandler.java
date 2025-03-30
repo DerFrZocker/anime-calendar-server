@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.rest.handler.anime;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.rest.mapper.domain.AnimeDomain;
 import de.derfrzocker.anime.calendar.server.rest.mapper.transfer.AnimeTransfer;
 import de.derfrzocker.anime.calendar.server.rest.request.anime.AnimeCreateRequest;

@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.service;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.dao.AnimeScheduleProviderDao;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.AnimeScheduleProviderService;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.LocalDate;

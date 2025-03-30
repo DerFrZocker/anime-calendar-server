@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.SyoboiRateLimitService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
@@ -7,7 +8,6 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProvidedAnimeScheduleTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ScheduleResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.ProvidedAnimeScheduleDataMapper;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.time.Instant;

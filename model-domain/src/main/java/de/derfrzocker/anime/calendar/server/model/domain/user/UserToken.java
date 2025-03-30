@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.model.domain.user;
 
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 
 public record UserToken(String raw) {
 

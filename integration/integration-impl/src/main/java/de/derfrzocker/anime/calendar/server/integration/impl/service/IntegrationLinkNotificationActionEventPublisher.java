@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.impl.service;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionUpdateData;
@@ -9,7 +10,6 @@ import de.derfrzocker.anime.calendar.server.integration.event.PostIntegrationLin
 import de.derfrzocker.anime.calendar.server.integration.event.PreIntegrationLinkNotificationActionCreateEvent;
 import de.derfrzocker.anime.calendar.server.integration.event.PreIntegrationLinkNotificationActionDeleteEvent;
 import de.derfrzocker.anime.calendar.server.integration.event.PreIntegrationLinkNotificationActionUpdateEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;

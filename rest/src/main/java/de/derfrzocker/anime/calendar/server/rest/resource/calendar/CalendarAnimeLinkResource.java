@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarId;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateAnimeId;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarId;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarAnimeLinkCreateOrUpdateRequest;

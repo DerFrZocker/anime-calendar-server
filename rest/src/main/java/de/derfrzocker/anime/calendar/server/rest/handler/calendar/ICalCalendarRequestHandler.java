@@ -1,14 +1,14 @@
 package de.derfrzocker.anime.calendar.server.rest.handler.calendar;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarAnimeLinkService;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLink;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.Region;
 import jakarta.enterprise.context.RequestScoped;

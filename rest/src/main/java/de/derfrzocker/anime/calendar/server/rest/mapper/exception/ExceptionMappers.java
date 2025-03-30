@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.rest.mapper.exception;
 
+import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
-import de.derfrzocker.anime.calendar.server.model.domain.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthorizedException;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;

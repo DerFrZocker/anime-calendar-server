@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.impl.namelink.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.core.api.name.NameSearchService;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import de.derfrzocker.anime.calendar.server.model.domain.event.name.PostNameLinkSearchEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameSearchResult;

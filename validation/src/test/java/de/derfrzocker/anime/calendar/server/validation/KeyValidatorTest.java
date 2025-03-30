@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.validation;
 
 import static org.junit.jupiter.api.Assertions.*;
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidKeyException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

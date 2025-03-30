@@ -1,9 +1,9 @@
 package de.derfrzocker.anime.calendar.server.notify.api;
 
-import de.derfrzocker.anime.calendar.server.model.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.ModificationInfo;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.ModificationInfo;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 
 public record Notification(NotificationId id, Instant createdAt, UserId createdBy, Instant updatedAt, UserId updatedBy,

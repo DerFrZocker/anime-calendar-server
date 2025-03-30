@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.model.domain.layer;
 
-import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
+import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

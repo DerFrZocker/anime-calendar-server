@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.mongodb.dao.anime;
 
+import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
-import de.derfrzocker.anime.calendar.server.model.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;

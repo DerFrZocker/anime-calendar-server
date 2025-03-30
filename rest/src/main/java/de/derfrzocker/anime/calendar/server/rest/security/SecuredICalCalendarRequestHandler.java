@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.rest.security;
 
-import de.derfrzocker.anime.calendar.server.model.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.rest.handler.calendar.ICalCalendarRequestHandler;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;

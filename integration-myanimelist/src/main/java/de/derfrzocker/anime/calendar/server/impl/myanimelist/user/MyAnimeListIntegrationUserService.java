@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.user;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListRestClient;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListStatus;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListUserListResponse;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationUserId;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.Dependent;
 import java.util.ArrayList;

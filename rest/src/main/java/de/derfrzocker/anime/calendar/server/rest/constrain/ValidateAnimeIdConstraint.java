@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.constrain;
 
-import de.derfrzocker.anime.calendar.server.model.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.validation.IdValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

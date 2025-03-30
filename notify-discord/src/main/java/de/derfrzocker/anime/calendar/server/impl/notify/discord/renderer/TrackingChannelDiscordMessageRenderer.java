@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.impl.notify.discord.renderer;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.impl.notify.discord.api.DiscordMessageRenderer;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import jakarta.enterprise.context.ApplicationScoped;

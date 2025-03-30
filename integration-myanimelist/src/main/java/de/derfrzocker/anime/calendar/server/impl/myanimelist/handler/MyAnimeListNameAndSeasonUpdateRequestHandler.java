@@ -1,13 +1,13 @@
 package de.derfrzocker.anime.calendar.server.impl.myanimelist.handler;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
 import de.derfrzocker.anime.calendar.server.core.api.season.AnimeSeasonInfoService;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListAnimeListResponse;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListRestClient;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.client.MyAnimeListSeason;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCreateData;
@@ -16,7 +16,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
-import de.derfrzocker.anime.calendar.server.model.domain.season.Season;
+import de.derfrzocker.anime.calendar.core.season.Season;
 import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;

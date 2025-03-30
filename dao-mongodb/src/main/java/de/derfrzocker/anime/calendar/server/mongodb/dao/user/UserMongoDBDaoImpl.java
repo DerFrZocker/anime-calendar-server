@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.mongodb.dao.user;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserDao;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.user.User;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.UserData;
 import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.UserDomain;

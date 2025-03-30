@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.core.impl.calendar;
 
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.event.calendar.PostCalendarCreateEvent;

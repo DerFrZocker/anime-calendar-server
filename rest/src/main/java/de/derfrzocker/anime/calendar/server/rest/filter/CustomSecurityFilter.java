@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.rest.filter;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
-import de.derfrzocker.anime.calendar.server.model.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import jakarta.annotation.Priority;
 import jakarta.inject.Inject;

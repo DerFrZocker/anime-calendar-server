@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.client;
 
-import de.derfrzocker.anime.calendar.server.model.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import jakarta.enterprise.context.Dependent;
 import java.io.IOException;
 import java.net.DatagramPacket;

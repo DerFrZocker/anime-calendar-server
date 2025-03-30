@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.service;
 
+import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionUpdateData;
@@ -9,7 +10,6 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTrackin
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PreTrackingChannelNotificationActionCreateEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PreTrackingChannelNotificationActionDeleteEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PreTrackingChannelNotificationActionUpdateEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.RequestContext;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
