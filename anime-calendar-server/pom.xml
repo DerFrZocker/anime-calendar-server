@@ -122,7 +122,12 @@
         </dependency>
         <dependency>
             <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-notify-discord</artifactId>
+            <artifactId>anime-calendar-server-notify-discord-api</artifactId>
+            <version>0.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.derfrzocker</groupId>
+            <artifactId>anime-calendar-server-notify-discord-impl</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
