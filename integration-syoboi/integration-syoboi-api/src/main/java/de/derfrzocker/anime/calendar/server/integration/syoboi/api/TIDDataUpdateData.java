@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.api;
 
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
+import de.derfrzocker.anime.calendar.core.util.Change;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;

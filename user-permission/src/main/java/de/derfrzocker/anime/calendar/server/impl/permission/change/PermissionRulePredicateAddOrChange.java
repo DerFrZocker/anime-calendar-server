@@ -1,11 +1,11 @@
 package de.derfrzocker.anime.calendar.server.impl.permission.change;
 
+import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.impl.permission.predicate.OrPredicate;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.ObjectPermission;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionActionRule;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionRule;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;

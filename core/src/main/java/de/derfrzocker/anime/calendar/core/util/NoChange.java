@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.model.domain.util;
+package de.derfrzocker.anime.calendar.core.util;
 
 final class NoChange<T> implements Change<T> {
 

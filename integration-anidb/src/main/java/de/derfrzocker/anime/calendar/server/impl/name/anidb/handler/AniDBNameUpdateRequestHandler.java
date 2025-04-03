@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.impl.name.anidb.handler;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
 import de.derfrzocker.anime.calendar.server.impl.name.anidb.client.AniDBRestClient;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
@@ -11,7 +12,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderCre
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeNameHolderUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;

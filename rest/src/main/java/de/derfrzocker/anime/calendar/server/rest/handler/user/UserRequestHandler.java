@@ -5,6 +5,8 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.util.Change;
+import de.derfrzocker.anime.calendar.core.util.ChangeBuilder;
 import de.derfrzocker.anime.calendar.server.core.api.permission.UserPermissionService;
 import de.derfrzocker.anime.calendar.server.core.api.user.UserService;
 import de.derfrzocker.anime.calendar.server.impl.permission.change.PermissionRulePredicateAddOrChange;
@@ -18,8 +20,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionTy
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionCreateData;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermissionUpdateData;
 import de.derfrzocker.anime.calendar.server.model.domain.user.CreatedUserHolder;
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
-import de.derfrzocker.anime.calendar.server.model.domain.util.ChangeBuilder;
 import de.derfrzocker.anime.calendar.server.rest.mapper.domain.UserDomain;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserCreateResponse;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserResponse;

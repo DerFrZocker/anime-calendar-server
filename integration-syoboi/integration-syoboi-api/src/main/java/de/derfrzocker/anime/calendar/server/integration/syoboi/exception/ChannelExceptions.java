@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.exception;
 
-import static de.derfrzocker.anime.calendar.server.model.domain.util.WrapperUtil.unwrapSafe;
+import static de.derfrzocker.anime.calendar.core.util.WrapperUtil.unwrapSafe;
 import de.derfrzocker.anime.calendar.core.exception.InconsistentDataException;
 import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;

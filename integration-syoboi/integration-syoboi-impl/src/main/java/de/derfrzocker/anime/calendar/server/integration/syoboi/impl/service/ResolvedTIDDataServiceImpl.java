@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.service;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedTIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ResolvedTIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
@@ -11,7 +12,6 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.Syobo
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedTIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataProviderService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
-import de.derfrzocker.anime.calendar.server.model.domain.util.Change;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
