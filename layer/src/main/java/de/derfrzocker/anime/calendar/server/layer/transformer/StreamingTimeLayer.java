@@ -1,13 +1,12 @@
 package de.derfrzocker.anime.calendar.server.layer.transformer;
 
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.config.StreamingTimeLayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.parser.StreamingTimeLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import org.jetbrains.annotations.NotNull;
-
 import java.time.Period;
+import org.jetbrains.annotations.NotNull;
 
 public final class StreamingTimeLayer extends AbstractEpisodeTransformer<StreamingTimeLayerConfig> {
 
@@ -18,7 +17,10 @@ public final class StreamingTimeLayer extends AbstractEpisodeTransformer<Streami
     }
 
     @Override
-    public void transform(@NotNull Anime anime, @NotNull AnimeOptions animeOptions, @NotNull StreamingTimeLayerConfig layerConfig, @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(@NotNull Anime anime,
+                          @NotNull AnimeOptions animeOptions,
+                          @NotNull StreamingTimeLayerConfig layerConfig,
+                          @NotNull EpisodeBuilder episodeBuilder) {
         if (animeOptions.streamType() != null && !animeOptions.streamType().equals(layerConfig.type())) {
             return;
         }

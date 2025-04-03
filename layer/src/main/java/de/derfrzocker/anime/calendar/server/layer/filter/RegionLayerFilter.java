@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.layer.filter;
 
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.config.RegionFilterConfig;
 import de.derfrzocker.anime.calendar.server.layer.parser.RegionFilterLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 
 public final class RegionLayerFilter extends AbstractLayerFilter<RegionFilterConfig> {
 
@@ -15,7 +15,10 @@ public final class RegionLayerFilter extends AbstractLayerFilter<RegionFilterCon
     }
 
     @Override
-    public boolean shouldSkip(Anime anime, AnimeOptions animeOptions, RegionFilterConfig layerConfig, EpisodeBuilder episodeBuilder) {
+    public boolean shouldSkip(Anime anime,
+                              AnimeOptions animeOptions,
+                              RegionFilterConfig layerConfig,
+                              EpisodeBuilder episodeBuilder) {
         return !layerConfig.applicableRegions().contains(animeOptions.region());
     }
 }

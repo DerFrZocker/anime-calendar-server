@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.layer.filter;
 
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerConfig;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerConfigParser;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerFilter;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerFilterDataHolder;
 import de.derfrzocker.anime.calendar.server.layer.AbstractLayer;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfig;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

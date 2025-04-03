@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.service.impl.ical4j;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeEpisodes;
+import de.derfrzocker.anime.calendar.server.anime.api.Episode;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeEpisodes;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Duration;

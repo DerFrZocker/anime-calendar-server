@@ -92,6 +92,7 @@
     </dependencies>
 
     <modules>
+        <module>anime</module>
         <module>anime-calendar-server</module>
         <module>core</module>
         <module>core-api</module>

@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.rest.mapper.transfer;
 
 import de.derfrzocker.anime.calendar.core.util.Change;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeCreateData;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeCreateData;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.rest.transfer.anime.AnimeCreateDataTO;
 import de.derfrzocker.anime.calendar.server.rest.transfer.anime.AnimeUpdateDataTO;
 import java.util.List;

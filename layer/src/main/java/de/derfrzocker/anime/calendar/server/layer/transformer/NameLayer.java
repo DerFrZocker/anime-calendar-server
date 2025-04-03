@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.layer.transformer;
 
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.config.SimpleStringLayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.parser.SimpleStringLayerConfigParser;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 import org.jetbrains.annotations.NotNull;
 
 public final class NameLayer extends AbstractEpisodeTransformer<SimpleStringLayerConfig> {
@@ -16,7 +16,10 @@ public final class NameLayer extends AbstractEpisodeTransformer<SimpleStringLaye
     }
 
     @Override
-    public void transform(@NotNull Anime anime, @NotNull AnimeOptions animeOptions, @NotNull SimpleStringLayerConfig layerConfig, @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(@NotNull Anime anime,
+                          @NotNull AnimeOptions animeOptions,
+                          @NotNull SimpleStringLayerConfig layerConfig,
+                          @NotNull EpisodeBuilder episodeBuilder) {
         episodeBuilder.withEpisodeName(layerConfig.value());
     }
 }

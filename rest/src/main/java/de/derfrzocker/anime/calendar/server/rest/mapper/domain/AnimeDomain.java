@@ -1,6 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.mapper.domain;
 
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.rest.transfer.anime.AnimeTO;
 
 public final class AnimeDomain {

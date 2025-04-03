@@ -1,7 +1,16 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.server.core.api.anime.AnimeService;
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
+import de.derfrzocker.anime.calendar.server.anime.api.Episode;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.anime.api.Region;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerFilterDataHolder;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerTransformerDataHolder;
+import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
 import de.derfrzocker.anime.calendar.server.layer.config.BoundFilterConfig;
@@ -10,15 +19,6 @@ import de.derfrzocker.anime.calendar.server.layer.config.StreamingTimeLayerConfi
 import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeLengthLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.AnimeUpdateData;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.Region;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilterDataHolder;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformerDataHolder;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;

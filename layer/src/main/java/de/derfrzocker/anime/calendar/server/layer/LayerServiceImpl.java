@@ -1,7 +1,14 @@
 package de.derfrzocker.anime.calendar.server.layer;
 
 import de.derfrzocker.anime.calendar.core.layer.LayerKey;
-import de.derfrzocker.anime.calendar.server.core.api.layer.LayerService;
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.Episode;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerFilter;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerTransformer;
+import de.derfrzocker.anime.calendar.server.anime.service.layer.LayerService;
 import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.filter.RegionLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeLengthLayer;
@@ -10,13 +17,6 @@ import de.derfrzocker.anime.calendar.server.layer.transformer.IntegrationUrlLaye
 import de.derfrzocker.anime.calendar.server.layer.transformer.NameLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingUrlLayer;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.Episode;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerFilter;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.server.model.domain.layer.LayerTransformer;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -77,10 +77,12 @@ public class LayerServiceImpl implements LayerService {
             EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(i);
 
             anime.episodeLayers()
-                    .stream()
-                    .filter(layerHolder -> !layerHolder.shouldSkip(anime, animeOptions, episodeBuilder))
-                    .map(LayerHolder::layerDataHolder)
-                    .forEach(layerTransformerDataHolder -> layerTransformerDataHolder.transform(anime, animeOptions, episodeBuilder));
+                 .stream()
+                 .filter(layerHolder -> !layerHolder.shouldSkip(anime, animeOptions, episodeBuilder))
+                 .map(LayerHolder::layerDataHolder)
+                 .forEach(layerTransformerDataHolder -> layerTransformerDataHolder.transform(anime,
+                                                                                             animeOptions,
+                                                                                             episodeBuilder));
 
             episodes.add(episodeBuilder.build());
         }

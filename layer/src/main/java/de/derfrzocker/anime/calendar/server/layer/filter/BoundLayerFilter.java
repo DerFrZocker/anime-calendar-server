@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.server.layer.filter;
 
+import de.derfrzocker.anime.calendar.server.anime.api.Anime;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.config.BoundFilterConfig;
 import de.derfrzocker.anime.calendar.server.layer.parser.BoundConfigLayerParser;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.EpisodeBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.anime.Anime;
 
 public final class BoundLayerFilter extends AbstractLayerFilter<BoundFilterConfig> {
 
@@ -15,7 +15,10 @@ public final class BoundLayerFilter extends AbstractLayerFilter<BoundFilterConfi
     }
 
     @Override
-    public boolean shouldSkip(Anime anime, AnimeOptions animeOptions, BoundFilterConfig layerConfig, EpisodeBuilder episodeBuilder) {
+    public boolean shouldSkip(Anime anime,
+                              AnimeOptions animeOptions,
+                              BoundFilterConfig layerConfig,
+                              EpisodeBuilder episodeBuilder) {
         if (episodeBuilder.episodeIndex() < layerConfig.minInclusive()) {
             return true;
         }

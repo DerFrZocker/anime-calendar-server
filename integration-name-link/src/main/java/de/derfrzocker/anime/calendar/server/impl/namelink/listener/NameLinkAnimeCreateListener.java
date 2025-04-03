@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.impl.namelink.listener;
 
+import de.derfrzocker.anime.calendar.server.anime.event.PostAnimeCreateEvent;
 import de.derfrzocker.anime.calendar.server.impl.namelink.handler.NameLinkRequestHandler;
-import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostAnimeCreateEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
