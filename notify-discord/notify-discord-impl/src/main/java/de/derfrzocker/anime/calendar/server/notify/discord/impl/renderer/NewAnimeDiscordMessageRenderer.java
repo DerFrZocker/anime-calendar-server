@@ -7,11 +7,11 @@ import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
+import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,12 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 @ApplicationScoped
 @Named("NewAnime" + DiscordMessageRenderer.NAME_SUFFIX)
@@ -39,14 +33,16 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
     NewAnimeNotificationActionService newAnimeActionService;
 
     @Override
-    public MessageCreateBuilder render(NotificationHolder holder, RequestContext context) {
+    public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
         List<NewAnimeNotificationAction> newAnimes = toSpecificAction(holder.actions(), context);
-        EmbedBuilder embed = new EmbedBuilder();
 
         if (newAnimes.isEmpty()) {
             // TODO 2025-02-23: Log better error here
-            return new MessageCreateBuilder().addEmbeds(new EmbedBuilder().setTitle("ERROR: Nothing found").build());
+            builder.setTitle("ERROR: Nothing found");
+            return;
         }
+
+        builder.setTitle("New Anime found:");
 
         Map<IntegrationId, Set<IntegrationAnimeId>> integrations = new HashMap<>();
 
@@ -66,13 +62,9 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
             }
         }
 
-        List<ItemComponent> buttons = new ArrayList<>();
-
-        embed.setTitle("New Anime found:");
-
         if (min != null) {
             for (IntegrationAnimeId animeId : integrations.get(min)) {
-                embed.addField("[%s] [%s]".formatted(min.raw(), animeId.raw()), getUrl(min, animeId), false);
+                builder.addField("[%s] [%s]".formatted(min.raw(), animeId.raw()), getUrl(min, animeId));
                 for (NewAnimeNotificationAction action : newAnimes) {
                     if (!Objects.equals(action.links().get(min), animeId)) {
                         continue;
@@ -82,27 +74,18 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                         if (Objects.equals(entry.getKey(), min)) {
                             continue;
                         }
-                        embed.addField("-> [%s] [%s] [%s] %s".formatted(entry.getKey().raw(),
-                                                                        entry.getValue().raw(),
-                                                                        action.score(),
-                                                                        action.title()),
-                                       getUrl(entry.getKey(), entry.getValue()),
-                                       false);
+                        builder.addField("-> [%s] [%s] [%s] %s".formatted(entry.getKey().raw(),
+                                                                          entry.getValue().raw(),
+                                                                          action.score(),
+                                                                          action.title()),
+                                         getUrl(entry.getKey(), entry.getValue()));
 
-                        if (buttons.size() >= 5) {
-                            continue;
-                        }
-
-                        buttons.add(Button.of(ButtonStyle.PRIMARY,
-                                              action.id().raw(),
-                                              "Create [%s] %s".formatted(entry.getKey().raw(),
-                                                                         entry.getValue().raw())));
+                        builder.addButton("Create [%s] %s".formatted(entry.getKey().raw(), entry.getValue().raw()),
+                                          action.id().raw());
                     }
                 }
             }
         }
-
-        return new MessageCreateBuilder().addEmbeds(embed.build()).addComponents(ActionRow.of(buttons));
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {

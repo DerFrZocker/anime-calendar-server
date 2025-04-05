@@ -9,20 +9,14 @@ import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotif
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
+import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 @ApplicationScoped
 @Named("NameLink" + DiscordMessageRenderer.NAME_SUFFIX)
@@ -37,39 +31,31 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
     IntegrationLinkNotificationActionService integrationActionService;
 
     @Override
-    public MessageCreateBuilder render(NotificationHolder holder, RequestContext context) {
+    public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
         List<IntegrationLinkNotificationAction> integrationLinks = toSpecificAction(holder.actions(), context);
-        EmbedBuilder embed = new EmbedBuilder();
 
         if (integrationLinks.isEmpty()) {
             // TODO 2025-02-23: Log better error here
-            return new MessageCreateBuilder().addEmbeds(new EmbedBuilder().setTitle("ERROR: Nothing found").build());
+            builder.setTitle("ERROR: Nothing found");
+            return;
         }
 
         // TODO 2025-02-23: Better error handling
         Anime anime = this.animeService.getById(integrationLinks.getFirst().animeId(), context).orElseThrow();
-        embed.setTitle("[%s] %s".formatted(anime.id().raw(), anime.title())).setDescription("Found following links:");
+        builder.setTitle("[%s] %s".formatted(anime.id().raw(), anime.title())).setDescription("Found following links:");
 
         // TODO 2024-12-23: Account for message limits
-        List<ItemComponent> buttons = new ArrayList<>();
         for (IntegrationLinkNotificationAction action : integrationLinks) {
             IntegrationId integrationId = action.integrationId();
-            embed.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
-                                                         action.integrationAnimeId().raw(),
-                                                         action.score(),
-                                                         action.bestName()),
-                           getUrl(integrationId, action.integrationAnimeId()),
-                           false);
-            if (buttons.size() >= 5) {
-                continue;
-            }
+            builder.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
+                                                           action.integrationAnimeId().raw(),
+                                                           action.score(),
+                                                           action.bestName()),
+                             getUrl(integrationId, action.integrationAnimeId()));
 
-            buttons.add(Button.of(ButtonStyle.PRIMARY,
-                                  action.id().raw(),
-                                  "Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw())));
+            builder.addButton("Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw()),
+                              action.id().raw());
         }
-
-        return new MessageCreateBuilder().addEmbeds(embed.build()).addComponents(ActionRow.of(buttons));
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
