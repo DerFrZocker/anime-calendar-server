@@ -13,6 +13,7 @@ import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -37,11 +38,20 @@ public class AnimeServiceImpl implements AnimeService {
 
     @Override
     public Anime createWithData(AnimeCreateData createData, RequestContext context) {
+        return createWithData(createData, context, anime -> {
+        });
+    }
+
+    @Override
+    public Anime createWithData(AnimeCreateData createData,
+                                RequestContext context,
+                                Consumer<Anime> prePostEventConsumer) {
         AnimeId id = this.idGenerator.generateId(potential -> getById(potential, context).isPresent());
         Anime anime = Anime.from(id, createData, context);
 
         this.eventPublisher.firePreCreate(anime, createData, context);
         this.dao.create(anime, context);
+        prePostEventConsumer.accept(anime);
         this.eventPublisher.firePostCreate(anime, createData, context);
 
         return getById(id, context).orElseThrow(inconsistentNotFound(id));

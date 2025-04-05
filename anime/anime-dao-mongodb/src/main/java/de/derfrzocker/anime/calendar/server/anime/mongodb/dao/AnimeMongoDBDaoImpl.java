@@ -31,17 +31,17 @@ public class AnimeMongoDBDaoImpl implements AnimeDao {
     }
 
     @Override
-    public void create(Anime notificationAction, RequestContext context) {
-        this.repository.persist(toData(notificationAction, this.layerParser));
+    public void create(Anime anime, RequestContext context) {
+        this.repository.persist(toData(anime, this.layerParser));
     }
 
     @Override
-    public void update(Anime notificationAction, RequestContext context) {
-        this.repository.update(toData(notificationAction, this.layerParser));
+    public void update(Anime anime, RequestContext context) {
+        this.repository.update(toData(anime, this.layerParser));
     }
 
     @Override
-    public void delete(Anime notificationAction, RequestContext context) {
-        this.repository.deleteById(notificationAction.id());
+    public void delete(Anime anime, RequestContext context) {
+        this.repository.deleteById(anime.id());
     }
 }

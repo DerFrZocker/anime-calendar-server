@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.integration.impl.service;
 
+import static de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions.alreadyCreated;
 import static de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions.notFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
@@ -7,7 +8,6 @@ import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotif
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.integration.dao.IntegrationLinkNotificationActionDao;
-import de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -38,7 +38,7 @@ public class IntegrationLinkNotificationActionServiceImpl implements Integration
                                                             RequestContext context) {
         Optional<IntegrationLinkNotificationAction> optional = getById(id, context);
         if (optional.isPresent()) {
-            throw IntegrationLinkNotificationActionExceptions.alreadyCreated(id).get();
+            throw alreadyCreated(id).get();
         }
 
         IntegrationLinkNotificationAction action = IntegrationLinkNotificationAction.from(id, createData, context);

@@ -13,6 +13,8 @@ public class SyoboiConfig {
     int animeScheduleDays;
     @ConfigProperty(name = "syoboi.tracking-channel.valid-length")
     Duration trackingChannelActionValidLength;
+    @ConfigProperty(name = "syoboi.new-anime.valid-length")
+    Duration newAnimeActionValidLength;
 
     public Duration getTIDDataValidationDuration() {
         return this.tidDataValidationDuration;
@@ -24,5 +26,9 @@ public class SyoboiConfig {
 
     public Duration getTrackingChannelActionValidLength() {
         return this.trackingChannelActionValidLength;
+    }
+
+    public Duration getNewAnimeActionValidLength() {
+        return this.newAnimeActionValidLength;
     }
 }
