@@ -7,7 +7,10 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationActionCreateData;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
@@ -28,6 +31,7 @@ import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.jboss.logging.Logger;
 
@@ -37,13 +41,16 @@ public class NewAnimeTask {
     private static final Logger LOG = Logger.getLogger(NewAnimeTask.class);
 
     public static final NotificationType NOTIFICATION_TYPE = new NotificationType("NewAnime");
-    public static final NotificationActionType NOTIFICATION_ACTION_TYPE = new NotificationActionType("NewAnime");
+    public static final NotificationActionType NEW_ANIME_ACTION_TYPE = new NotificationActionType("NewAnime");
+    public static final NotificationActionType IGNORE_ACTION_TYPE = new NotificationActionType("IgnoreTIDData");
 
     private static final NameType NAME_TYPE = new NameType("main");
     private static final NameLanguage NAME_LANGUAGE = new NameLanguage("x-jat");
 
     @Inject
     NewAnimeNotificationActionService newAnimeActionService;
+    @Inject
+    IgnoreTIDDataNotificationActionService ignoreTIDDataActionService;
     @Inject
     NotificationActionService actionService;
     @Inject
@@ -58,13 +65,18 @@ public class NewAnimeTask {
         Notification notification = createNewNotification(context);
 
         for (NameSearchResult result : foundEvent.potentialNames()) {
-            NotificationAction notificationAction = createNewNotificationAction(notification.id(), context);
+            NotificationAction action = createNewNotificationAction(notification.id(), context, NEW_ANIME_ACTION_TYPE);
 
-            createNewNotificationAction(notificationAction.id(),
+            createNewNotificationAction(action.id(),
                                         result,
                                         foundEvent.fromIntegration(),
                                         foundEvent.fromAnimeId(),
                                         context);
+        }
+
+        if (Objects.equals(foundEvent.fromIntegration(), new IntegrationId("syoboi"))) {
+            NotificationAction action = createNewNotificationAction(notification.id(), context, IGNORE_ACTION_TYPE);
+            createNewNotificationAction(action.id(), new TID(foundEvent.fromAnimeId().raw()), context);
         }
 
         this.helperService.send(notification.id(), context);
@@ -77,8 +89,10 @@ public class NewAnimeTask {
         return this.notificationService.createWithData(createData, context);
     }
 
-    private NotificationAction createNewNotificationAction(NotificationId id, RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, NOTIFICATION_ACTION_TYPE);
+    private NotificationAction createNewNotificationAction(NotificationId id,
+                                                           RequestContext context,
+                                                           NotificationActionType actionType) {
+        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType);
         return this.actionService.createWithData(createData, context);
     }
 
@@ -103,6 +117,11 @@ public class NewAnimeTask {
                                                         12,
                                                         result.score(),
                                                         links);
+    }
+
+    private void createNewNotificationAction(NotificationActionId actionId, TID tid, RequestContext context) {
+        IgnoreTIDDataNotificationActionCreateData createData = new IgnoreTIDDataNotificationActionCreateData(tid);
+        this.ignoreTIDDataActionService.createWithData(actionId, createData, context);
     }
 
     private Optional<AnimeName> findMainName(NameSearchResult result) {

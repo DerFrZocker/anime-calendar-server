@@ -5,7 +5,10 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationAction;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
+import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
@@ -20,23 +23,28 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @ApplicationScoped
 @Named("NewAnime" + DiscordMessageRenderer.NAME_SUFFIX)
 public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
+    private static final NotificationActionType NEW_ANIME_ACTION_TYPE = new NotificationActionType("NewAnime");
+    private static final NotificationActionType IGNORE_ACTION_TYPE = new NotificationActionType("IgnoreTIDData");
     private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
     private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
     private static final IntegrationId ANIDB = new IntegrationId("anidb");
 
     @Inject
     NewAnimeNotificationActionService newAnimeActionService;
+    @Inject
+    IgnoreTIDDataNotificationActionService ignoreTIDDataActionService;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
         List<NewAnimeNotificationAction> newAnimes = toSpecificAction(holder.actions(), context);
 
-        if (newAnimes.isEmpty()) {
+        if (holder.actions().isEmpty()) {
             // TODO 2025-02-23: Log better error here
             builder.setTitle("ERROR: Nothing found");
             return;
@@ -86,6 +94,12 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                 }
             }
         }
+
+        findIgnoreActions(holder.actions(), context).forEach(action -> {
+            builder.addField("Ignorable [%s] [%s]".formatted(SYOBOI.raw(), action.tid().raw()),
+                             getUrl(SYOBOI, new IntegrationAnimeId(action.tid().raw())));
+            builder.addButton("Ignore [%s] %s".formatted(SYOBOI.raw(), action.tid().raw()), action.id().raw());
+        });
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
@@ -106,6 +120,7 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
     private List<NewAnimeNotificationAction> toSpecificAction(List<NotificationAction> actions,
                                                               RequestContext context) {
         return actions.stream()
+                      .filter(action -> Objects.equals(action.actionType(), NEW_ANIME_ACTION_TYPE))
                       .map(NotificationAction::id)
                       .map(id -> this.newAnimeActionService.getById(id, context))
                       .filter(optional -> {
@@ -118,5 +133,21 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                       .map(Optional::get)
                       .sorted(Comparator.comparingInt(NewAnimeNotificationAction::score))
                       .toList();
+    }
+
+    private Stream<IgnoreTIDDataNotificationAction> findIgnoreActions(List<NotificationAction> actions,
+                                                                      RequestContext context) {
+        return actions.stream()
+                      .filter(action -> Objects.equals(action.actionType(), IGNORE_ACTION_TYPE))
+                      .map(NotificationAction::id)
+                      .map(id -> this.ignoreTIDDataActionService.getById(id, context))
+                      .filter(optional -> {
+                          if (optional.isEmpty()) {
+                              // TODO 2025-04-05: Log warning
+                              return false;
+                          }
+                          return true;
+                      })
+                      .map(Optional::get);
     }
 }

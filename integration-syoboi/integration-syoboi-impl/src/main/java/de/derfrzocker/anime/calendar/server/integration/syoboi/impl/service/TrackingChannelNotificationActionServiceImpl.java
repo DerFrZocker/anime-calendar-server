@@ -36,11 +36,11 @@ public class TrackingChannelNotificationActionServiceImpl implements TrackingCha
     public TrackingChannelNotificationAction createWithData(NotificationActionId id,
                                                             TrackingChannelNotificationActionCreateData createData,
                                                             RequestContext context) {
-        TrackingChannelNotificationAction tidData = TrackingChannelNotificationAction.from(id, createData, context);
+        TrackingChannelNotificationAction action = TrackingChannelNotificationAction.from(id, createData, context);
 
-        this.eventPublisher.firePreCreate(tidData, createData, context);
-        this.dao.create(tidData, context);
-        this.eventPublisher.firePostCreate(tidData, createData, context);
+        this.eventPublisher.firePreCreate(action, createData, context);
+        this.dao.create(action, context);
+        this.eventPublisher.firePostCreate(action, createData, context);
 
         return getById(id, context).orElseThrow(inconsistentNotFound(id));
     }
@@ -61,10 +61,10 @@ public class TrackingChannelNotificationActionServiceImpl implements TrackingCha
 
     @Override
     public void deleteById(NotificationActionId id, RequestContext context) {
-        TrackingChannelNotificationAction tidData = getById(id, context).orElseThrow(notFound(id));
+        TrackingChannelNotificationAction action = getById(id, context).orElseThrow(notFound(id));
 
-        this.eventPublisher.firePreDelete(tidData, context);
-        this.dao.delete(tidData, context);
-        this.eventPublisher.firePostDelete(tidData, context);
+        this.eventPublisher.firePreDelete(action, context);
+        this.dao.delete(action, context);
+        this.eventPublisher.firePostDelete(action, context);
     }
 }
