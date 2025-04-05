@@ -10,11 +10,15 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class SendNotificationTask {
+
+    private static final Logger LOG = Logger.getLogger(SendNotificationTask.class);
 
     @Inject
     Instance<DiscordMessageRenderer> rendererInstance;
@@ -26,13 +30,33 @@ public class SendNotificationTask {
     public void onNotificationSend(@Observes NotificationSendEvent event) {
         DiscordMessageRenderer renderer = selectRenderer(event.notification().type());
 
-        MessageCreateBuilder builder = renderer.render(new NotificationHolder(event.notification(), event.actions()),
-                                                       event.context());
+        try {
+            MessageCreateBuilder builder = renderer.render(new NotificationHolder(event.notification(),
+                                                                                  event.actions()), event.context());
 
-        this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
+            this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
+        } catch (Exception e) {
+            LOG.errorv(e, "Failed to send notification, for event '{}'.", event);
+            trySendException(e);
+        }
     }
 
     private DiscordMessageRenderer selectRenderer(NotificationType type) {
         return this.rendererInstance.select(NamedLiteral.of(type.raw() + DiscordMessageRenderer.NAME_SUFFIX)).get();
+    }
+
+    private void trySendException(Exception exception) {
+        try {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setTitle("Failed to send notification");
+            embed.setDescription(exception.getMessage());
+
+            MessageCreateBuilder builder = new MessageCreateBuilder();
+            builder.setEmbeds(embed.build());
+
+            this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
+        } catch (Exception e) {
+            LOG.errorv("Could not send error message to Discord.", e);
+        }
     }
 }

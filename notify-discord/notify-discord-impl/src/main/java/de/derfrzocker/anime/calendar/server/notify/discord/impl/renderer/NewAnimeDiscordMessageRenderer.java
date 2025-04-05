@@ -102,12 +102,7 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
             }
         }
 
-        try {
-            return new MessageCreateBuilder().addEmbeds(embed.build()).addComponents(ActionRow.of(buttons));
-        } catch (Exception e) {
-            return new MessageCreateBuilder().addEmbeds(new EmbedBuilder().setTitle("ERROR: " + e.getMessage())
-                                                                          .build());
-        }
+        return new MessageCreateBuilder().addEmbeds(embed.build()).addComponents(ActionRow.of(buttons));
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
