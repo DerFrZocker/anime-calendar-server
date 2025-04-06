@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -54,10 +55,18 @@ public class JDAInitListener {
                         eventPublisher.fire(event);
                     }
                 }
+
+                @Override
+                public void onModalInteraction(@NotNull ModalInteractionEvent event) {
+                    if (Objects.equals(config.getChannelId(), event.getChannel().getId())) {
+                        eventPublisher.fire(event);
+                    }
+                }
             }).build();
             try {
                 jda.awaitReady();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException("Waiting for JDA to be ready was interrupted.", e);
             }
             return jda;

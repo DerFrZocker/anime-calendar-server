@@ -9,7 +9,8 @@ import java.time.Instant;
 
 public record NotificationAction(NotificationActionId id, Instant createdAt, UserId createdBy, Instant updatedAt,
                                  UserId updatedBy, NotificationId notificationId, NotificationActionType actionType,
-                                 Instant executedAt, UserId executedBy) implements ModificationInfo {
+                                 boolean requireUserInput, Instant executedAt,
+                                 UserId executedBy) implements ModificationInfo {
 
     public static NotificationAction from(NotificationActionId id,
                                           NotificationActionCreateData createData,
@@ -21,6 +22,7 @@ public record NotificationAction(NotificationActionId id, Instant createdAt, Use
                                       context.requestUser(),
                                       createData.notificationId(),
                                       createData.actionType(),
+                                      createData.requireUserInput(),
                                       null,
                                       null);
     }
@@ -33,6 +35,7 @@ public record NotificationAction(NotificationActionId id, Instant createdAt, Use
                                       context.requestUser(),
                                       notificationId(),
                                       actionType(),
+                                      requireUserInput(),
                                       updateData.executedAt().apply(executedAt()),
                                       updateData.executedBy().apply(executedBy()));
     }

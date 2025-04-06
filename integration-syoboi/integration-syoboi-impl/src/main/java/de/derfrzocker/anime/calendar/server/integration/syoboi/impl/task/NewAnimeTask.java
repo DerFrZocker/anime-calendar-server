@@ -92,7 +92,7 @@ public class NewAnimeTask {
     private NotificationAction createNewNotificationAction(NotificationId id,
                                                            RequestContext context,
                                                            NotificationActionType actionType) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType);
+        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType, false);
         return this.actionService.createWithData(createData, context);
     }
 

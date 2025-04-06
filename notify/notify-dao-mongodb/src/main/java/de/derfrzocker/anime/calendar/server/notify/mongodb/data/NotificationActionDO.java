@@ -16,6 +16,7 @@ public class NotificationActionDO extends ModificationInfoDO {
     public NotificationActionId id;
     public NotificationId notificationId;
     public NotificationActionType actionType;
+    public boolean requireUserInput;
     public Instant executedAt;
     public UserId executedBy;
 }

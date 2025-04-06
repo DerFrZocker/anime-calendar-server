@@ -116,7 +116,7 @@ public class CheckTrackingChannelTask {
     }
 
     private NotificationAction createNewNotificationAction(NotificationId id, RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, NOTIFICATION_ACTION_TYPE);
+        NotificationActionCreateData createData = new NotificationActionCreateData(id, NOTIFICATION_ACTION_TYPE, false);
         return this.actionService.createWithData(createData, context);
     }
 

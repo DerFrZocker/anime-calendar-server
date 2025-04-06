@@ -14,6 +14,7 @@ public final class NotificationActionDataMapper {
         data.id = domain.id();
         data.notificationId = domain.notificationId();
         data.actionType = domain.actionType();
+        data.requireUserInput = domain.requireUserInput();
         data.executedAt = domain.executedAt();
         data.executedBy = domain.executedBy();
         data.apply(domain);
@@ -29,6 +30,7 @@ public final class NotificationActionDataMapper {
                                       data.updatedBy,
                                       data.notificationId,
                                       data.actionType,
+                                      data.requireUserInput,
                                       data.executedAt,
                                       data.executedBy);
     }
