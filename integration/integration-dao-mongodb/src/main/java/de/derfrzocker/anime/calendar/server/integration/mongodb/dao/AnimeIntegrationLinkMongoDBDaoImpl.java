@@ -30,6 +30,15 @@ public class AnimeIntegrationLinkMongoDBDaoImpl implements AnimeIntegrationLinkD
     }
 
     @Override
+    public Stream<AnimeIntegrationLink> getAllWithId(AnimeId animeId,
+                                                     IntegrationId integrationId,
+                                                     RequestContext context) {
+        return this.repository.find("animeId = ?1 and integrationId = ?2", animeId.raw(), integrationId.raw())
+                              .stream()
+                              .map(AnimeIntegrationLinkDataMapper::toDomain);
+    }
+
+    @Override
     public Optional<AnimeIntegrationLink> getById(AnimeId animeId,
                                                   IntegrationId integrationId,
                                                   IntegrationAnimeId integrationAnimeId,

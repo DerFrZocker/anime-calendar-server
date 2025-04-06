@@ -4,6 +4,7 @@ import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.core.api.name.NameSearchService;
+import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.model.domain.event.name.PostNameLinkSearchEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameSearchResult;
 import io.smallrye.mutiny.Multi;
@@ -27,6 +28,8 @@ public class NameLinkRequestHandler {
     @Inject
     NameSearchService nameSearchService;
     @Inject
+    AnimeIntegrationLinkService linkService;
+    @Inject
     Event<PostNameLinkSearchEvent> nameLinkSearchEvent;
 
     public Uni<Void> checkForLinks(Anime anime, RequestContext context) {
@@ -35,6 +38,7 @@ public class NameLinkRequestHandler {
         return Multi.createFrom()
                     .items(ANIDB, MY_ANIME_LIST)
                     .emitOn(Infrastructure.getDefaultExecutor())
+                    .filter(integrationId -> isNotLinked(anime, integrationId, context))
                     .flatMap(integrationId -> this.nameSearchService.search(integrationId, anime.title(), context))
                     .collect()
                     .asMultiMap(result -> result.animeNameHolder().integrationId())
@@ -63,5 +67,9 @@ public class NameLinkRequestHandler {
                            Map<IntegrationId, Collection<NameSearchResult>> results,
                            RequestContext context) {
         this.nameLinkSearchEvent.fire(new PostNameLinkSearchEvent(anime, results, context));
+    }
+
+    private boolean isNotLinked(Anime anime, IntegrationId integrationId, RequestContext context) {
+        return this.linkService.getAllWithId(anime.id(), integrationId, context).findAny().isEmpty();
     }
 }

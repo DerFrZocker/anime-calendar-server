@@ -14,6 +14,8 @@ public interface AnimeIntegrationLinkDao {
                                               IntegrationAnimeId integrationAnimeId,
                                               RequestContext context);
 
+    Stream<AnimeIntegrationLink> getAllWithId(AnimeId animeId, IntegrationId integrationId, RequestContext context);
+
     Optional<AnimeIntegrationLink> getById(AnimeId animeId,
                                            IntegrationId integrationId,
                                            IntegrationAnimeId integrationAnimeId,

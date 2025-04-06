@@ -32,6 +32,13 @@ public class AnimeIntegrationLinkServiceImpl implements AnimeIntegrationLinkServ
     }
 
     @Override
+    public Stream<AnimeIntegrationLink> getAllWithId(AnimeId animeId,
+                                                     IntegrationId integrationId,
+                                                     RequestContext context) {
+        return this.dao.getAllWithId(animeId, integrationId, context);
+    }
+
+    @Override
     public Optional<AnimeIntegrationLink> getById(AnimeId animeId,
                                                   IntegrationId integrationId,
                                                   IntegrationAnimeId integrationAnimeId,
