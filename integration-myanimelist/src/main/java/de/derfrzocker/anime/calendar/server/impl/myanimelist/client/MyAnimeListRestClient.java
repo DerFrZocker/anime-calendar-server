@@ -22,5 +22,6 @@ public interface MyAnimeListRestClient {
     @Path("/users/{userName}/animelist")
     MyAnimeListUserListResponse getUserAnimes(@PathParam("userName") String userName,
                                               @QueryParam("status") MyAnimeListStatus status,
-                                              @QueryParam("nsfw") boolean nsfw);
+                                              @QueryParam("nsfw") boolean nsfw,
+                                              @QueryParam("limit") int limit);
 }
