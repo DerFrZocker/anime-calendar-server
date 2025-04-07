@@ -13,7 +13,6 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.Syobo
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
 import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameSearchResult;
 import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
@@ -45,7 +44,6 @@ public class NewAnimeTask {
     public static final NotificationActionType IGNORE_ACTION_TYPE = new NotificationActionType("IgnoreTIDData");
 
     private static final NameType NAME_TYPE = new NameType("main");
-    private static final NameLanguage NAME_LANGUAGE = new NameLanguage("x-jat");
 
     @Inject
     NewAnimeNotificationActionService newAnimeActionService;
@@ -127,10 +125,6 @@ public class NewAnimeTask {
     private Optional<AnimeName> findMainName(NameSearchResult result) {
         AnimeName mainName = null;
         for (AnimeName animeName : result.animeNameHolder().names()) {
-            if (!NAME_LANGUAGE.equals(animeName.language())) {
-                continue;
-            }
-
             if (!NAME_TYPE.equals(animeName.type())) {
                 continue;
             }
