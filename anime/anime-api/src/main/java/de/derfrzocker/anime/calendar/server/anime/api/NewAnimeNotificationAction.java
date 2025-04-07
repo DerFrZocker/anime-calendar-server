@@ -35,7 +35,7 @@ public record NewAnimeNotificationAction(NotificationActionId id, Instant create
                                               createdBy(),
                                               context.requestTime(),
                                               context.requestUser(),
-                                              title(),
+                                              updateData.title().apply(title()),
                                               episodeCount(),
                                               score(),
                                               links());

@@ -100,6 +100,13 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                              getUrl(SYOBOI, new IntegrationAnimeId(action.tid().raw())));
             builder.addButton("Ignore [%s] %s".formatted(SYOBOI.raw(), action.tid().raw()), action.id().raw());
         });
+
+        findManualAction(holder.actions(), context).forEach(action -> {
+            // TODO 2025-04-07: Make it not hardcoded to Syoboi
+            IntegrationAnimeId animeId = action.links().get(SYOBOI);
+            builder.addField("Manual Link [%s] [%s]".formatted(SYOBOI.raw(), animeId.raw()), getUrl(SYOBOI, animeId));
+            builder.addButton("Manual Link [%s] %s".formatted(SYOBOI.raw(), animeId.raw()), action.id().raw());
+        });
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
@@ -120,6 +127,7 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
     private List<NewAnimeNotificationAction> toSpecificAction(List<NotificationAction> actions,
                                                               RequestContext context) {
         return actions.stream()
+                      .filter(action -> !action.requireUserInput())
                       .filter(action -> Objects.equals(action.actionType(), NEW_ANIME_ACTION_TYPE))
                       .map(NotificationAction::id)
                       .map(id -> this.newAnimeActionService.getById(id, context))
@@ -149,5 +157,23 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                           return true;
                       })
                       .map(Optional::get);
+    }
+
+    private Stream<NewAnimeNotificationAction> findManualAction(List<NotificationAction> actions,
+                                                                RequestContext context) {
+        return actions.stream()
+                      .filter(NotificationAction::requireUserInput)
+                      .filter(action -> Objects.equals(action.actionType(), NEW_ANIME_ACTION_TYPE))
+                      .map(NotificationAction::id)
+                      .map(id -> this.newAnimeActionService.getById(id, context))
+                      .filter(optional -> {
+                          if (optional.isEmpty()) {
+                              // TODO 2025-02-23: Log warning
+                              return false;
+                          }
+                          return true;
+                      })
+                      .map(Optional::get)
+                      .sorted(Comparator.comparingInt(NewAnimeNotificationAction::score));
     }
 }

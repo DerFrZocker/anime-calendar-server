@@ -1,5 +1,7 @@
 package de.derfrzocker.anime.calendar.server.anime.api;
 
-public record NewAnimeNotificationActionUpdateData() {
+import de.derfrzocker.anime.calendar.core.util.Change;
+
+public record NewAnimeNotificationActionUpdateData(Change<String> title) {
 
 }

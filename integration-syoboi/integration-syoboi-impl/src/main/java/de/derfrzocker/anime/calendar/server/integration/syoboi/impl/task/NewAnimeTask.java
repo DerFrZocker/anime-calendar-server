@@ -63,19 +63,18 @@ public class NewAnimeTask {
         Notification notification = createNewNotification(context);
 
         for (NameSearchResult result : foundEvent.potentialNames()) {
-            NotificationAction action = createNewNotificationAction(notification.id(), context, NEW_ANIME_ACTION_TYPE);
+            NotificationAction action = createNewAction(notification.id(), context, NEW_ANIME_ACTION_TYPE, false);
 
-            createNewNotificationAction(action.id(),
-                                        result,
-                                        foundEvent.fromIntegration(),
-                                        foundEvent.fromAnimeId(),
-                                        context);
+            createNewAction(action.id(), result, foundEvent.fromIntegration(), foundEvent.fromAnimeId(), context);
         }
 
         if (Objects.equals(foundEvent.fromIntegration(), new IntegrationId("syoboi"))) {
-            NotificationAction action = createNewNotificationAction(notification.id(), context, IGNORE_ACTION_TYPE);
-            createNewNotificationAction(action.id(), new TID(foundEvent.fromAnimeId().raw()), context);
+            NotificationAction action = createNewAction(notification.id(), context, IGNORE_ACTION_TYPE, false);
+            createNewAction(action.id(), new TID(foundEvent.fromAnimeId().raw()), context);
         }
+
+        NotificationAction manualAction = createNewAction(notification.id(), context, NEW_ANIME_ACTION_TYPE, true);
+        createNewManualAction(manualAction, foundEvent.fromIntegration(), foundEvent.fromAnimeId(), context);
 
         this.helperService.send(notification.id(), context);
     }
@@ -87,18 +86,19 @@ public class NewAnimeTask {
         return this.notificationService.createWithData(createData, context);
     }
 
-    private NotificationAction createNewNotificationAction(NotificationId id,
-                                                           RequestContext context,
-                                                           NotificationActionType actionType) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType, false);
+    private NotificationAction createNewAction(NotificationId id,
+                                               RequestContext context,
+                                               NotificationActionType actionType,
+                                               boolean requireUserInput) {
+        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType, requireUserInput);
         return this.actionService.createWithData(createData, context);
     }
 
-    private void createNewNotificationAction(NotificationActionId actionId,
-                                             NameSearchResult result,
-                                             IntegrationId fromIntegrationId,
-                                             IntegrationAnimeId fromIntegrationAnimeId,
-                                             RequestContext context) {
+    private void createNewAction(NotificationActionId actionId,
+                                 NameSearchResult result,
+                                 IntegrationId fromIntegrationId,
+                                 IntegrationAnimeId fromIntegrationAnimeId,
+                                 RequestContext context) {
         NewAnimeNotificationActionCreateData createData = createData(result, fromIntegrationId, fromIntegrationAnimeId);
         this.newAnimeActionService.createWithData(actionId, createData, context);
     }
@@ -117,9 +117,23 @@ public class NewAnimeTask {
                                                         links);
     }
 
-    private void createNewNotificationAction(NotificationActionId actionId, TID tid, RequestContext context) {
+    private void createNewAction(NotificationActionId actionId, TID tid, RequestContext context) {
         IgnoreTIDDataNotificationActionCreateData createData = new IgnoreTIDDataNotificationActionCreateData(tid);
         this.ignoreTIDDataActionService.createWithData(actionId, createData, context);
+    }
+
+    private void createNewManualAction(NotificationAction action,
+                                       IntegrationId integrationId,
+                                       IntegrationAnimeId integrationAnimeId,
+                                       RequestContext context) {
+        NewAnimeNotificationActionCreateData manualActionCreateData = manualCreateData(integrationId,
+                                                                                       integrationAnimeId);
+        this.newAnimeActionService.createWithData(action.id(), manualActionCreateData, context);
+    }
+
+    private NewAnimeNotificationActionCreateData manualCreateData(IntegrationId integrationId,
+                                                                  IntegrationAnimeId integrationAnimeId) {
+        return new NewAnimeNotificationActionCreateData(null, 12, 0, Map.of(integrationId, integrationAnimeId));
     }
 
     private Optional<AnimeName> findMainName(NameSearchResult result) {
