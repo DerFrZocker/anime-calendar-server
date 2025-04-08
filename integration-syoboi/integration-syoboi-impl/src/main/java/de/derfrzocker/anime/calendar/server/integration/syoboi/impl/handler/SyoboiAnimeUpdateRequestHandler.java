@@ -15,9 +15,11 @@ import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
 import de.derfrzocker.anime.calendar.server.layer.config.BoundFilterConfig;
 import de.derfrzocker.anime.calendar.server.layer.config.SimpleIntegerLayerConfig;
+import de.derfrzocker.anime.calendar.server.layer.config.SimpleOffsetIntegerLayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.config.StreamingTimeLayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeLengthLayer;
+import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeNumberLayer;
 import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
@@ -62,6 +64,7 @@ public class SyoboiAnimeUpdateRequestHandler {
 
         anime = checkBaseStreamTime(anime, episode, data, context);
         anime = checkLength(anime, episode, data, context);
+        anime = checkEpisodeCount(anime, episode, data, context);
     }
 
     private Anime checkBaseStreamTime(Anime anime, Episode episode, AnimeScheduleHolder data, RequestContext context) {
@@ -119,6 +122,24 @@ public class SyoboiAnimeUpdateRequestHandler {
         LayerTransformerDataHolder<SimpleIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
                 EpisodeLengthLayer.INSTANCE,
                 new SimpleIntegerLayerConfig((int) duration));
+        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+
+        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
+    }
+
+    private Anime checkEpisodeCount(Anime anime, Episode episode, AnimeScheduleHolder data, RequestContext context) {
+        if (String.valueOf(data.schedule().episode()).equals(episode.episodeNumber())) {
+            return anime;
+        }
+
+        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE,
+                                                                                                     new BoundFilterConfig(
+                                                                                                             data.schedule()
+                                                                                                                 .episode() - 1,
+                                                                                                             -1));
+        LayerTransformerDataHolder<SimpleOffsetIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
+                EpisodeNumberLayer.INSTANCE,
+                new SimpleOffsetIntegerLayerConfig(data.schedule().episode() - episode.episodeId(), 0));
         LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
 
         return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
