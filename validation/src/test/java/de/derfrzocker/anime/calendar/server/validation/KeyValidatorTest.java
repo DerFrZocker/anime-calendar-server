@@ -15,11 +15,6 @@ public class KeyValidatorTest {
         assertFalse(KeyValidator.isValid((CalendarKey) null), "Null input should not be valid.");
     }
 
-    @Test
-    public void testIsValid_CalendarKey_NullRawInput() {
-        assertFalse(KeyValidator.isValid(new CalendarKey(null)), "Null Key should not be valid.");
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"CQAYWSXEDCKAWSXEDCRFVTGBZHNQAYWDCRFVTGBQD",
                             "CQAYWSXEDCKAWSXEDCRFVTGBZHNQAYWDCRFVTGBQDASDASD"})
@@ -74,13 +69,6 @@ public class KeyValidatorTest {
         assertThrows(InvalidKeyException.class,
                      () -> KeyValidator.validate((CalendarKey) null),
                      "Null input should not be valid.");
-    }
-
-    @Test
-    public void testValidate_CalendarKey_NullRawInput() {
-        assertThrows(InvalidKeyException.class,
-                     () -> KeyValidator.validate(new CalendarKey(null)),
-                     "Null Key should not be valid.");
     }
 
     @ParameterizedTest

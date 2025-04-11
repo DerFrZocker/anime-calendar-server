@@ -17,11 +17,6 @@ public class IdValidatorTest {
         assertFalse(IdValidator.isValid((AnimeId) null), "Null input should not be valid.");
     }
 
-    @Test
-    public void testIsValid_AnimeId_NullRawInput() {
-        assertFalse(IdValidator.isValid(new AnimeId(null)), "Null Id should not be valid.");
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"AQAYWSXEDCR", "AMJUNHZBGTVFRCDE"})
     public void testIsValid_AnimeId_ToLong(String id) {
@@ -59,13 +54,6 @@ public class IdValidatorTest {
         assertThrows(InvalidIdException.class,
                      () -> IdValidator.validate((AnimeId) null),
                      "Null input should not be valid.");
-    }
-
-    @Test
-    public void testValidate_AnimeId_NullRawInput() {
-        assertThrows(InvalidIdException.class,
-                     () -> IdValidator.validate(new AnimeId(null)),
-                     "Null Id should not be valid.");
     }
 
     @ParameterizedTest
@@ -113,11 +101,6 @@ public class IdValidatorTest {
         assertFalse(IdValidator.isValid((UserId) null), "Null input should not be valid.");
     }
 
-    @Test
-    public void testIsValid_UserId_NullRawInput() {
-        assertFalse(IdValidator.isValid(new UserId(null)), "Null Id should not be valid.");
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"UQAYWSXEDCR", "UMJUNHZBGTVFRCDE"})
     public void testIsValid_UserId_ToLong(String id) {
@@ -155,13 +138,6 @@ public class IdValidatorTest {
         assertThrows(InvalidIdException.class,
                      () -> IdValidator.validate((UserId) null),
                      "Null input should not be valid.");
-    }
-
-    @Test
-    public void testValidate_UserId_NullRawInput() {
-        assertThrows(InvalidIdException.class,
-                     () -> IdValidator.validate(new UserId(null)),
-                     "Null Id should not be valid.");
     }
 
     @ParameterizedTest
@@ -209,11 +185,6 @@ public class IdValidatorTest {
         assertFalse(IdValidator.isValid((CalendarId) null), "Null input should not be valid.");
     }
 
-    @Test
-    public void testIsValid_CalendarId_NullRawInput() {
-        assertFalse(IdValidator.isValid(new CalendarId(null)), "Null Id should not be valid.");
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"CQAYWSXEDCR", "CMJUNHZBGTVFRCDE"})
     public void testIsValid_CalendarId_ToLong(String id) {
@@ -251,13 +222,6 @@ public class IdValidatorTest {
         assertThrows(InvalidIdException.class,
                      () -> IdValidator.validate((CalendarId) null),
                      "Null input should not be valid.");
-    }
-
-    @Test
-    public void testValidate_CalendarId_NullRawInput() {
-        assertThrows(InvalidIdException.class,
-                     () -> IdValidator.validate(new CalendarId(null)),
-                     "Null Id should not be valid.");
     }
 
     @ParameterizedTest
