@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.core.exception;
 
+import de.derfrzocker.anime.calendar.core.util.WrapperUtil;
 import java.util.function.Supplier;
 
 /**
@@ -14,15 +15,7 @@ public class AlreadyCreatedException extends RuntimeException {
     }
 
     public static <T> Supplier<AlreadyCreatedException> with(T id, String resourceName) {
-        return () -> new AlreadyCreatedException(ALREADY_CREATED.formatted(resourceName, toString(id)));
-    }
-
-    private static <T> String toString(T id) {
-        if (id == null) {
-            return "<null>";
-        }
-
-        return String.valueOf(id);
+        return () -> new AlreadyCreatedException(ALREADY_CREATED.formatted(resourceName, WrapperUtil.toString(id)));
     }
 
     private AlreadyCreatedException(String message) {

@@ -34,6 +34,7 @@ public final class AnimeDataMapper {
                          data.updatedBy,
                          title,
                          data.episodeCount,
-                         layerParser.createLayerHolder(data.episodeLayers));
+                         layerParser.createLayerHolder(data.episodeLayers),
+                         null);
     }
 }

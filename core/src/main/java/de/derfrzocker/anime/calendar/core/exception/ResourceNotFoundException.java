@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.season.Season;
 import de.derfrzocker.anime.calendar.core.user.UserId;
+import de.derfrzocker.anime.calendar.core.util.WrapperUtil;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -41,7 +42,7 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public static <T> Supplier<ResourceNotFoundException> with(T id, String resourceName) {
-        return () -> new ResourceNotFoundException(NOT_FOUND.formatted(resourceName, toString(id)));
+        return () -> new ResourceNotFoundException(NOT_FOUND.formatted(resourceName, WrapperUtil.toString(id)));
     }
 
     public static Supplier<ResourceNotFoundException> with(CalendarId calendarId, AnimeId animeId) {
@@ -81,14 +82,6 @@ public class ResourceNotFoundException extends RuntimeException {
         }
 
         return String.valueOf(function.apply(value));
-    }
-
-    private static <T> String toString(T id) {
-        if (id == null) {
-            return "<null>";
-        }
-
-        return String.valueOf(id);
     }
 
     private ResourceNotFoundException(String message) {

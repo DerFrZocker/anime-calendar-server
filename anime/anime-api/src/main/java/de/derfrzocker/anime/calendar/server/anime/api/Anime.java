@@ -5,11 +5,13 @@ import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerHolder;
+import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
 import java.time.Instant;
 import java.util.List;
 
 public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant updatedAt, UserId updatedBy, String title,
-                    int episodeCount, List<LayerHolder> episodeLayers) implements ModificationInfo {
+                    int episodeCount, List<LayerHolder> episodeLayers,
+                    List<LayerStepConfig> stepConfigs) implements ModificationInfo {
 
     public static Anime from(AnimeId id, AnimeCreateData createData, RequestContext context) {
         return new Anime(id,
@@ -19,7 +21,8 @@ public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant upd
                          context.requestUser(),
                          createData.title(),
                          createData.episodeCount(),
-                         createData.episodeLayers());
+                         createData.episodeLayers(),
+                         null);
     }
 
     public Anime updateWithData(AnimeUpdateData updateData, RequestContext context) {
@@ -30,6 +33,7 @@ public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant upd
                          context.requestUser(),
                          updateData.title().apply(title()),
                          updateData.episodeCount().apply(episodeCount()),
-                         updateData.episodeLayers().apply(episodeLayers()));
+                         updateData.episodeLayers().apply(episodeLayers()),
+                         null);
     }
 }
