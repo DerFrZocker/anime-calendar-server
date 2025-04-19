@@ -155,7 +155,7 @@ public class SyoboiAnimeUpdateRequestHandler {
     private Episode getEpisode(Anime anime, AnimeScheduleHolder data, String streamType) {
         EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(data.schedule().episode() - 1);
         AnimeOptions animeOptions = new AnimeOptions(Region.DE_DE, false, streamType);
-        for (LayerHolder layerHolder : anime.episodeLayers().reversed()) {
+        for (LayerHolder layerHolder : anime.episodeLayers()) {
             if (layerHolder.shouldSkip(anime, animeOptions, episodeBuilder)) {
                 continue;
             }
