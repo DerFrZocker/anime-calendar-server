@@ -3,12 +3,11 @@ package de.derfrzocker.anime.calendar.server.core.listener;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
-import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerTransformerDataHolder;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.event.PostAnimeIntegrationLinkCreateEvent;
-import de.derfrzocker.anime.calendar.server.layer.config.IntegrationUrlLayerConfig;
-import de.derfrzocker.anime.calendar.server.layer.transformer.IntegrationUrlLayer;
+import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.config.IntegrationUrlLayerConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.transformer.IntegrationUrlLayerTransformer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -25,15 +24,18 @@ public class LinkLayerAddListener {
     AnimeService service;
 
     public void onAnimeIntegrationLinkCreate(@Observes PostAnimeIntegrationLinkCreateEvent event) {
-        LayerTransformerDataHolder<IntegrationUrlLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
-                IntegrationUrlLayer.INSTANCE,
-                new IntegrationUrlLayerConfig(event.animeIntegrationLink().integrationId().raw(),
-                                              getUrl(event.animeIntegrationLink().integrationId(),
-                                                     event.animeIntegrationLink().integrationAnimeId())));
-        LayerHolder layerHolder = new LayerHolder(List.of(), layerTransformerDataHolder);
+        IntegrationUrlLayerConfig layerConfig = new IntegrationUrlLayerConfig(IntegrationUrlLayerTransformer.LAYER_KEY,
+                                                                              event.animeIntegrationLink()
+                                                                                   .integrationId()
+                                                                                   .raw(),
+                                                                              getUrl(event.animeIntegrationLink()
+                                                                                          .integrationId(),
+                                                                                     event.animeIntegrationLink()
+                                                                                          .integrationAnimeId()));
+        LayerStepConfig config = new LayerStepConfig(List.of(), layerConfig);
 
         this.service.updateWithData(event.animeIntegrationLink().animeId(),
-                                    AnimeUpdateData.addingLayer(layerHolder),
+                                    AnimeUpdateData.addingLayer(config),
                                     event.context());
     }
 

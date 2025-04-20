@@ -76,7 +76,7 @@ public class LayerServiceImpl implements LayerService {
         for (int i = 0; i < anime.episodeCount(); i++) {
             EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(i);
 
-            anime.episodeLayers()
+            anime.oldEpisodeLayers()
                  .stream()
                  .filter(layerHolder -> !layerHolder.shouldSkip(anime, animeOptions, episodeBuilder))
                  .map(LayerHolder::layerDataHolder)

@@ -5,22 +5,20 @@ import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.anime.api.Episode;
-import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
-import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerFilterDataHolder;
-import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerHolder;
-import de.derfrzocker.anime.calendar.server.anime.api.layer.LayerTransformerDataHolder;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
+import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
-import de.derfrzocker.anime.calendar.server.layer.config.BoundFilterConfig;
-import de.derfrzocker.anime.calendar.server.layer.config.SimpleIntegerLayerConfig;
-import de.derfrzocker.anime.calendar.server.layer.config.SimpleOffsetIntegerLayerConfig;
-import de.derfrzocker.anime.calendar.server.layer.config.StreamingTimeLayerConfig;
-import de.derfrzocker.anime.calendar.server.layer.filter.BoundLayerFilter;
-import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeLengthLayer;
-import de.derfrzocker.anime.calendar.server.layer.transformer.EpisodeNumberLayer;
-import de.derfrzocker.anime.calendar.server.layer.transformer.StreamingTimeLayer;
+import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.config.BoundFilterConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.config.SimpleIntegerLayerConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.config.SimpleOffsetIntegerLayerConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.config.StreamingTimeLayerConfig;
+import de.derfrzocker.anime.calendar.server.layer2.common.filter.BoundLayerFilter;
+import de.derfrzocker.anime.calendar.server.layer2.common.transformer.EpisodeLengthLayerTransformer;
+import de.derfrzocker.anime.calendar.server.layer2.common.transformer.EpisodeNumberLayerTransformer;
+import de.derfrzocker.anime.calendar.server.layer2.common.transformer.StreamingTimeLayerTransformer;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -37,6 +35,8 @@ public class SyoboiAnimeUpdateRequestHandler {
 
     @Inject
     AnimeService animeService;
+    @Inject
+    EpisodeBuilderService episodeBuilderService;
 
     public Uni<Void> handlePresentLink(List<AnimeIntegrationLink> links,
                                        AnimeScheduleHolder data,
@@ -60,7 +60,7 @@ public class SyoboiAnimeUpdateRequestHandler {
                                                      context);
         }
 
-        Episode episode = getEpisode(anime, data, ORG_STREAM_TYPE);
+        Episode episode = getEpisode(anime, data, ORG_STREAM_TYPE, context);
 
         anime = checkBaseStreamTime(anime, episode, data, context);
         anime = checkLength(anime, episode, data, context);
@@ -74,38 +74,34 @@ public class SyoboiAnimeUpdateRequestHandler {
 
         // TODO 2024-12-30: Handle multiple streaming services, broadcasting the same anime.
         // TODO 2024-12-30: Make this way better
-        Episode subEpisode = getEpisode(anime, data, SUB_STREAM_TYPE);
+        Episode subEpisode = getEpisode(anime, data, SUB_STREAM_TYPE, context);
         if (subEpisode.streamingTime() != null && episode.streamingTime() != null) {
             Duration diff = Duration.between(episode.streamingTime(), subEpisode.streamingTime());
 
-            LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(
-                    BoundLayerFilter.INSTANCE,
-                    new BoundFilterConfig(data.schedule().episode() - 1, -1));
-            LayerTransformerDataHolder<StreamingTimeLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
-                    StreamingTimeLayer.INSTANCE,
-                    new StreamingTimeLayerConfig(data.schedule().startTime().plus(diff),
-                                                 Period.ofDays(7),
-                                                 data.schedule().episode() - 1,
-                                                 SUB_STREAM_TYPE));
-            LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+            BoundFilterConfig filterConfig = new BoundFilterConfig(BoundLayerFilter.LAYER_KEY,
+                                                                   data.schedule().episode() - 1,
+                                                                   -1);
+            StreamingTimeLayerConfig layerConfig = new StreamingTimeLayerConfig(StreamingTimeLayerTransformer.LAYER_KEY,
+                                                                                data.schedule().startTime().plus(diff),
+                                                                                Period.ofDays(7),
+                                                                                data.schedule().episode() - 1,
+                                                                                SUB_STREAM_TYPE);
+            LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
-            anime = this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
+            anime = this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
         }
 
-        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE,
-                                                                                                     new BoundFilterConfig(
-                                                                                                             data.schedule()
-                                                                                                                 .episode() - 1,
-                                                                                                             -1));
-        LayerTransformerDataHolder<StreamingTimeLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
-                StreamingTimeLayer.INSTANCE,
-                new StreamingTimeLayerConfig(data.schedule().startTime(),
-                                             Period.ofDays(7),
-                                             data.schedule().episode() - 1,
-                                             ORG_STREAM_TYPE));
-        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+        BoundFilterConfig filterConfig = new BoundFilterConfig(BoundLayerFilter.LAYER_KEY,
+                                                               data.schedule().episode() - 1,
+                                                               -1);
+        StreamingTimeLayerConfig layerConfig = new StreamingTimeLayerConfig(StreamingTimeLayerTransformer.LAYER_KEY,
+                                                                            data.schedule().startTime(),
+                                                                            Period.ofDays(7),
+                                                                            data.schedule().episode() - 1,
+                                                                            ORG_STREAM_TYPE);
+        LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
-        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
+        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
     }
 
     private Anime checkLength(Anime anime, Episode episode, AnimeScheduleHolder data, RequestContext context) {
@@ -114,17 +110,14 @@ public class SyoboiAnimeUpdateRequestHandler {
             return anime;
         }
 
-        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE,
-                                                                                                     new BoundFilterConfig(
-                                                                                                             data.schedule()
-                                                                                                                 .episode() - 1,
-                                                                                                             -1));
-        LayerTransformerDataHolder<SimpleIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
-                EpisodeLengthLayer.INSTANCE,
-                new SimpleIntegerLayerConfig((int) duration));
-        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+        BoundFilterConfig filterConfig = new BoundFilterConfig(BoundLayerFilter.LAYER_KEY,
+                                                               data.schedule().episode() - 1,
+                                                               -1);
+        SimpleIntegerLayerConfig layerConfig = new SimpleIntegerLayerConfig(EpisodeLengthLayerTransformer.LAYER_KEY,
+                                                                            (int) duration);
+        LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
-        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
+        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
     }
 
     private Anime checkEpisodeCount(Anime anime, Episode episode, AnimeScheduleHolder data, RequestContext context) {
@@ -132,17 +125,16 @@ public class SyoboiAnimeUpdateRequestHandler {
             return anime;
         }
 
-        LayerFilterDataHolder<BoundFilterConfig> layerFilterDataHolder = new LayerFilterDataHolder<>(BoundLayerFilter.INSTANCE,
-                                                                                                     new BoundFilterConfig(
-                                                                                                             data.schedule()
-                                                                                                                 .episode() - 1,
-                                                                                                             -1));
-        LayerTransformerDataHolder<SimpleOffsetIntegerLayerConfig> layerTransformerDataHolder = new LayerTransformerDataHolder<>(
-                EpisodeNumberLayer.INSTANCE,
-                new SimpleOffsetIntegerLayerConfig(data.schedule().episode() - episode.episodeId(), 0));
-        LayerHolder layerHolder = new LayerHolder(List.of(layerFilterDataHolder), layerTransformerDataHolder);
+        BoundFilterConfig filterConfig = new BoundFilterConfig(BoundLayerFilter.LAYER_KEY,
+                                                               data.schedule().episode() - 1,
+                                                               -1);
+        SimpleOffsetIntegerLayerConfig layerConfig = new SimpleOffsetIntegerLayerConfig(EpisodeNumberLayerTransformer.LAYER_KEY,
+                                                                                        data.schedule()
+                                                                                            .episode() - episode.episodeId(),
+                                                                                        0);
+        LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
-        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(layerHolder), context);
+        return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
     }
 
     private boolean isCorrectTime(Episode episode, AnimeScheduleHolder data) {
@@ -152,16 +144,9 @@ public class SyoboiAnimeUpdateRequestHandler {
         return Math.abs(episode.streamingTime().getEpochSecond() - data.schedule().startTime().getEpochSecond()) < 60;
     }
 
-    private Episode getEpisode(Anime anime, AnimeScheduleHolder data, String streamType) {
-        EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(data.schedule().episode() - 1);
+    private Episode getEpisode(Anime anime, AnimeScheduleHolder data, String streamType, RequestContext context) {
         AnimeOptions animeOptions = new AnimeOptions(Region.DE_DE, false, streamType);
-        for (LayerHolder layerHolder : anime.episodeLayers()) {
-            if (layerHolder.shouldSkip(anime, animeOptions, episodeBuilder)) {
-                continue;
-            }
-            layerHolder.layerDataHolder().transform(anime, animeOptions, episodeBuilder);
-        }
-
-        return episodeBuilder.build();
+        int index = data.schedule().episode() - 1;
+        return this.episodeBuilderService.buildEpisode(anime, animeOptions, index, context);
     }
 }

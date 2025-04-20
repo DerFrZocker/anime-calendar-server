@@ -10,8 +10,8 @@ import java.time.Instant;
 import java.util.List;
 
 public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant updatedAt, UserId updatedBy, String title,
-                    int episodeCount, List<LayerHolder> episodeLayers,
-                    List<LayerStepConfig> stepConfigs) implements ModificationInfo {
+                    int episodeCount, List<LayerStepConfig> episodeLayers,
+                    List<LayerHolder> oldEpisodeLayers) implements ModificationInfo {
 
     public static Anime from(AnimeId id, AnimeCreateData createData, RequestContext context) {
         return new Anime(id,
@@ -22,7 +22,7 @@ public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant upd
                          createData.title(),
                          createData.episodeCount(),
                          createData.episodeLayers(),
-                         null);
+                         List.of());
     }
 
     public Anime updateWithData(AnimeUpdateData updateData, RequestContext context) {
@@ -34,6 +34,6 @@ public record Anime(AnimeId id, Instant createdAt, UserId createdBy, Instant upd
                          updateData.title().apply(title()),
                          updateData.episodeCount().apply(episodeCount()),
                          updateData.episodeLayers().apply(episodeLayers()),
-                         null);
+                         oldEpisodeLayers());
     }
 }

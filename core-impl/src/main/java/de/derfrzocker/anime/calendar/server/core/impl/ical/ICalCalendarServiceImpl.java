@@ -7,9 +7,9 @@ import de.derfrzocker.anime.calendar.server.anime.api.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.anime.api.Episode;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
-import de.derfrzocker.anime.calendar.server.anime.service.layer.LayerService;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
+import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -24,7 +24,7 @@ public class ICalCalendarServiceImpl implements ICalCalendarService {
     @Inject
     AnimeService animeService;
     @Inject
-    LayerService layerService;
+    EpisodeBuilderService episodeBuilderService;
     @Inject
     ICalCalendarBuilder calendarBuilder;
 
@@ -39,7 +39,7 @@ public class ICalCalendarServiceImpl implements ICalCalendarService {
                 continue;
             }
 
-            List<Episode> episodes = this.layerService.transformAnime(anime.get(), options);
+            List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime.get(), options, context);
 
             if (episodes.isEmpty()) {
                 continue;

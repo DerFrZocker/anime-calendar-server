@@ -41,7 +41,7 @@ public class EpisodeBuilderServiceImpl implements EpisodeBuilderService {
         EpisodeBuilder episodeBuilder = EpisodeBuilder.anEpisode(index);
         EpisodeBuilderWorker worker = new EpisodeBuilderWorker(anime, animeOptions, episodeBuilder, context);
 
-        anime.stepConfigs().forEach(worker::applyStepConfig);
+        anime.episodeLayers().forEach(worker::applyStepConfig);
 
         return episodeBuilder.build();
     }

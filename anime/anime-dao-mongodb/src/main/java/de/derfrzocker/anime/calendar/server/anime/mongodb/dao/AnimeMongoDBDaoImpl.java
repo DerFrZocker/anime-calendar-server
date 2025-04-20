@@ -7,6 +7,7 @@ import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.dao.AnimeDao;
 import de.derfrzocker.anime.calendar.server.anime.mongodb.mapper.AnimeDataMapper;
 import de.derfrzocker.anime.calendar.server.anime.mongodb.parser.LayerParser;
+import de.derfrzocker.anime.calendar.server.layer2.service.LayerConfigParserService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
@@ -19,25 +20,30 @@ public class AnimeMongoDBDaoImpl implements AnimeDao {
     AnimeMongoDBRepository repository;
     @Inject
     LayerParser layerParser;
+    @Inject
+    LayerConfigParserService configParserService;
 
     @Override
     public Stream<Anime> getAll(RequestContext context) {
-        return this.repository.findAll().stream().map(data -> AnimeDataMapper.toDomain(data, this.layerParser));
+        return this.repository.findAll().stream().map(data -> AnimeDataMapper.toDomain(data, this.configParserService,
+                                                                                       this.layerParser));
     }
 
     @Override
     public Optional<Anime> getById(AnimeId id, RequestContext context) {
-        return this.repository.findByIdOptional(id).map(data -> AnimeDataMapper.toDomain(data, this.layerParser));
+        return this.repository.findByIdOptional(id).map(data -> AnimeDataMapper.toDomain(data,
+                                                                                         this.configParserService,
+                                                                                         this.layerParser));
     }
 
     @Override
     public void create(Anime anime, RequestContext context) {
-        this.repository.persist(toData(anime, this.layerParser));
+        this.repository.persist(toData(anime, this.configParserService, this.layerParser));
     }
 
     @Override
     public void update(Anime anime, RequestContext context) {
-        this.repository.update(toData(anime, this.layerParser));
+        this.repository.update(toData(anime, this.configParserService, this.layerParser));
     }
 
     @Override
