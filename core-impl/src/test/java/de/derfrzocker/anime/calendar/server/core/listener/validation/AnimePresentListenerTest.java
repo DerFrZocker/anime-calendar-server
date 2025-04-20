@@ -23,7 +23,7 @@ class AnimePresentListenerTest {
     private static final Anime ANIME = createWithId(ANIME_ID);
 
     private static Anime createWithId(AnimeId id) {
-        return new Anime(id, null, null, null, null, null, 0, null, null);
+        return new Anime(id, null, null, null, null, null, 0, null);
     }
 
     private AnimeService service;

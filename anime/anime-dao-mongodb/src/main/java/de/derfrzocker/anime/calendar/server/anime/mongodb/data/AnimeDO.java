@@ -17,5 +17,4 @@ public class AnimeDO extends ModificationInfoDO {
     public String animeTitle;
     public int episodeCount;
     public List<Map<String, Object>> episodeLayers;
-    public List<Map<String, Object>> newEpisodeLayers;
 }

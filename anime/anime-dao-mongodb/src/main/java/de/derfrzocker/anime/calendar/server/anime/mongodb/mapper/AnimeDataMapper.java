@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.anime.mongodb.mapper;
 
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.mongodb.data.AnimeDO;
-import de.derfrzocker.anime.calendar.server.anime.mongodb.parser.LayerParser;
 import de.derfrzocker.anime.calendar.server.layer2.api.LayerConfig;
 import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
 import de.derfrzocker.anime.calendar.server.layer2.service.LayerConfigParserService;
@@ -19,14 +18,13 @@ public final class AnimeDataMapper {
     private AnimeDataMapper() {
     }
 
-    public static AnimeDO toData(Anime domain, LayerConfigParserService configParserService, LayerParser layerParser) {
+    public static AnimeDO toData(Anime domain, LayerConfigParserService configParserService) {
         AnimeDO data = new AnimeDO();
 
         data.id = domain.id();
         data.title = domain.title();
         data.episodeCount = domain.episodeCount();
-        data.episodeLayers = layerParser.parse(domain.oldEpisodeLayers());
-        data.newEpisodeLayers = toData(domain.episodeLayers(), configParserService);
+        data.episodeLayers = toData(domain.episodeLayers(), configParserService);
         data.apply(domain);
 
         return data;
@@ -61,7 +59,7 @@ public final class AnimeDataMapper {
         return data;
     }
 
-    public static Anime toDomain(AnimeDO data, LayerConfigParserService configParserService, LayerParser layerParser) {
+    public static Anime toDomain(AnimeDO data, LayerConfigParserService configParserService) {
         String title = data.title;
         if (title == null) {
             title = data.animeTitle;
@@ -74,8 +72,7 @@ public final class AnimeDataMapper {
                          data.updatedBy,
                          title,
                          data.episodeCount,
-                         toDomain(data.newEpisodeLayers, configParserService),
-                         layerParser.createLayerHolder(data.episodeLayers));
+                         toDomain(data.episodeLayers, configParserService));
     }
 
     private static List<LayerStepConfig> toDomain(List<Map<String, Object>> data,
