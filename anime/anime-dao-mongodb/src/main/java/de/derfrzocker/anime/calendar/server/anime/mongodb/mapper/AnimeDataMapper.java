@@ -2,9 +2,9 @@ package de.derfrzocker.anime.calendar.server.anime.mongodb.mapper;
 
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.mongodb.data.AnimeDO;
-import de.derfrzocker.anime.calendar.server.layer2.api.LayerConfig;
-import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
-import de.derfrzocker.anime.calendar.server.layer2.service.LayerConfigParserService;
+import de.derfrzocker.anime.calendar.server.layer.api.LayerConfig;
+import de.derfrzocker.anime.calendar.server.layer.api.LayerStepConfig;
+import de.derfrzocker.anime.calendar.server.layer.service.LayerConfigParserService;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

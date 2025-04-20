@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.dao.AnimeDao;
 import de.derfrzocker.anime.calendar.server.anime.mongodb.mapper.AnimeDataMapper;
-import de.derfrzocker.anime.calendar.server.layer2.service.LayerConfigParserService;
+import de.derfrzocker.anime.calendar.server.layer.service.LayerConfigParserService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;

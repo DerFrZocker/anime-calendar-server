@@ -4,7 +4,7 @@ import de.derfrzocker.anime.calendar.core.ModificationInfo;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;
+import de.derfrzocker.anime.calendar.server.layer.api.LayerStepConfig;
 import java.time.Instant;
 import java.util.List;
 

@@ -2,10 +2,10 @@ package de.derfrzocker.anime.calendar.server.layer.impl.service;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.layer.LayerKey;
-import de.derfrzocker.anime.calendar.server.layer2.api.LayerFilter;
-import de.derfrzocker.anime.calendar.server.layer2.common.filter.BoundLayerFilter;
-import de.derfrzocker.anime.calendar.server.layer2.common.filter.RegionLayerFilter;
-import de.derfrzocker.anime.calendar.server.layer2.service.LayerFilterService;
+import de.derfrzocker.anime.calendar.server.layer.api.LayerFilter;
+import de.derfrzocker.anime.calendar.server.layer.common.filter.BoundLayerFilter;
+import de.derfrzocker.anime.calendar.server.layer.common.filter.RegionLayerFilter;
+import de.derfrzocker.anime.calendar.server.layer.service.LayerFilterService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
