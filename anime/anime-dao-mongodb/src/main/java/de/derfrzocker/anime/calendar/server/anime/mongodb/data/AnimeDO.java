@@ -13,8 +13,6 @@ public class AnimeDO extends ModificationInfoDO {
     @BsonId
     public AnimeId id;
     public String title;
-    @Deprecated(forRemoval = true)
-    public String animeTitle;
     public int episodeCount;
     public List<Map<String, Object>> episodeLayers;
 }

@@ -60,17 +60,12 @@ public final class AnimeDataMapper {
     }
 
     public static Anime toDomain(AnimeDO data, LayerConfigParserService configParserService) {
-        String title = data.title;
-        if (title == null) {
-            title = data.animeTitle;
-        }
-
         return new Anime(data.id,
                          data.createdAt,
                          data.createdBy,
                          data.updatedAt,
                          data.updatedBy,
-                         title,
+                         data.title,
                          data.episodeCount,
                          toDomain(data.episodeLayers, configParserService));
     }
