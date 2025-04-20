@@ -2,7 +2,7 @@ package de.derfrzocker.anime.calendar.server.core.api.ical;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
 import java.util.Set;
 

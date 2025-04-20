@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.server.episode.service;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.anime.api.Episode;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import java.util.List;
 
 public interface EpisodeBuilderService {

@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.anime.api;
+package de.derfrzocker.anime.calendar.server.episode.api;
 
 import com.spencerwi.either.Either;
 import java.time.Instant;

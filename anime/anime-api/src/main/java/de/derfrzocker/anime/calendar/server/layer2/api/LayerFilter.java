@@ -1,8 +1,8 @@
 package de.derfrzocker.anime.calendar.server.layer2.api;
 
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 
 public interface LayerFilter<T extends LayerConfig> {
 

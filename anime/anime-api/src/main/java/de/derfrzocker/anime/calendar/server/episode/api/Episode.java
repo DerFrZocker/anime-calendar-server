@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.anime.api;
+package de.derfrzocker.anime.calendar.server.episode.api;
 
 import java.time.Instant;
 import org.jetbrains.annotations.Nullable;

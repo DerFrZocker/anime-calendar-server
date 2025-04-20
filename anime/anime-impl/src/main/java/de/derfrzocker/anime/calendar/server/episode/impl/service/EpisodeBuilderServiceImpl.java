@@ -2,9 +2,9 @@ package de.derfrzocker.anime.calendar.server.episode.impl.service;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.anime.api.Episode;
-import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.Episode;
+import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.layer2.api.LayerConfig;
 import de.derfrzocker.anime.calendar.server.layer2.api.LayerStepConfig;

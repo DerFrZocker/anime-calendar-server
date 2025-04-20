@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.user.MyAnimeListIntegrationUserService;

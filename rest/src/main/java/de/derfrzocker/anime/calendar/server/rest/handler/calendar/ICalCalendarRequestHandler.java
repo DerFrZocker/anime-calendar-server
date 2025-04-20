@@ -9,7 +9,7 @@ import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLink;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;

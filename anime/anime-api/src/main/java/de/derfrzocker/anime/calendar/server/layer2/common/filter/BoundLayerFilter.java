@@ -2,8 +2,8 @@ package de.derfrzocker.anime.calendar.server.layer2.common.filter;
 
 import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer2.api.AbstractLayerFilter;
 import de.derfrzocker.anime.calendar.server.layer2.common.config.BoundFilterConfig;
 

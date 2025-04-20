@@ -2,10 +2,10 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
-import de.derfrzocker.anime.calendar.server.anime.api.Episode;
+import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
