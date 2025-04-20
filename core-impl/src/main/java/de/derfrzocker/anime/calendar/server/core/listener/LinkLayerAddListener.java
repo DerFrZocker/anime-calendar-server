@@ -26,8 +26,7 @@ public class LinkLayerAddListener {
     public void onAnimeIntegrationLinkCreate(@Observes PostAnimeIntegrationLinkCreateEvent event) {
         IntegrationUrlLayerConfig layerConfig = new IntegrationUrlLayerConfig(IntegrationUrlLayerTransformer.LAYER_KEY,
                                                                               event.animeIntegrationLink()
-                                                                                   .integrationId()
-                                                                                   .raw(),
+                                                                                   .integrationId(),
                                                                               getUrl(event.animeIntegrationLink()
                                                                                           .integrationId(),
                                                                                      event.animeIntegrationLink()

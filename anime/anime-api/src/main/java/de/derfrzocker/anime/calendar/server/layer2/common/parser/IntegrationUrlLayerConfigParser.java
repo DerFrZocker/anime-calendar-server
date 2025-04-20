@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.server.layer2.common.parser;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.layer.LayerKey;
 import de.derfrzocker.anime.calendar.core.layer.LayerParserKey;
 import de.derfrzocker.anime.calendar.server.layer2.common.config.IntegrationUrlLayerConfig;
@@ -26,7 +27,7 @@ public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigPa
         String integrationId = decodeString(values, INTEGRATION_ID_KEY);
         String url = decodeString(values, URL_KEY);
 
-        return new IntegrationUrlLayerConfig(key, integrationId, url);
+        return new IntegrationUrlLayerConfig(key, new IntegrationId(integrationId), url);
     }
 
     @Override
@@ -34,7 +35,7 @@ public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigPa
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());
-        encodeString(values, INTEGRATION_ID_KEY, config.integrationId());
+        encodeString(values, INTEGRATION_ID_KEY, config.integrationId().raw());
         encodeString(values, URL_KEY, config.url());
 
         return values;

@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.anime.api.Episode;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
@@ -145,7 +146,10 @@ public class SyoboiAnimeUpdateRequestHandler {
     }
 
     private Episode getEpisode(Anime anime, AnimeScheduleHolder data, String streamType, RequestContext context) {
-        AnimeOptions animeOptions = new AnimeOptions(Region.DE_DE, false, streamType);
+        AnimeOptions animeOptions = AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE)
+                                                       .withUseRegionName(false)
+                                                       .withStreamType(streamType)
+                                                       .build();
         int index = data.schedule().episode() - 1;
         return this.episodeBuilderService.buildEpisode(anime, animeOptions, index, context);
     }

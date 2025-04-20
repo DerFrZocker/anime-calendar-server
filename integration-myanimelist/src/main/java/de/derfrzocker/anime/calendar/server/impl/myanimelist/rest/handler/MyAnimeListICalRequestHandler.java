@@ -6,12 +6,12 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
+import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.impl.myanimelist.user.MyAnimeListIntegrationUserService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
-import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptionsBuilder;
-import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import java.time.Instant;
@@ -42,7 +42,11 @@ public class MyAnimeListICalRequestHandler {
                                          .collect(Collectors.toSet());
 
         // TODO 2024-12-16: Make options an rest argument
-        return this.iCalService.build(ids, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build(), context).raw();
+        return this.iCalService.build(ids,
+                                      AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE)
+                                                         .withIntegrationId(MY_ANIME_LIST_INTEGRATION)
+                                                         .build(),
+                                      context).raw();
     }
 
     public String getByUser(IntegrationUserId userId) {

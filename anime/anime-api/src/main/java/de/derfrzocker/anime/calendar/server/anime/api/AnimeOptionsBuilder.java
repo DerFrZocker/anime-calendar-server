@@ -1,9 +1,13 @@
 package de.derfrzocker.anime.calendar.server.anime.api;
 
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+
 public final class AnimeOptionsBuilder {
 
     private final Region region;
     private boolean useRegionName = true;
+    private IntegrationId integrationId;
+    private String streamType;
 
     private AnimeOptionsBuilder(Region region) {
         this.region = region;
@@ -18,11 +22,21 @@ public final class AnimeOptionsBuilder {
         return this;
     }
 
+    public AnimeOptionsBuilder withIntegrationId(IntegrationId integrationId) {
+        this.integrationId = integrationId;
+        return this;
+    }
+
+    public AnimeOptionsBuilder withStreamType(String streamType) {
+        this.streamType = streamType;
+        return this;
+    }
+
     public AnimeOptionsBuilder but() {
         return anAnimeOptions(region).withUseRegionName(useRegionName);
     }
 
     public AnimeOptions build() {
-        return new AnimeOptions(region, useRegionName, null);
+        return new AnimeOptions(region, useRegionName, integrationId, streamType);
     }
 }

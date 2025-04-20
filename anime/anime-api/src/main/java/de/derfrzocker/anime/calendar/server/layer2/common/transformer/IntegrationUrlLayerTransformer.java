@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.server.anime.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.anime.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer2.api.AbstractLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer2.common.config.IntegrationUrlLayerConfig;
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 public final class IntegrationUrlLayerTransformer extends AbstractLayerTransformer<IntegrationUrlLayerConfig> {
@@ -21,6 +22,10 @@ public final class IntegrationUrlLayerTransformer extends AbstractLayerTransform
                           @NotNull AnimeOptions animeOptions,
                           @NotNull IntegrationUrlLayerConfig layerConfig,
                           @NotNull EpisodeBuilder episodeBuilder) {
+        if (!Objects.equals(animeOptions.integrationId(), layerConfig.integrationId())) {
+            return;
+        }
+
         episodeBuilder.withIntegrationLink(layerConfig.url());
     }
 
