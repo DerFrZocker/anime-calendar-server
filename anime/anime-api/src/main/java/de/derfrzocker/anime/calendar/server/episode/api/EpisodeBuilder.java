@@ -15,7 +15,7 @@ public final class EpisodeBuilder {
     @Nullable
     private Either<String, Integer> episodeNumbers;
     @Nullable
-    private String type;
+    private StreamType type;
     @Nullable
     private String animeListLink;
     @Nullable
@@ -49,9 +49,13 @@ public final class EpisodeBuilder {
         return this;
     }
 
-    public EpisodeBuilder withType(String type) {
+    public EpisodeBuilder withType(StreamType type) {
         this.type = type;
         return this;
+    }
+
+    public StreamType type() {
+        return this.type;
     }
 
     public EpisodeBuilder withAnimeListLink(String animeListLink) {
@@ -83,11 +87,16 @@ public final class EpisodeBuilder {
         return episodeIndex;
     }
 
-    public EpisodeBuilder but() {
-        return anEpisode(episodeIndex).withEpisodeName(episodeName).withEpisodeNumber(episodeNumber).withEpisodeNumbers(episodeNumbers).withType(type).withAnimeListLink(animeListLink).withStreamingLink(streamingLink).withStreamingTime(streamingTime).withEpisodeLength(episodeLength).withIntegrationLink(integrationLink);
-    }
-
     public Episode build() {
-        return new Episode(episodeIndex, episodeName, episodeNumber == null ? null : episodeNumber.fold(Function.identity(), String::valueOf), episodeNumbers == null ? null : episodeNumbers.fold(Function.identity(), String::valueOf), type, animeListLink, streamingLink, streamingTime, episodeLength, integrationLink);
+        return new Episode(episodeIndex,
+                           episodeName,
+                           episodeNumber == null ? null : episodeNumber.fold(Function.identity(), String::valueOf),
+                           episodeNumbers == null ? null : episodeNumbers.fold(Function.identity(), String::valueOf),
+                           type,
+                           animeListLink,
+                           streamingLink,
+                           streamingTime,
+                           episodeLength,
+                           integrationLink);
     }
 }

@@ -2,12 +2,13 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
-import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.episode.api.Episode;
+import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
@@ -30,9 +31,6 @@ import java.util.List;
 
 @ApplicationScoped
 public class SyoboiAnimeUpdateRequestHandler {
-
-    private static final String ORG_STREAM_TYPE = "org";
-    private static final String SUB_STREAM_TYPE = "sub";
 
     @Inject
     AnimeService animeService;
@@ -61,7 +59,7 @@ public class SyoboiAnimeUpdateRequestHandler {
                                                      context);
         }
 
-        Episode episode = getEpisode(anime, data, ORG_STREAM_TYPE, context);
+        Episode episode = getEpisode(anime, data, StreamType.ORG, context);
 
         anime = checkBaseStreamTime(anime, episode, data, context);
         anime = checkLength(anime, episode, data, context);
@@ -75,7 +73,7 @@ public class SyoboiAnimeUpdateRequestHandler {
 
         // TODO 2024-12-30: Handle multiple streaming services, broadcasting the same anime.
         // TODO 2024-12-30: Make this way better
-        Episode subEpisode = getEpisode(anime, data, SUB_STREAM_TYPE, context);
+        Episode subEpisode = getEpisode(anime, data, StreamType.SUB, context);
         if (subEpisode.streamingTime() != null && episode.streamingTime() != null) {
             Duration diff = Duration.between(episode.streamingTime(), subEpisode.streamingTime());
 
@@ -86,7 +84,7 @@ public class SyoboiAnimeUpdateRequestHandler {
                                                                                 data.schedule().startTime().plus(diff),
                                                                                 Period.ofDays(7),
                                                                                 data.schedule().episode() - 1,
-                                                                                SUB_STREAM_TYPE);
+                                                                                StreamType.SUB);
             LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
             anime = this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
@@ -99,7 +97,7 @@ public class SyoboiAnimeUpdateRequestHandler {
                                                                             data.schedule().startTime(),
                                                                             Period.ofDays(7),
                                                                             data.schedule().episode() - 1,
-                                                                            ORG_STREAM_TYPE);
+                                                                            StreamType.ORG);
         LayerStepConfig config = new LayerStepConfig(List.of(filterConfig), layerConfig);
 
         return this.animeService.updateWithData(anime.id(), AnimeUpdateData.addingLayer(config), context);
@@ -145,10 +143,10 @@ public class SyoboiAnimeUpdateRequestHandler {
         return Math.abs(episode.streamingTime().getEpochSecond() - data.schedule().startTime().getEpochSecond()) < 60;
     }
 
-    private Episode getEpisode(Anime anime, AnimeScheduleHolder data, String streamType, RequestContext context) {
+    private Episode getEpisode(Anime anime, AnimeScheduleHolder data, StreamType streamType, RequestContext context) {
         AnimeOptions animeOptions = AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE)
                                                        .withUseRegionName(false)
-                                                       .withStreamType(streamType)
+                                                       .withStreamTypes(streamType)
                                                        .build();
         int index = data.schedule().episode() - 1;
         return this.episodeBuilderService.buildEpisode(anime, animeOptions, index, context);

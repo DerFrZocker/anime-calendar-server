@@ -22,8 +22,19 @@ public final class StreamingTimeLayerTransformer extends AbstractLayerTransforme
                           @NotNull AnimeOptions animeOptions,
                           @NotNull StreamingTimeLayerConfig layerConfig,
                           @NotNull EpisodeBuilder episodeBuilder) {
-        if (animeOptions.streamType() != null && !animeOptions.streamType().equals(layerConfig.type())) {
+        if (animeOptions.streamTypes().isEmpty()) {
             return;
+        }
+        if (!animeOptions.streamTypes().contains(layerConfig.type())) {
+            return;
+        }
+        if (episodeBuilder.type() != null && animeOptions.streamTypes().size() > 1) {
+            int currentIndex = animeOptions.streamTypes().indexOf(episodeBuilder.type());
+            int potentialIndex = animeOptions.streamTypes().indexOf(layerConfig.type());
+
+            if (currentIndex < potentialIndex) {
+                return;
+            }
         }
 
         Period period = layerConfig.period().multipliedBy((episodeBuilder.episodeIndex() - layerConfig.offset()));

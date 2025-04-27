@@ -8,6 +8,7 @@ import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.core.util.ChangeBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
+import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLinkCreateData;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.notify.service.StreamingNotificationActionService;
@@ -56,7 +57,7 @@ public class StreamingActionTask {
                                                                                          action.streamingTime(),
                                                                                          Period.ofDays(7),
                                                                                          action.orgEpisodeIndex(),
-                                                                                         "sub");
+                                                                                         StreamType.SUB);
 
         AnimeUpdateData updateData = new AnimeUpdateData(Change.nothing(),
                                                          Change.nothing(),

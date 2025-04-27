@@ -81,7 +81,7 @@ public class ICalCalendarICal4jBuilderImpl implements ICalCalendarBuilder {
 
         if (episode.type() != null) {
             summary.insert(0, "] ");
-            summary.insert(0, episode.type());
+            summary.insert(0, episode.type().raw());
             summary.insert(0, "[");
         }
 

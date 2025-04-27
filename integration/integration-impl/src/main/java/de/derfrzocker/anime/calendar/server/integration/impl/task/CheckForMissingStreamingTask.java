@@ -10,6 +10,7 @@ import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
 import de.derfrzocker.anime.calendar.server.episode.api.Episode;
+import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotification;
@@ -98,7 +99,7 @@ public class CheckForMissingStreamingTask {
             return;
         }
 
-        AnimeOptions options = AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build();
+        AnimeOptions options = AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).withStreamTypes(StreamType.ORG).build();
         List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime, options, context);
 
         Instant startOfWeek = OffsetDateTime.now().with(DayOfWeek.MONDAY).with(LocalTime.MIN).toInstant();
