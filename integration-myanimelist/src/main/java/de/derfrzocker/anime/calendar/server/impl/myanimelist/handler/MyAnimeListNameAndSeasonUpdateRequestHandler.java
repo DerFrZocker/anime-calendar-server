@@ -2,7 +2,7 @@ package de.derfrzocker.anime.calendar.server.impl.myanimelist.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.season.Season;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
@@ -36,7 +36,6 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class MyAnimeListNameAndSeasonUpdateRequestHandler {
 
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
     private static final NameType DEFAULT_NAME_TYPE = new NameType("main");
     private static final NameLanguage DEFAULT_NAME_LANGUAGE = new NameLanguage("x-jat");
 
@@ -91,7 +90,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
     }
 
     private void createOrUpdateName(DataHolder read, RequestContext context) {
-        Optional<AnimeNameHolder> current = this.nameService.getById(MY_ANIME_LIST, read.id(), context);
+        Optional<AnimeNameHolder> current = this.nameService.getById(IntegrationIds.MY_ANIME_LIST, read.id(), context);
 
         if (current.isPresent()) {
             updateName(read, current.get(), context);
@@ -101,7 +100,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
     }
 
     private void createOrUpdateSeason(DataHolder read, RequestContext context) {
-        Optional<AnimeSeasonInfo> current = this.seasonService.getById(MY_ANIME_LIST,
+        Optional<AnimeSeasonInfo> current = this.seasonService.getById(IntegrationIds.MY_ANIME_LIST,
                                                                        read.id(),
                                                                        read.year(),
                                                                        read.season(),
@@ -115,7 +114,7 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
     }
 
     private void createName(DataHolder read, RequestContext context) {
-        this.nameService.createWithData(MY_ANIME_LIST,
+        this.nameService.createWithData(IntegrationIds.MY_ANIME_LIST,
                                         read.id(),
                                         new AnimeNameHolderCreateData(List.of(read.name())),
                                         context);
@@ -150,18 +149,18 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
                 return List.of();
             });
 
-            this.nameService.updateWithData(MY_ANIME_LIST, read.id(), updateData, context);
+            this.nameService.updateWithData(IntegrationIds.MY_ANIME_LIST, read.id(), updateData, context);
             return;
         }
 
-        this.nameService.updateWithData(MY_ANIME_LIST,
+        this.nameService.updateWithData(IntegrationIds.MY_ANIME_LIST,
                                         read.id(),
                                         new AnimeNameHolderUpdateData(Change.addingToList(read.name())),
                                         context);
     }
 
     private void createSeason(DataHolder read, RequestContext context) {
-        this.seasonService.createWithData(MY_ANIME_LIST,
+        this.seasonService.createWithData(IntegrationIds.MY_ANIME_LIST,
                                           read.id(),
                                           read.year(),
                                           read.season(),

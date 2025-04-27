@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotification;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.notify.exception.StreamingNotificationExceptions;
@@ -23,10 +24,6 @@ import java.util.Optional;
 @ApplicationScoped
 @Named(StreamingNotification.NOTIFICATION_TYPE_RAW + DiscordMessageRenderer.NAME_SUFFIX)
 public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
-
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
 
     @Inject
     StreamingNotificationService streamingService;
@@ -53,13 +50,13 @@ public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (SYOBOI.equals(integrationId)) {
+        if (IntegrationIds.SYOBOI.equals(integrationId)) {
             return "https://cal.syoboi.jp/tid/%s".formatted(integrationAnimeId.raw());
         }
-        if (MY_ANIME_LIST.equals(integrationId)) {
+        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
             return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (ANIDB.equals(integrationId)) {
+        if (IntegrationIds.ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
         }
 

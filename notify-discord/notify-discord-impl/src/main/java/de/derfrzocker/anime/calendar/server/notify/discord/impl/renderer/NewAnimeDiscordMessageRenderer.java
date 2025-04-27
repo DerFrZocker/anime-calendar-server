@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationAction;
@@ -31,9 +32,6 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
     private static final NotificationActionType NEW_ANIME_ACTION_TYPE = new NotificationActionType("NewAnime");
     private static final NotificationActionType IGNORE_ACTION_TYPE = new NotificationActionType("IgnoreTIDData");
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
 
     @Inject
     NewAnimeNotificationActionService newAnimeActionService;
@@ -96,27 +94,30 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
         }
 
         findIgnoreActions(holder.actions(), context).forEach(action -> {
-            builder.addField("Ignorable [%s] [%s]".formatted(SYOBOI.raw(), action.tid().raw()),
-                             getUrl(SYOBOI, new IntegrationAnimeId(action.tid().raw())));
-            builder.addButton("Ignore [%s] %s".formatted(SYOBOI.raw(), action.tid().raw()), action.id().raw());
+            builder.addField("Ignorable [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()),
+                             getUrl(IntegrationIds.SYOBOI, new IntegrationAnimeId(action.tid().raw())));
+            builder.addButton("Ignore [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()),
+                              action.id().raw());
         });
 
         findManualAction(holder.actions(), context).forEach(action -> {
             // TODO 2025-04-07: Make it not hardcoded to Syoboi
-            IntegrationAnimeId animeId = action.links().get(SYOBOI);
-            builder.addField("Manual Link [%s] [%s]".formatted(SYOBOI.raw(), animeId.raw()), getUrl(SYOBOI, animeId));
-            builder.addButton("Manual Link [%s] %s".formatted(SYOBOI.raw(), animeId.raw()), action.id().raw());
+            IntegrationAnimeId animeId = action.links().get(IntegrationIds.SYOBOI);
+            builder.addField("Manual Link [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()),
+                             getUrl(IntegrationIds.SYOBOI, animeId));
+            builder.addButton("Manual Link [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()),
+                              action.id().raw());
         });
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (SYOBOI.equals(integrationId)) {
+        if (IntegrationIds.SYOBOI.equals(integrationId)) {
             return "https://cal.syoboi.jp/tid/%s/time".formatted(integrationAnimeId.raw());
         }
-        if (MY_ANIME_LIST.equals(integrationId)) {
+        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
             return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (ANIDB.equals(integrationId)) {
+        if (IntegrationIds.ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
         }
 

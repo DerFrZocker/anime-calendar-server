@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationActionCreateData;
@@ -68,7 +69,7 @@ public class NewAnimeTask {
             createNewAction(action.id(), result, foundEvent.fromIntegration(), foundEvent.fromAnimeId(), context);
         }
 
-        if (Objects.equals(foundEvent.fromIntegration(), new IntegrationId("syoboi"))) {
+        if (Objects.equals(foundEvent.fromIntegration(), IntegrationIds.SYOBOI)) {
             NotificationAction action = createNewAction(notification.id(), context, IGNORE_ACTION_TYPE, false);
             createNewAction(action.id(), new TID(foundEvent.fromAnimeId().raw()), context);
         }

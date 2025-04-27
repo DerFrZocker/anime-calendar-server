@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.impl.task;
 import static de.derfrzocker.anime.calendar.server.integration.notify.exception.StreamingNotificationActionExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.core.util.ChangeBuilder;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
@@ -25,11 +26,6 @@ import java.util.List;
 
 @ApplicationScoped
 public class StreamingActionTask {
-
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-    private static final IntegrationId CRUNCHYROLL = new IntegrationId("crunchyroll");
 
     @Inject
     AnimeIntegrationLinkService linkService;
@@ -74,16 +70,16 @@ public class StreamingActionTask {
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (SYOBOI.equals(integrationId)) {
+        if (IntegrationIds.SYOBOI.equals(integrationId)) {
             return "https://cal.syoboi.jp/tid/%s/time".formatted(integrationAnimeId.raw());
         }
-        if (MY_ANIME_LIST.equals(integrationId)) {
+        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
             return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (ANIDB.equals(integrationId)) {
+        if (IntegrationIds.ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (CRUNCHYROLL.equals(integrationId)) {
+        if (IntegrationIds.CRUNCHYROLL.equals(integrationId)) {
             return "https://www.crunchyroll.com/series/%s".formatted(integrationAnimeId.raw());
         }
 

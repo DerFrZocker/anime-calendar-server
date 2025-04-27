@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.impl.task;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
@@ -39,9 +40,8 @@ public class SendNotificationForNameLinkFoundTask {
 
     private static final Logger LOG = Logger.getLogger(SendNotificationForNameLinkFoundTask.class);
 
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId[] INTEGRATION_IDS = new IntegrationId[]{ANIDB, MY_ANIME_LIST};
+    private static final IntegrationId[] INTEGRATION_IDS = new IntegrationId[]{IntegrationIds.ANIDB,
+                                                                               IntegrationIds.MY_ANIME_LIST};
 
     public static final NotificationType NOTIFICATION_TYPE = new NotificationType("NameLink");
     private static final NotificationActionType INTEGRATION_LINK_ACTION_TYPE = new NotificationActionType(

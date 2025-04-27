@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.server.core.listener;
 
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.event.PostAnimeIntegrationLinkCreateEvent;
@@ -15,11 +16,6 @@ import java.util.List;
 
 @ApplicationScoped
 public class LinkLayerAddListener {
-
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-    private static final IntegrationId CRUNCHYROLL = new IntegrationId("crunchyroll");
 
     @Inject
     AnimeService service;
@@ -41,16 +37,16 @@ public class LinkLayerAddListener {
 
     // TODO 2024-12-27: Refactor, is duplicated
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (SYOBOI.equals(integrationId)) {
+        if (IntegrationIds.SYOBOI.equals(integrationId)) {
             return "https://cal.syoboi.jp/tid/%s".formatted(integrationAnimeId.raw());
         }
-        if (MY_ANIME_LIST.equals(integrationId)) {
+        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
             return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (ANIDB.equals(integrationId)) {
+        if (IntegrationIds.ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (CRUNCHYROLL.equals(integrationId)) {
+        if (IntegrationIds.CRUNCHYROLL.equals(integrationId)) {
             return "https://www.crunchyroll.com/series/%s".formatted(integrationAnimeId.raw());
         }
 

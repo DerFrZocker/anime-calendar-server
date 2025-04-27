@@ -1,13 +1,13 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
+import de.derfrzocker.anime.calendar.core.season.Season;
 import de.derfrzocker.anime.calendar.server.core.api.season.AnimeSeasonInfoService;
 import de.derfrzocker.anime.calendar.server.impl.season.anidb.client.AniDBSeasonInfo;
 import de.derfrzocker.anime.calendar.server.impl.season.anidb.client.AniDBUDPClient;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfoCreateData;
-import de.derfrzocker.anime.calendar.core.season.Season;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -21,8 +21,6 @@ import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class AniDBSeasonUpdateRequestHandler {
-
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
 
     private static final Logger LOG = Logger.getLogger(AniDBSeasonUpdateRequestHandler.class);
 
@@ -53,7 +51,7 @@ public class AniDBSeasonUpdateRequestHandler {
     }
 
     private void createOrUpdate(AniDBSeasonInfo read, RequestContext context) {
-        Optional<AnimeSeasonInfo> current = this.service.getById(ANIDB,
+        Optional<AnimeSeasonInfo> current = this.service.getById(IntegrationIds.ANIDB,
                                                                  read.integrationAnimeId(),
                                                                  getYear(read.startDate()),
                                                                  getSeason(read.startDate()),
@@ -67,7 +65,7 @@ public class AniDBSeasonUpdateRequestHandler {
     }
 
     private void create(AniDBSeasonInfo read, RequestContext context) {
-        this.service.createWithData(ANIDB,
+        this.service.createWithData(IntegrationIds.ANIDB,
                                     read.integrationAnimeId(),
                                     getYear(read.startDate()),
                                     getSeason(read.startDate()),

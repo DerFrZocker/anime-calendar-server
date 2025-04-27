@@ -2,7 +2,7 @@ package de.derfrzocker.anime.calendar.server.impl.name.anidb.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.core.api.name.AnimeNameHolderService;
 import de.derfrzocker.anime.calendar.server.impl.name.anidb.client.AniDBRestClient;
@@ -38,8 +38,6 @@ import org.xml.sax.SAXException;
 @ApplicationScoped
 public class AniDBNameUpdateRequestHandler {
 
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-
     private static final Logger LOG = Logger.getLogger(AniDBNameUpdateRequestHandler.class);
 
     @RestClient
@@ -69,7 +67,9 @@ public class AniDBNameUpdateRequestHandler {
     }
 
     private void createOrUpdate(ParsedAnimeNameHolder read, RequestContext context) {
-        Optional<AnimeNameHolder> current = this.service.getById(ANIDB, read.integrationAnimeId(), context);
+        Optional<AnimeNameHolder> current = this.service.getById(IntegrationIds.ANIDB,
+                                                                 read.integrationAnimeId(),
+                                                                 context);
 
         if (current.isPresent()) {
             update(read, current.get(), context);
@@ -79,7 +79,7 @@ public class AniDBNameUpdateRequestHandler {
     }
 
     private void create(ParsedAnimeNameHolder read, RequestContext context) {
-        this.service.createWithData(ANIDB,
+        this.service.createWithData(IntegrationIds.ANIDB,
                                     read.integrationAnimeId(),
                                     new AnimeNameHolderCreateData(read.names()),
                                     context);
@@ -87,7 +87,7 @@ public class AniDBNameUpdateRequestHandler {
 
     private void update(ParsedAnimeNameHolder read, AnimeNameHolder current, RequestContext context) {
         if (read.names().size() != current.names().size()) {
-            this.service.updateWithData(ANIDB,
+            this.service.updateWithData(IntegrationIds.ANIDB,
                                         read.integrationAnimeId(),
                                         new AnimeNameHolderUpdateData(Change.to(read.names())),
                                         context);
@@ -105,7 +105,7 @@ public class AniDBNameUpdateRequestHandler {
             return;
         }
 
-        this.service.updateWithData(ANIDB,
+        this.service.updateWithData(IntegrationIds.ANIDB,
                                     read.integrationAnimeId(),
                                     new AnimeNameHolderUpdateData(Change.to(read.names())),
                                     context);

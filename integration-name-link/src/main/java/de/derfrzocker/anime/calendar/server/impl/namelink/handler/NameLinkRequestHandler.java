@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.server.impl.namelink.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.core.api.name.NameSearchService;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
@@ -20,9 +21,6 @@ import org.jboss.logging.Logger;
 @Dependent
 public class NameLinkRequestHandler {
 
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-
     private static final Logger LOG = Logger.getLogger(NameLinkRequestHandler.class);
 
     @Inject
@@ -36,7 +34,7 @@ public class NameLinkRequestHandler {
         LOG.info("Searching anime integration for anime '%s'.".formatted(anime.id().raw()));
 
         return Multi.createFrom()
-                    .items(ANIDB, MY_ANIME_LIST)
+                    .items(IntegrationIds.ANIDB, IntegrationIds.MY_ANIME_LIST)
                     .emitOn(Infrastructure.getDefaultExecutor())
                     .filter(integrationId -> isNotLinked(anime, integrationId, context))
                     .flatMap(integrationId -> this.nameSearchService.search(integrationId, anime.title(), context))

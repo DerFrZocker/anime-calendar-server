@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.impl.task;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
@@ -48,7 +49,7 @@ public class CheckForMissingStreamingTask {
 
     private static final Logger LOG = Logger.getLogger(CheckForMissingStreamingTask.class);
 
-    private static final IntegrationId REFERENCE_INTEGRATION_ID = new IntegrationId("myanimelist");
+    private static final IntegrationId REFERENCE_INTEGRATION_ID = IntegrationIds.MY_ANIME_LIST;
 
     @Inject
     AnimeService animeService;

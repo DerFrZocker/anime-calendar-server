@@ -2,7 +2,7 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
@@ -28,8 +28,6 @@ import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class SyoboiAnimeCreateAndUpdateRequestHandler {
-
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
 
     private static final Logger LOG = Logger.getLogger(SyoboiAnimeCreateAndUpdateRequestHandler.class);
 
@@ -77,7 +75,9 @@ public class SyoboiAnimeCreateAndUpdateRequestHandler {
 
     private Uni<Void> handleData(AnimeScheduleHolder data, RequestContext context) {
         IntegrationAnimeId integrationAnimeId = new IntegrationAnimeId(data.tidData().tid().raw());
-        Stream<AnimeIntegrationLink> link = this.linkService.getAllWithId(SYOBOI, integrationAnimeId, context);
+        Stream<AnimeIntegrationLink> link = this.linkService.getAllWithId(IntegrationIds.SYOBOI,
+                                                                          integrationAnimeId,
+                                                                          context);
         try (link) {
             List<AnimeIntegrationLink> links = link.toList();
             if (links.isEmpty()) {

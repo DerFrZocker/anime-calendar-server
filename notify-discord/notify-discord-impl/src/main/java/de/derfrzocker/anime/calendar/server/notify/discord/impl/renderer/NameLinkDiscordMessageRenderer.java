@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
@@ -30,9 +31,6 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
     private static final NotificationActionType INTEGRATION_LINK_ACTION_TYPE = new NotificationActionType(
             "IntegrationLink");
     private static final NotificationActionType MANUAL_LINK_ACTION_TYPE = new NotificationActionType("ManualLink");
-
-    private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
 
     @Inject
     AnimeService animeService;
@@ -80,10 +78,10 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
     }
 
     private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (MY_ANIME_LIST.equals(integrationId)) {
+        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
             return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
         }
-        if (ANIDB.equals(integrationId)) {
+        if (IntegrationIds.ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
         }
 

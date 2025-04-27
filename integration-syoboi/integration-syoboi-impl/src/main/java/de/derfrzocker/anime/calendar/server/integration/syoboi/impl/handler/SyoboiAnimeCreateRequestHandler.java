@@ -2,7 +2,7 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.core.api.name.NameSearchService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.holder.AnimeScheduleHolder;
 import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
@@ -18,9 +18,6 @@ import java.util.List;
 @Dependent
 public class SyoboiAnimeCreateRequestHandler {
 
-    private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
-    private static final IntegrationId ANIDB = new IntegrationId("anidb");
-
     @Inject
     NameSearchService nameSearchService;
     @Inject
@@ -28,7 +25,7 @@ public class SyoboiAnimeCreateRequestHandler {
 
     public Uni<Void> handleMissingLink(AnimeScheduleHolder data, RequestContext context) {
         return Multi.createFrom()
-                    .item(ANIDB)
+                    .item(IntegrationIds.ANIDB)
                     .emitOn(Infrastructure.getDefaultExecutor())
                     .flatMap(integrationId -> this.nameSearchService.search(integrationId,
                                                                             data.tidData().title(),
@@ -40,7 +37,7 @@ public class SyoboiAnimeCreateRequestHandler {
     }
 
     private void sendEvent(List<NameSearchResult> searchResults, AnimeScheduleHolder data, RequestContext context) {
-        this.postNewAnimeFoundEvent.fire(new PostNewAnimeFoundEvent(SYOBOI,
+        this.postNewAnimeFoundEvent.fire(new PostNewAnimeFoundEvent(IntegrationIds.SYOBOI,
                                                                     new IntegrationAnimeId(data.tidData().tid().raw()),
                                                                     data.tidData().title(),
                                                                     searchResults,
