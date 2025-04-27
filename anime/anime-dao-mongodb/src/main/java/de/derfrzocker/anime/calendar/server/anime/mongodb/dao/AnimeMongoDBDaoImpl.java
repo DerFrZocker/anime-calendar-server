@@ -28,7 +28,7 @@ public class AnimeMongoDBDaoImpl implements AnimeDao {
 
     @Override
     public Stream<Anime> getAllByIds(Collection<AnimeId> ids, RequestContext context) {
-        return this.repository.find("animeId in ?1", ids.stream().map(AnimeId::raw).toList())
+        return this.repository.find("_id in ?1", ids.stream().map(AnimeId::raw).toList())
                               .stream()
                               .map(data -> AnimeDataMapper.toDomain(data, this.configParserService));
     }
