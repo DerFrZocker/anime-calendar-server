@@ -11,6 +11,7 @@ import de.derfrzocker.anime.calendar.server.integration.mongodb.data.AnimeIntegr
 import de.derfrzocker.anime.calendar.server.integration.mongodb.mapper.AnimeIntegrationLinkDataMapper;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -27,6 +28,17 @@ public class AnimeIntegrationLinkMongoDBDaoImpl implements AnimeIntegrationLinkD
         return this.repository.find("integrationId = ?1 and integrationAnimeId = ?2",
                                     integrationId.raw(),
                                     integrationAnimeId.raw()).stream().map(AnimeIntegrationLinkDataMapper::toDomain);
+    }
+
+    @Override
+    public Stream<AnimeIntegrationLink> getAllWithIds(IntegrationId integrationId,
+                                                      Collection<IntegrationAnimeId> integrationAnimeIds,
+                                                      RequestContext context) {
+        return this.repository.find("integrationId = ?1 and integrationAnimeId in ?2",
+                                    integrationId.raw(),
+                                    integrationAnimeIds.stream().map(IntegrationAnimeId::raw).toList())
+                              .stream()
+                              .map(AnimeIntegrationLinkDataMapper::toDomain);
     }
 
     @Override

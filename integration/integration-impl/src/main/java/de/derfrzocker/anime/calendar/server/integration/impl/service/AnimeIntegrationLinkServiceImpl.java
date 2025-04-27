@@ -13,6 +13,7 @@ import de.derfrzocker.anime.calendar.server.integration.dao.AnimeIntegrationLink
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -29,6 +30,13 @@ public class AnimeIntegrationLinkServiceImpl implements AnimeIntegrationLinkServ
                                                      IntegrationAnimeId integrationAnimeId,
                                                      RequestContext context) {
         return this.dao.getAllWithId(integrationId, integrationAnimeId, context);
+    }
+
+    @Override
+    public Stream<AnimeIntegrationLink> getAllWithIds(IntegrationId integrationId,
+                                                      Collection<IntegrationAnimeId> integrationAnimeIds,
+                                                      RequestContext context) {
+        return this.dao.getAllWithIds(integrationId, integrationAnimeIds, context);
     }
 
     @Override

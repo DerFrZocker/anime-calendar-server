@@ -12,6 +12,7 @@ import de.derfrzocker.anime.calendar.server.anime.impl.generator.AnimeIdGenerato
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -29,6 +30,11 @@ public class AnimeServiceImpl implements AnimeService {
     @Override
     public Stream<Anime> getAll(RequestContext context) {
         return this.dao.getAll(context);
+    }
+
+    @Override
+    public Stream<Anime> getAllByIds(Collection<AnimeId> ids, RequestContext context) {
+        return this.dao.getAllByIds(ids, context);
     }
 
     @Override

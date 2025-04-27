@@ -3,20 +3,20 @@ package de.derfrzocker.anime.calendar.server.core.impl.ical;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
-import de.derfrzocker.anime.calendar.server.episode.api.AnimeEpisodes;
-import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
-import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeEpisodes;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
+import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Dependent
 public class ICalCalendarServiceImpl implements ICalCalendarService {
@@ -31,21 +31,17 @@ public class ICalCalendarServiceImpl implements ICalCalendarService {
     @Override
     public ICalCalendar build(Set<AnimeId> ids, AnimeOptions options, RequestContext context) {
         List<AnimeEpisodes> animeEpisodes = new ArrayList<>();
-        for (AnimeId id : ids) {
-            Optional<Anime> anime = this.animeService.getById(id, context);
 
-            if (anime.isEmpty()) {
-                // TODO 2024-12-15: Log message
-                continue;
-            }
+        try (Stream<Anime> animes = this.animeService.getAllByIds(ids, context)) {
+            animes.forEach(anime -> {
+                List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime, options, context);
 
-            List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime.get(), options, context);
+                if (episodes.isEmpty()) {
+                    return;
+                }
 
-            if (episodes.isEmpty()) {
-                continue;
-            }
-
-            animeEpisodes.add(new AnimeEpisodes(anime.get(), episodes));
+                animeEpisodes.add(new AnimeEpisodes(anime, episodes));
+            });
         }
 
         return this.calendarBuilder.build(animeEpisodes, context);

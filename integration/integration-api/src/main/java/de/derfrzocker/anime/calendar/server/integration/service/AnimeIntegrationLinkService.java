@@ -7,6 +7,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLinkCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLinkUpdateData;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -15,6 +16,10 @@ public interface AnimeIntegrationLinkService {
     Stream<AnimeIntegrationLink> getAllWithId(IntegrationId integrationId,
                                               IntegrationAnimeId integrationAnimeId,
                                               RequestContext context);
+
+    Stream<AnimeIntegrationLink> getAllWithIds(IntegrationId integrationId,
+                                               Collection<IntegrationAnimeId> integrationAnimeIds,
+                                               RequestContext context);
 
     Stream<AnimeIntegrationLink> getAllWithId(AnimeId animeId, IntegrationId integrationId, RequestContext context);
 

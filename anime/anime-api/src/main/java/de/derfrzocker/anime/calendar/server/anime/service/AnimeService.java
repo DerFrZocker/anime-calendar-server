@@ -5,6 +5,7 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeCreateData;
 import de.derfrzocker.anime.calendar.server.anime.api.AnimeUpdateData;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -12,6 +13,8 @@ import java.util.stream.Stream;
 public interface AnimeService {
 
     Stream<Anime> getAll(RequestContext context);
+
+    Stream<Anime> getAllByIds(Collection<AnimeId> ids, RequestContext context);
 
     Optional<Anime> getById(AnimeId id, RequestContext context);
 

@@ -9,6 +9,7 @@ import de.derfrzocker.anime.calendar.server.anime.mongodb.mapper.AnimeDataMapper
 import de.derfrzocker.anime.calendar.server.layer.service.LayerConfigParserService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -23,6 +24,13 @@ public class AnimeMongoDBDaoImpl implements AnimeDao {
     @Override
     public Stream<Anime> getAll(RequestContext context) {
         return this.repository.findAll().stream().map(data -> AnimeDataMapper.toDomain(data, this.configParserService));
+    }
+
+    @Override
+    public Stream<Anime> getAllByIds(Collection<AnimeId> ids, RequestContext context) {
+        return this.repository.find("animeId in ?1", ids.stream().map(AnimeId::raw).toList())
+                              .stream()
+                              .map(data -> AnimeDataMapper.toDomain(data, this.configParserService));
     }
 
     @Override
