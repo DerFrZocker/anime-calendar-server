@@ -8,7 +8,7 @@ public final class AnimeOptionsBuilder {
     private final Region region;
     private boolean useRegionName = true;
     private IntegrationId integrationId;
-    private String streamType;
+    private String streamType = "org";
 
     private AnimeOptionsBuilder(Region region) {
         this.region = region;

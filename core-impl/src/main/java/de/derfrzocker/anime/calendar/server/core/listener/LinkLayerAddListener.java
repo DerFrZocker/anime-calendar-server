@@ -19,6 +19,7 @@ public class LinkLayerAddListener {
     private static final IntegrationId SYOBOI = new IntegrationId("syoboi");
     private static final IntegrationId MY_ANIME_LIST = new IntegrationId("myanimelist");
     private static final IntegrationId ANIDB = new IntegrationId("anidb");
+    private static final IntegrationId CRUNCHYROLL = new IntegrationId("crunchyroll");
 
     @Inject
     AnimeService service;
@@ -48,6 +49,9 @@ public class LinkLayerAddListener {
         }
         if (ANIDB.equals(integrationId)) {
             return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
+        }
+        if (CRUNCHYROLL.equals(integrationId)) {
+            return "https://www.crunchyroll.com/series/%s".formatted(integrationAnimeId.raw());
         }
 
         // TODO 2024-12-23: Better exception
