@@ -1,6 +1,9 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
+import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelperService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
@@ -20,6 +23,8 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
 
     @Inject
     TrackingChannelNotificationActionService trackingActionService;
+    @Inject
+    IntegrationHelperService integrationHelperService;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
@@ -33,8 +38,9 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
 
         TID tid = trackingChannels.getFirst().tid();
         String title = trackingChannels.getFirst().title();
+        String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI, new IntegrationAnimeId(tid.raw()));
         builder.setTitle("[%s] %s".formatted(tid.raw(), title))
-               .setDescription("Links: %s\nFound following channels:".formatted(getUrl(tid)));
+               .setDescription("Links: %s\nFound following channels:".formatted(url));
 
         // TODO 2024-12-23: Account for message limits
         for (TrackingChannelNotificationAction action : trackingChannels) {
@@ -42,10 +48,6 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
 
             builder.addButton("Link %s".formatted(action.channelName()), action.id().raw());
         }
-    }
-
-    private String getUrl(TID tid) {
-        return "https://cal.syoboi.jp/tid/%s".formatted(tid.raw());
     }
 
     private List<TrackingChannelNotificationAction> toSpecificAction(List<NotificationAction> actions,

@@ -1,13 +1,12 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.api.ManualLinkNotificationAction;
+import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelperService;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.service.ManualLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
@@ -38,6 +37,8 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
     IntegrationLinkNotificationActionService integrationActionService;
     @Inject
     ManualLinkNotificationActionService manualLinkActionService;
+    @Inject
+    IntegrationHelperService integrationHelperService;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
@@ -58,11 +59,11 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
             // TODO 2024-12-23: Account for message limits
             for (IntegrationLinkNotificationAction action : integrationLinks) {
                 IntegrationId integrationId = action.integrationId();
+                String url = this.integrationHelperService.getUrl(integrationId, action.integrationAnimeId());
                 builder.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
                                                                action.integrationAnimeId().raw(),
                                                                action.score(),
-                                                               action.bestName()),
-                                 getUrl(integrationId, action.integrationAnimeId()));
+                                                               action.bestName()), url);
 
                 builder.addButton("Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw()),
                                   action.id().raw());
@@ -75,18 +76,6 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
             builder.addButton("Manual Link [%s] %s".formatted(action.animeId().raw(), action.integrationId().raw()),
                               action.id().raw());
         });
-    }
-
-    private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
-            return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-        if (IntegrationIds.ANIDB.equals(integrationId)) {
-            return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-
-        // TODO 2024-12-23: Better exception
-        throw new RuntimeException("Unknown integration id: " + integrationId);
     }
 
     private List<IntegrationLinkNotificationAction> toSpecificAction(List<NotificationAction> actions,

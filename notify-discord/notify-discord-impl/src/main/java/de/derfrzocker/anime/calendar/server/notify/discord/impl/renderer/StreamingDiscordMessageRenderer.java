@@ -1,14 +1,12 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotification;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.notify.exception.StreamingNotificationExceptions;
 import de.derfrzocker.anime.calendar.server.integration.notify.service.StreamingNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.notify.service.StreamingNotificationService;
+import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelperService;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
@@ -29,39 +27,27 @@ public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
     StreamingNotificationService streamingService;
     @Inject
     StreamingNotificationActionService streamingActionService;
+    @Inject
+    IntegrationHelperService integrationHelperService;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
         StreamingNotification notification = toNotification(holder.notification(), context);
 
         builder.setTitle("[%s] Missing Stream".formatted(notification.animeId().raw()));
+
+        String url = this.integrationHelperService.getUrl(notification.referenceIntegrationId(),
+                                                          notification.referenceIntegrationAnimeId());
         builder.addField("%s [%s] - ep: %d".formatted(notification.referenceIntegrationId().raw(),
                                                       notification.referenceIntegrationAnimeId().raw(),
                                                       notification.orgEpisodeIndex() + 1),
-                         "%s\n%s".formatted(notification.orgStreamingTime(),
-                                            getUrl(notification.referenceIntegrationId(),
-                                                   notification.referenceIntegrationAnimeId())));
+                         "%s\n%s".formatted(notification.orgStreamingTime(), url));
 
         List<StreamingNotificationAction> streamingActions = toSpecificAction(holder.actions(), context);
 
         for (StreamingNotificationAction action : streamingActions) {
             builder.addButton("Set Streaming", action.id().raw());
         }
-    }
-
-    private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (IntegrationIds.SYOBOI.equals(integrationId)) {
-            return "https://cal.syoboi.jp/tid/%s".formatted(integrationAnimeId.raw());
-        }
-        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
-            return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-        if (IntegrationIds.ANIDB.equals(integrationId)) {
-            return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-
-        // TODO 2024-12-23: Better exception
-        throw new RuntimeException("Unknown integration id: " + integrationId);
     }
 
     private StreamingNotification toNotification(Notification notify, RequestContext context) {

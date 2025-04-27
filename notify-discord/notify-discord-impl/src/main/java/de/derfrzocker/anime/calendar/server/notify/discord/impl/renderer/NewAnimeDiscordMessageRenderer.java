@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
+import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelperService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
@@ -37,6 +38,8 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
     NewAnimeNotificationActionService newAnimeActionService;
     @Inject
     IgnoreTIDDataNotificationActionService ignoreTIDDataActionService;
+    @Inject
+    IntegrationHelperService integrationHelperService;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
@@ -70,7 +73,8 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
         if (min != null) {
             for (IntegrationAnimeId animeId : integrations.get(min)) {
-                builder.addField("[%s] [%s]".formatted(min.raw(), animeId.raw()), getUrl(min, animeId));
+                String url = this.integrationHelperService.getUrl(min, animeId);
+                builder.addField("[%s] [%s]".formatted(min.raw(), animeId.raw()), url);
                 for (NewAnimeNotificationAction action : newAnimes) {
                     if (!Objects.equals(action.links().get(min), animeId)) {
                         continue;
@@ -80,11 +84,11 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
                         if (Objects.equals(entry.getKey(), min)) {
                             continue;
                         }
+                        url = this.integrationHelperService.getUrl(entry.getKey(), entry.getValue());
                         builder.addField("-> [%s] [%s] [%s] %s".formatted(entry.getKey().raw(),
                                                                           entry.getValue().raw(),
                                                                           action.score(),
-                                                                          action.title()),
-                                         getUrl(entry.getKey(), entry.getValue()));
+                                                                          action.title()), url);
 
                         builder.addButton("Create [%s] %s".formatted(entry.getKey().raw(), entry.getValue().raw()),
                                           action.id().raw());
@@ -94,8 +98,9 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
         }
 
         findIgnoreActions(holder.actions(), context).forEach(action -> {
-            builder.addField("Ignorable [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()),
-                             getUrl(IntegrationIds.SYOBOI, new IntegrationAnimeId(action.tid().raw())));
+            String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI,
+                                                              new IntegrationAnimeId(action.tid().raw()));
+            builder.addField("Ignorable [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()), url);
             builder.addButton("Ignore [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()),
                               action.id().raw());
         });
@@ -103,26 +108,11 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
         findManualAction(holder.actions(), context).forEach(action -> {
             // TODO 2025-04-07: Make it not hardcoded to Syoboi
             IntegrationAnimeId animeId = action.links().get(IntegrationIds.SYOBOI);
-            builder.addField("Manual Link [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()),
-                             getUrl(IntegrationIds.SYOBOI, animeId));
+            String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI, animeId);
+            builder.addField("Manual Link [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()), url);
             builder.addButton("Manual Link [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()),
                               action.id().raw());
         });
-    }
-
-    private String getUrl(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {
-        if (IntegrationIds.SYOBOI.equals(integrationId)) {
-            return "https://cal.syoboi.jp/tid/%s/time".formatted(integrationAnimeId.raw());
-        }
-        if (IntegrationIds.MY_ANIME_LIST.equals(integrationId)) {
-            return "https://myanimelist.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-        if (IntegrationIds.ANIDB.equals(integrationId)) {
-            return "https://anidb.net/anime/%s".formatted(integrationAnimeId.raw());
-        }
-
-        // TODO 2024-12-23: Better exception
-        throw new RuntimeException("Unknown integration id: " + integrationId);
     }
 
     private List<NewAnimeNotificationAction> toSpecificAction(List<NotificationAction> actions,
