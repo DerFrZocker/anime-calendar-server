@@ -1,6 +1,10 @@
 package de.derfrzocker.anime.calendar.server.rest.mapper.exception;
 
+import de.derfrzocker.anime.calendar.core.exception.ActionNotAllowedException;
+import de.derfrzocker.anime.calendar.core.exception.AlreadyCreatedException;
+import de.derfrzocker.anime.calendar.core.exception.InconsistentDataException;
 import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
+import de.derfrzocker.anime.calendar.core.exception.UnexpectedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthorizedException;
@@ -41,6 +45,31 @@ public class ExceptionMappers {
     @ServerExceptionMapper
     public RestResponse<ExceptionTO> mapException(UnauthorizedException exception) {
         return build(Response.Status.FORBIDDEN, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(ActionNotAllowedException exception) {
+        return build(Response.Status.FORBIDDEN, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(AlreadyCreatedException exception) {
+        return build(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(InconsistentDataException exception) {
+        return build(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(de.derfrzocker.anime.calendar.core.exception.UnauthorizedException exception) {
+        return build(Response.Status.UNAUTHORIZED, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(UnexpectedException exception) {
+        return build(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 
     private RestResponse<ExceptionTO> build(Response.StatusType status, String message) {

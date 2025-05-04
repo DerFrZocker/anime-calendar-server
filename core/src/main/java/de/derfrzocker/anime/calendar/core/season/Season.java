@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.core.season;
 
 import java.time.Month;
+import java.time.Year;
 
 public enum Season {
 
@@ -35,17 +36,17 @@ public enum Season {
         };
     }
 
-    public int nextYear(int current) {
+    public Year nextYear(Year current) {
         if (this == FALL) {
-            return current + 1;
+            return current.plusYears(1);
         }
 
         return current;
     }
 
-    public int previousYear(int current) {
+    public Year previousYear(Year current) {
         if (this == WINTER) {
-            return current - 1;
+            return current.minusYears(1);
         }
 
         return current;

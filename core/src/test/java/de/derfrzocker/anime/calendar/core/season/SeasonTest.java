@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.core.season;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.Month;
+import java.time.Year;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -46,19 +47,19 @@ class SeasonTest {
 
     public static Stream<Arguments> dataNextYear() {
         return Stream.of(
-                Arguments.of(2020, Season.WINTER, 2020),
-                Arguments.of(2020, Season.SPRING, 2020),
-                Arguments.of(2020, Season.SUMMER, 2020),
-                Arguments.of(2021, Season.FALL, 2020)
+                Arguments.of(Year.of(2020), Season.WINTER, Year.of(2020)),
+                Arguments.of(Year.of(2020), Season.SPRING, Year.of(2020)),
+                Arguments.of(Year.of(2020), Season.SUMMER, Year.of(2020)),
+                Arguments.of(Year.of(2021), Season.FALL, Year.of(2020))
         );
     }
 
     public static Stream<Arguments> dataPreviousYear() {
         return Stream.of(
-                Arguments.of(2019, Season.WINTER, 2020),
-                Arguments.of(2020, Season.SPRING, 2020),
-                Arguments.of(2020, Season.SUMMER, 2020),
-                Arguments.of(2020, Season.FALL, 2020)
+                Arguments.of(Year.of(2019), Season.WINTER, Year.of(2020)),
+                Arguments.of(Year.of(2020), Season.SPRING, Year.of(2020)),
+                Arguments.of(Year.of(2020), Season.SUMMER, Year.of(2020)),
+                Arguments.of(Year.of(2020), Season.FALL, Year.of(2020))
         );
     }
 
@@ -82,13 +83,13 @@ class SeasonTest {
 
     @ParameterizedTest
     @MethodSource("dataNextYear")
-    public void testCorrectNextYear(int expectedYear, Season toTest, int current) {
+    public void testCorrectNextYear(Year expectedYear, Season toTest, Year current) {
         assertEquals(expectedYear, toTest.nextYear(current));
     }
 
     @ParameterizedTest
     @MethodSource("dataPreviousYear")
-    public void testCorrectPreviousSeason(int expectedYear, Season toTest, int current) {
+    public void testCorrectPreviousSeason(Year expectedYear, Season toTest, Year current) {
         assertEquals(expectedYear, toTest.previousYear(current));
     }
 }
