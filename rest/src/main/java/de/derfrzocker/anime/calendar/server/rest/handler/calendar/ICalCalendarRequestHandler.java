@@ -7,8 +7,8 @@ import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarAnimeLinkService;
 import de.derfrzocker.anime.calendar.server.core.api.calendar.CalendarService;
-import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.ical.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.Calendar;
 import de.derfrzocker.anime.calendar.server.model.domain.calendar.CalendarAnimeLink;
 import jakarta.enterprise.context.RequestScoped;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ICalCalendarRequestHandler {
 
     @Inject
-    ICalCalendarService iCalService;
+    ICalCalendarBuilder iCalCalendarBuilder;
     @Inject
     CalendarService calendarService;
     @Inject
@@ -40,6 +40,7 @@ public class ICalCalendarRequestHandler {
                                                    .collect(Collectors.toSet());
 
         // TODO 2024-12-16: Make options an rest argument
-        return this.iCalService.build(ids, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build(), context).raw();
+        return this.iCalCalendarBuilder.build(ids, AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).build(), context)
+                                       .raw();
     }
 }

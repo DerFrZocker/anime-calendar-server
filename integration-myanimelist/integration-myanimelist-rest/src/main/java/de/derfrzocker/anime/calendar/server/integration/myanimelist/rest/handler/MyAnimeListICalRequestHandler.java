@@ -7,8 +7,8 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
-import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.server.ical.ICalCalendarBuilder;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.transfer.AnimeOptionsTO;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
@@ -25,7 +25,7 @@ public class MyAnimeListICalRequestHandler {
     private static final UserId ICAL_USER = new UserId("UICALHANDL");
 
     @Inject
-    ICalCalendarService iCalService;
+    ICalCalendarBuilder iCalCalendarBuilder;
     @Inject
     AnimeIntegrationLinkService integrationLinkService;
     @Inject
@@ -65,7 +65,7 @@ public class MyAnimeListICalRequestHandler {
             builder.withStreamTypes(options.streamTypes());
         }
 
-        return this.iCalService.build(ids, builder.build(), context).raw();
+        return this.iCalCalendarBuilder.build(ids, builder.build(), context).raw();
     }
 
     private RequestContext createRequestContext() {

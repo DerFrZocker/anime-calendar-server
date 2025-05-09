@@ -1,35 +1,35 @@
-package de.derfrzocker.anime.calendar.server.core.impl.ical;
+package de.derfrzocker.anime.calendar.server.ical.impl;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
-import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
-import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarService;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
-import jakarta.enterprise.context.Dependent;
+import de.derfrzocker.anime.calendar.server.ical.ICalCalendarBuilder;
+import de.derfrzocker.anime.calendar.server.ical.ICalCalendarConverter;
+import de.derfrzocker.anime.calendar.server.ical.api.ICalCalendar;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
-@Dependent
-public class ICalCalendarServiceImpl implements ICalCalendarService {
+@ApplicationScoped
+public class ICalCalendarBuilderImpl implements ICalCalendarBuilder {
 
     @Inject
     AnimeService animeService;
     @Inject
     EpisodeBuilderService episodeBuilderService;
     @Inject
-    ICalCalendarBuilder calendarBuilder;
+    ICalCalendarConverter iCalCalendarConverter;
 
     @Override
-    public ICalCalendar build(Set<AnimeId> ids, AnimeOptions options, RequestContext context) {
+    public ICalCalendar build(Collection<AnimeId> ids, AnimeOptions options, RequestContext context) {
         List<AnimeEpisodes> animeEpisodes = new ArrayList<>();
 
         try (Stream<Anime> animes = this.animeService.getAllByIds(ids, context)) {
@@ -44,6 +44,6 @@ public class ICalCalendarServiceImpl implements ICalCalendarService {
             });
         }
 
-        return this.calendarBuilder.build(animeEpisodes, context);
+        return this.iCalCalendarConverter.convert(animeEpisodes, context);
     }
 }

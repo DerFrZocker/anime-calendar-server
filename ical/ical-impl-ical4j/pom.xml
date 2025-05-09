@@ -6,62 +6,30 @@
 
     <parent>
         <groupId>de.derfrzocker</groupId>
-        <artifactId>anime-calendar-server-parent</artifactId>
+        <artifactId>anime-calendar-server-ical</artifactId>
         <version>0.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>anime-calendar-server-rest</artifactId>
+    <artifactId>anime-calendar-server-ical-impl-ical4j</artifactId>
     <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-model-domain</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
             <artifactId>anime-calendar-server-core-api</artifactId>
             <version>0.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-validation</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-user-permission</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Jakarta RESTful -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-jackson</artifactId>
-        </dependency>
-        <!-- Security -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-elytron-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-elytron-security-properties-file</artifactId>
-        </dependency>
-        <!-- Jakarta Validation -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-validator</artifactId>
         </dependency>
         <dependency>
             <groupId>de.derfrzocker</groupId>
             <artifactId>anime-calendar-server-ical-api</artifactId>
             <version>0.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mnode.ical4j</groupId>
+            <artifactId>ical4j</artifactId>
+            <version>${ical4j.version}</version>
         </dependency>
     </dependencies>
 

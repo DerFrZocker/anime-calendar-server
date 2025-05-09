@@ -1,16 +1,16 @@
-package de.derfrzocker.anime.calendar.service.impl.ical4j;
+package de.derfrzocker.anime.calendar.server.ical.ical4j;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeEpisodes;
 import de.derfrzocker.anime.calendar.server.episode.api.Episode;
-import de.derfrzocker.anime.calendar.server.core.api.ical.ICalCalendarBuilder;
-import de.derfrzocker.anime.calendar.server.model.domain.ical.ICalCalendar;
+import de.derfrzocker.anime.calendar.server.ical.ICalCalendarConverter;
+import de.derfrzocker.anime.calendar.server.ical.api.ICalCalendar;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.Period;
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -21,19 +21,19 @@ import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
 
 @ApplicationScoped
-public class ICalCalendarICal4jBuilderImpl implements ICalCalendarBuilder {
+public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
 
     private final static String PROID = "-//Marvin (DerFrZocker)//anime calendar 2.0//DE";
 
     @Override
-    public ICalCalendar build(List<AnimeEpisodes> episodes, RequestContext context) {
+    public ICalCalendar convert(Collection<AnimeEpisodes> animeEpisodes, RequestContext context) {
         Calendar calendar = new Calendar();
         calendar.add(new ProdId.Factory().createProperty(PROID));
         calendar.add(new Version.Factory().createProperty(Version.VALUE_2_0));
         calendar.add(new Version.Factory().createProperty(CalScale.VALUE_GREGORIAN));
         calendar.add(new Uid.Factory().createProperty(UUID.randomUUID().toString()));
 
-        for (AnimeEpisodes animeEpisode : episodes) {
+        for (AnimeEpisodes animeEpisode : animeEpisodes) {
             addAnime(calendar, animeEpisode);
         }
 
