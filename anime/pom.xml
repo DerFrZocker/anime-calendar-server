@@ -18,7 +18,6 @@
         <module>anime-api</module>
         <module>anime-dao-mongodb</module>
         <module>anime-impl</module>
-        <!--        <module>anime-rest</module>-->
     </modules>
 
 </project>
