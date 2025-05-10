@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.constrain;
+package de.derfrzocker.anime.calendar.rest.constrain;
 
 import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import jakarta.validation.ConstraintValidator;

@@ -18,6 +18,7 @@
         <module>ical-api</module>
         <module>ical-impl</module>
         <module>ical-impl-ical4j</module>
+        <module>ical-rest</module>
     </modules>
 
 </project>

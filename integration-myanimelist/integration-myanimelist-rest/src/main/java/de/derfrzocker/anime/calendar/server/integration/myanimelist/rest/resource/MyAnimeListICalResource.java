@@ -2,10 +2,10 @@ package de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.resour
 
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationUserId;
+import de.derfrzocker.anime.calendar.rest.api.AnimeOptionsQueryParams;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.constrain.ValidateMyAnimeListAnimeId;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.constrain.ValidateMyAnimeListUsername;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.handler.MyAnimeListICalRequestHandler;
-import de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.transfer.AnimeOptionsTO;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -32,7 +32,7 @@ public class MyAnimeListICalResource {
     @PermitAll
     public String getByMyAnimeListId(@QueryParam("animeId") Set<@ValidateMyAnimeListAnimeId IntegrationAnimeId> animeIds,
                                      @QueryParam("ani") Set<@ValidateMyAnimeListAnimeId IntegrationAnimeId> ani,
-                                     @BeanParam @Valid AnimeOptionsTO options) {
+                                     @BeanParam @Valid AnimeOptionsQueryParams options) {
         Set<IntegrationAnimeId> ids = new HashSet<>(animeIds);
         ids.addAll(ani);
         return this.requestHandler.getByIds(ids, options);
@@ -42,7 +42,7 @@ public class MyAnimeListICalResource {
     @Path("myanimelist/{userId}")
     @PermitAll
     public String getByMyAnimeListUser(@PathParam("userId") @ValidateMyAnimeListUsername IntegrationUserId userId,
-                                       @BeanParam @Valid AnimeOptionsTO options) {
+                                       @BeanParam @Valid AnimeOptionsQueryParams options) {
         return this.requestHandler.getByUser(userId, options);
     }
 }

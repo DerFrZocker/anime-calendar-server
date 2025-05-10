@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.integration.myanimelist.rest.constrain;
+package de.derfrzocker.anime.calendar.rest.constrain;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
