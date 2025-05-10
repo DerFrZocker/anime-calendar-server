@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.rest.constrain;
 
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
+import de.derfrzocker.anime.calendar.server.validation.IdValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -13,6 +13,6 @@ public class ValidateAnimeIdConstraint implements ConstraintValidator<ValidateAn
             return false;
         }
 
-        return true;
+        return IdValidator.isValid(value);
     }
 }

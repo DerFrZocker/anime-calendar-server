@@ -72,6 +72,11 @@
         </dependency>
         <dependency>
             <groupId>de.derfrzocker</groupId>
+            <artifactId>anime-calendar-server-ical-rest</artifactId>
+            <version>0.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.derfrzocker</groupId>
             <artifactId>anime-calendar-server-integration-api</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
