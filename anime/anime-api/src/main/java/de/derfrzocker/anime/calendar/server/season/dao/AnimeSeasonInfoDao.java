@@ -1,10 +1,10 @@
-package de.derfrzocker.anime.calendar.server.core.api.season;
+package de.derfrzocker.anime.calendar.server.season.dao;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.core.season.Season;
+import de.derfrzocker.anime.calendar.server.season.api.AnimeSeasonInfo;
 import java.util.Optional;
 import java.util.stream.Stream;
 

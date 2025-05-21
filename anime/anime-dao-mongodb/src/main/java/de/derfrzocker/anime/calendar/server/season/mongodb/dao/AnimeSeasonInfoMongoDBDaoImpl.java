@@ -1,14 +1,14 @@
-package de.derfrzocker.anime.calendar.server.mongodb.dao.season;
+package de.derfrzocker.anime.calendar.server.season.mongodb.dao;
 
+import static de.derfrzocker.anime.calendar.server.season.mongodb.mapper.AnimeSeasonInfoDataMapper.toData;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.server.core.api.season.AnimeSeasonInfoDao;
-import de.derfrzocker.anime.calendar.server.model.domain.season.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.core.season.Season;
-import de.derfrzocker.anime.calendar.server.mongodb.data.season.AnimeSeasonInfoDO;
-import de.derfrzocker.anime.calendar.server.mongodb.mapper.data.AnimeSeasonInfoData;
-import de.derfrzocker.anime.calendar.server.mongodb.mapper.domain.AnimeSeasonInfoDomain;
+import de.derfrzocker.anime.calendar.server.season.api.AnimeSeasonInfo;
+import de.derfrzocker.anime.calendar.server.season.dao.AnimeSeasonInfoDao;
+import de.derfrzocker.anime.calendar.server.season.mongodb.data.AnimeSeasonInfoDO;
+import de.derfrzocker.anime.calendar.server.season.mongodb.mapper.AnimeSeasonInfoDataMapper;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class AnimeSeasonInfoMongoDBDaoImpl implements AnimeSeasonInfoDao {
 
     @Override
     public Stream<AnimeSeasonInfo> getAll(RequestContext context) {
-        return this.repository.findAll().stream().map(AnimeSeasonInfoData::toDomain);
+        return this.repository.findAll().stream().map(AnimeSeasonInfoDataMapper::toDomain);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class AnimeSeasonInfoMongoDBDaoImpl implements AnimeSeasonInfoDao {
                                              int year,
                                              Season season,
                                              RequestContext context) {
-        return findById(integrationId, integrationAnimeId, year, season).map(AnimeSeasonInfoData::toDomain);
+        return findById(integrationId, integrationAnimeId, year, season).map(AnimeSeasonInfoDataMapper::toDomain);
     }
 
     @Override
     public void create(AnimeSeasonInfo animeSeasonInfo, RequestContext context) {
-        this.repository.persist(AnimeSeasonInfoDomain.toData(animeSeasonInfo));
+        this.repository.persist(toData(animeSeasonInfo));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AnimeSeasonInfoMongoDBDaoImpl implements AnimeSeasonInfoDao {
                  animeSeasonInfo.integrationAnimeId(),
                  animeSeasonInfo.year(),
                  animeSeasonInfo.season()).ifPresent(data -> {
-            AnimeSeasonInfoDO newData = AnimeSeasonInfoDomain.toData(animeSeasonInfo);
+            AnimeSeasonInfoDO newData = toData(animeSeasonInfo);
             newData.id = data.id;
             this.repository.update(newData);
         });

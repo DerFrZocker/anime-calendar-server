@@ -1,6 +1,6 @@
-package de.derfrzocker.anime.calendar.server.mongodb.dao.season;
+package de.derfrzocker.anime.calendar.server.season.mongodb.dao;
 
-import de.derfrzocker.anime.calendar.server.mongodb.data.season.AnimeSeasonInfoDO;
+import de.derfrzocker.anime.calendar.server.season.mongodb.data.AnimeSeasonInfoDO;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

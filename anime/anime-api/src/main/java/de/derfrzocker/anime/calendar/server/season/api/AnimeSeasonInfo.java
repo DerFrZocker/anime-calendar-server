@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.model.domain.season;
+package de.derfrzocker.anime.calendar.server.season.api;
 
 import de.derfrzocker.anime.calendar.core.ModificationInfo;
 import de.derfrzocker.anime.calendar.core.RequestContext;
