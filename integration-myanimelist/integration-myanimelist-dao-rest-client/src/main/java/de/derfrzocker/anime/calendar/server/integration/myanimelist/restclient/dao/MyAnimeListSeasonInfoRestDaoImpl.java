@@ -12,9 +12,9 @@ import de.derfrzocker.anime.calendar.server.integration.myanimelist.restclient.d
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.restclient.data.AnimeListNodeTDO;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.restclient.data.AnimeListResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.myanimelist.restclient.data.MyAnimeListSeason;
-import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameLanguage;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
+import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeName;
+import de.derfrzocker.anime.calendar.server.integration.name.api.NameLanguage;
+import de.derfrzocker.anime.calendar.server.integration.name.api.NameType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.Year;

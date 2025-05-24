@@ -12,8 +12,8 @@ import de.derfrzocker.anime.calendar.server.integration.api.ManualLinkNotificati
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.service.ManualLinkNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.domain.event.name.PostNameLinkSearchEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameSearchResult;
+import de.derfrzocker.anime.calendar.server.integration.name.event.PostNameLinkSearchEvent;
+import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResult;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;

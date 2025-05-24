@@ -12,10 +12,10 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDData
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
-import de.derfrzocker.anime.calendar.server.model.domain.event.anime.PostNewAnimeFoundEvent;
-import de.derfrzocker.anime.calendar.server.model.domain.name.AnimeName;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameSearchResult;
-import de.derfrzocker.anime.calendar.server.model.domain.name.NameType;
+import de.derfrzocker.anime.calendar.server.integration.event.PostNewAnimeFoundEvent;
+import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeName;
+import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResult;
+import de.derfrzocker.anime.calendar.server.integration.name.api.NameType;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;
