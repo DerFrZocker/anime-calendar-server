@@ -9,8 +9,6 @@ public class SyoboiConfig {
 
     @ConfigProperty(name = "syoboi-collection.incomplete-data-duration")
     Duration tidDataValidationDuration;
-    @ConfigProperty(name = "syoboi.anime-create-and-update.days")
-    int animeScheduleDays;
     @ConfigProperty(name = "syoboi.tracking-channel.valid-length")
     Duration trackingChannelActionValidLength;
     @ConfigProperty(name = "syoboi.new-anime.valid-length")
@@ -18,10 +16,6 @@ public class SyoboiConfig {
 
     public Duration getTIDDataValidationDuration() {
         return this.tidDataValidationDuration;
-    }
-
-    public int getAnimeScheduleDays() {
-        return this.animeScheduleDays;
     }
 
     public Duration getTrackingChannelActionValidLength() {

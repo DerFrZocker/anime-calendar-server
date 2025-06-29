@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.handler;
+package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.logic.schedule;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
@@ -30,20 +30,18 @@ import java.time.Period;
 import java.util.List;
 
 @ApplicationScoped
-public class SyoboiAnimeUpdateRequestHandler {
+class UpdateAnimeTimeFromSyoboiTask {
 
     @Inject
     AnimeService animeService;
     @Inject
     EpisodeBuilderService episodeBuilderService;
 
-    public Uni<Void> handlePresentLink(List<AnimeIntegrationLink> links,
-                                       AnimeScheduleHolder data,
-                                       RequestContext context) {
+    Uni<Void> executeAsync(AnimeScheduleHolder holder, RequestContext context) {
         return Multi.createFrom()
-                    .iterable(links)
+                    .iterable(holder.links())
                     .onItem()
-                    .invoke(link -> handleSinglePresentLink(link, data, context))
+                    .invoke(link -> handleSinglePresentLink(link, holder, context))
                     .collect()
                     .asList()
                     .replaceWithVoid();
