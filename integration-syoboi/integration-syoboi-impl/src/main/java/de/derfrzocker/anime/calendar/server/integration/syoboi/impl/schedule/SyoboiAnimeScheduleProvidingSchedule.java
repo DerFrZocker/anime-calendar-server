@@ -41,6 +41,6 @@ public class SyoboiAnimeScheduleProvidingSchedule {
     }
 
     private Stream<ProvidedAnimeSchedule> getScheduleData(RequestContext context) {
-        return this.scheduleProviderService.provideAllWithDate(LocalDate.now(), this.config.days(), context);
+        return this.scheduleProviderService.provideAllWithData(LocalDate.now(), this.config.days(), context);
     }
 }

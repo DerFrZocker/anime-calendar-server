@@ -21,7 +21,7 @@ class SyoboiNewAnimeAndTimeUpdateTriggerListener {
 
         this.job.executeAsync(event.schedules(), event.context())
                 .onFailure()
-                .invoke(e -> LOG.errorv("Syoboi new anime or time update job failed.", e))
+                .invoke(e -> LOG.errorv(e, "Syoboi new anime or time update job failed."))
                 .invoke(() -> LOG.infov("Successfully checked for new anime or updated existing ones."))
                 .subscribe()
                 .asCompletionStage();

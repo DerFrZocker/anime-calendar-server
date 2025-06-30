@@ -25,6 +25,8 @@ class CheckForNewSyoboiAnimeTask {
     @Inject
     NameSearchService nameSearchService;
     @Inject
+    CollectEpisodeCountSubTask collectEpisodeCountSubTask;
+    @Inject
     Event<PostNewAnimeFoundEvent> postNewAnimeFoundEvent;
 
     Uni<Void> executeAsync(List<AnimeScheduleHolder> schedules, RequestContext context) {
@@ -32,13 +34,25 @@ class CheckForNewSyoboiAnimeTask {
                     .iterable(distinct(schedules))
                     .emitOn(Infrastructure.getDefaultExecutor())
                     .onItem()
-                    .transformToUniAndMerge(schedule -> searchForName(schedule, context))
+                    .transformToUniAndMerge(schedule -> checkHolder(schedule, context))
                     .collect()
                     .asList()
                     .replaceWithVoid();
     }
 
-    private Uni<Void> searchForName(AnimeScheduleHolder data, RequestContext context) {
+    private Uni<Void> checkHolder(AnimeScheduleHolder data, RequestContext context) {
+        Uni<List<NameSearchResult>> names = searchForName(data, context);
+        Uni<Integer> episodeCount = this.collectEpisodeCountSubTask.executeAsync(data, context);
+
+        return Uni.combine()
+                  .all()
+                  .unis(names, episodeCount)
+                  .asTuple()
+                  .invoke((tuple) -> sendEvent(tuple.getItem1(), tuple.getItem2(), data, context))
+                  .replaceWithVoid();
+    }
+
+    private Uni<List<NameSearchResult>> searchForName(AnimeScheduleHolder data, RequestContext context) {
         return Multi.createFrom()
                     .item(IntegrationIds.ANIDB)
                     .emitOn(Infrastructure.getDefaultExecutor())
@@ -46,9 +60,7 @@ class CheckForNewSyoboiAnimeTask {
                                                                             data.tidData().title(),
                                                                             context))
                     .collect()
-                    .asList()
-                    .invoke(result -> sendEvent(result, data, context))
-                    .replaceWithVoid();
+                    .asList();
     }
 
     private List<AnimeScheduleHolder> distinct(List<AnimeScheduleHolder> schedules) {
@@ -71,11 +83,15 @@ class CheckForNewSyoboiAnimeTask {
         return new ArrayList<>(values.values());
     }
 
-    private void sendEvent(List<NameSearchResult> searchResults, AnimeScheduleHolder data, RequestContext context) {
+    private void sendEvent(List<NameSearchResult> searchResults,
+                           int episodeCount,
+                           AnimeScheduleHolder data,
+                           RequestContext context) {
         this.postNewAnimeFoundEvent.fire(new PostNewAnimeFoundEvent(IntegrationIds.SYOBOI,
                                                                     new IntegrationAnimeId(data.tidData().tid().raw()),
                                                                     data.tidData().title(),
                                                                     searchResults,
+                                                                    episodeCount,
                                                                     context));
     }
 }

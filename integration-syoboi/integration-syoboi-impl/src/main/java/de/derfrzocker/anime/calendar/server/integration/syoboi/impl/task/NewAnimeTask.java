@@ -8,14 +8,14 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationActionCreateData;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.event.PostNewAnimeFoundEvent;
 import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeName;
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResult;
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameType;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationActionCreateData;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;
@@ -66,7 +66,12 @@ public class NewAnimeTask {
         for (NameSearchResult result : foundEvent.potentialNames()) {
             NotificationAction action = createNewAction(notification.id(), context, NEW_ANIME_ACTION_TYPE, false);
 
-            createNewAction(action.id(), result, foundEvent.fromIntegration(), foundEvent.fromAnimeId(), context);
+            createNewAction(action.id(),
+                            result,
+                            foundEvent.fromIntegration(),
+                            foundEvent.fromAnimeId(),
+                            foundEvent.episodeCount(),
+                            context);
         }
 
         if (Objects.equals(foundEvent.fromIntegration(), IntegrationIds.SYOBOI)) {
@@ -75,7 +80,11 @@ public class NewAnimeTask {
         }
 
         NotificationAction manualAction = createNewAction(notification.id(), context, NEW_ANIME_ACTION_TYPE, true);
-        createNewManualAction(manualAction, foundEvent.fromIntegration(), foundEvent.fromAnimeId(), context);
+        createNewManualAction(manualAction,
+                              foundEvent.fromIntegration(),
+                              foundEvent.fromAnimeId(),
+                              foundEvent.episodeCount(),
+                              context);
 
         this.helperService.send(notification.id(), context);
     }
@@ -99,21 +108,25 @@ public class NewAnimeTask {
                                  NameSearchResult result,
                                  IntegrationId fromIntegrationId,
                                  IntegrationAnimeId fromIntegrationAnimeId,
+                                 int episodeCount,
                                  RequestContext context) {
-        NewAnimeNotificationActionCreateData createData = createData(result, fromIntegrationId, fromIntegrationAnimeId);
+        NewAnimeNotificationActionCreateData createData = createData(result,
+                                                                     fromIntegrationId,
+                                                                     fromIntegrationAnimeId,
+                                                                     episodeCount);
         this.newAnimeActionService.createWithData(actionId, createData, context);
     }
 
     private NewAnimeNotificationActionCreateData createData(NameSearchResult result,
                                                             IntegrationId fromIntegrationId,
-                                                            IntegrationAnimeId fromIntegrationAnimeId) {
+                                                            IntegrationAnimeId fromIntegrationAnimeId,
+                                                            int episodeCount) {
         Map<IntegrationId, IntegrationAnimeId> links = new HashMap<>();
         links.put(fromIntegrationId, fromIntegrationAnimeId);
         links.put(result.animeNameHolder().integrationId(), result.animeNameHolder().integrationAnimeId());
 
-        // TODO 2025-04-05: Get episode from somewhere
         return new NewAnimeNotificationActionCreateData(findMainName(result).map(AnimeName::name).orElse(null),
-                                                        12,
+                                                        episodeCount,
                                                         result.score(),
                                                         links);
     }
@@ -126,15 +139,21 @@ public class NewAnimeTask {
     private void createNewManualAction(NotificationAction action,
                                        IntegrationId integrationId,
                                        IntegrationAnimeId integrationAnimeId,
+                                       int episodeCount,
                                        RequestContext context) {
         NewAnimeNotificationActionCreateData manualActionCreateData = manualCreateData(integrationId,
-                                                                                       integrationAnimeId);
+                                                                                       integrationAnimeId,
+                                                                                       episodeCount);
         this.newAnimeActionService.createWithData(action.id(), manualActionCreateData, context);
     }
 
     private NewAnimeNotificationActionCreateData manualCreateData(IntegrationId integrationId,
-                                                                  IntegrationAnimeId integrationAnimeId) {
-        return new NewAnimeNotificationActionCreateData(null, 12, 0, Map.of(integrationId, integrationAnimeId));
+                                                                  IntegrationAnimeId integrationAnimeId,
+                                                                  int episodeCount) {
+        return new NewAnimeNotificationActionCreateData(null,
+                                                        episodeCount,
+                                                        0,
+                                                        Map.of(integrationId, integrationAnimeId));
     }
 
     private Optional<AnimeName> findMainName(NameSearchResult result) {

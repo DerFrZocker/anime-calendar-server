@@ -7,7 +7,7 @@ import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResul
 import java.util.List;
 
 public record PostNewAnimeFoundEvent(IntegrationId fromIntegration, IntegrationAnimeId fromAnimeId,
-                                     String fromAnimeTitle, List<NameSearchResult> potentialNames,
+                                     String fromAnimeTitle, List<NameSearchResult> potentialNames, int episodeCount,
                                      RequestContext context) {
 
 }
