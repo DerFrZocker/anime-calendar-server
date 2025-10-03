@@ -24,7 +24,7 @@ and have set your watchlist to `public`, you can access the following endpoint
 to generate an iCal calendar containing all the animes from your watchlist:
 
 ```http request
-https://api.anime-calendar.com/v3/ical/myanimelist/<myanimelist-username>
+GET https://api.anime-calendar.com/v3/ical/myanimelist/<myanimelist-username>
 ```
 
 ##### Sync based on MyAnimeList anime IDs
@@ -33,7 +33,7 @@ Alternatively, you can specify individual anime using the `ani` and/or `animeId`
 This method generates a calendar based only on the anime IDs you provide:
 
 ```http request
-https://api.anime-calendar.com/v3/ical/myanimelist?ani=<myanimelist-anime-id>&ani=<myanimelist-anime-id>&animeId=<myanimelist-anime-id>&animeId=<myanimelist-anime-id>
+GET https://api.anime-calendar.com/v3/ical/myanimelist?ani=<myanimelist-anime-id>&ani=<myanimelist-anime-id>&animeId=<myanimelist-anime-id>&animeId=<myanimelist-anime-id>
 ```
 
 *Note: Both ani and animeId refer to MyAnimeList anime IDs. You can mix and match them as needed.*
@@ -51,7 +51,7 @@ IDs [here](https://github.com/DerFrZocker/anime-calendar-server/wiki/Anime-List)
 Use the following endpoint with one or more `ani` and/or `animeId` query parameters:
 
 ```http request
-https://api.anime-calendar.com/v3/ical?ani=<anime-calendar-anime-id>&ani=<anime-calendar-anime-id>&animeId=<anime-calendar-anime-id>
+GET https://api.anime-calendar.com/v3/ical?ani=<anime-calendar-anime-id>&ani=<anime-calendar-anime-id>&animeId=<anime-calendar-anime-id>
 ```
 
 *Note: Both ani and animeId refer to Anime-Calendar anime IDs. You can mix and match them as needed.*
