@@ -2,12 +2,15 @@ package de.derfrzocker.anime.calendar.server.episode.api;
 
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class AnimeOptionsBuilder {
 
     private final Region region;
     private boolean useRegionName = true;
+    private List<String> languagePriorities = new ArrayList<>();
     private IntegrationId integrationId;
     private List<StreamType> streamTypes = List.of(StreamType.SUB, StreamType.ORG);
 
@@ -21,6 +24,16 @@ public final class AnimeOptionsBuilder {
 
     public AnimeOptionsBuilder withUseRegionName(boolean useRegionName) {
         this.useRegionName = useRegionName;
+        return this;
+    }
+
+    public AnimeOptionsBuilder withLanguagePriorities(List<String> languagePriorities) {
+        this.languagePriorities = languagePriorities;
+        return this;
+    }
+
+    public AnimeOptionsBuilder withLanguagePriorities(String... languagePriorities) {
+        this.languagePriorities = Arrays.asList(languagePriorities);
         return this;
     }
 
@@ -40,6 +53,7 @@ public final class AnimeOptionsBuilder {
     }
 
     public AnimeOptions build() {
-        return new AnimeOptions(this.region, this.useRegionName, this.integrationId, this.streamTypes);
+        return new AnimeOptions(this.region, this.useRegionName, this.languagePriorities, this.integrationId,
+                                this.streamTypes);
     }
 }

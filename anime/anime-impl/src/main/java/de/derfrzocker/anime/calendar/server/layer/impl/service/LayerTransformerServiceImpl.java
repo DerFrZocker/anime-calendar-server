@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.server.layer.api.LayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.transformer.EpisodeLengthLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.transformer.EpisodeNumberLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.transformer.IntegrationUrlLayerTransformer;
-import de.derfrzocker.anime.calendar.server.layer.common.transformer.NameLayerTransformer;
+import de.derfrzocker.anime.calendar.server.layer.common.transformer.LocalizedNameLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.transformer.StreamingTimeLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.transformer.StreamingUrlLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.service.LayerTransformerService;
@@ -35,7 +35,7 @@ public class LayerTransformerServiceImpl implements LayerTransformerService {
         register(EpisodeLengthLayerTransformer.LAYER_KEY, EpisodeLengthLayerTransformer.INSTANCE);
         register(EpisodeNumberLayerTransformer.LAYER_KEY, EpisodeNumberLayerTransformer.INSTANCE);
         register(IntegrationUrlLayerTransformer.LAYER_KEY, IntegrationUrlLayerTransformer.INSTANCE);
-        register(NameLayerTransformer.LAYER_KEY, NameLayerTransformer.INSTANCE);
+        register(LocalizedNameLayerTransformer.LAYER_KEY, LocalizedNameLayerTransformer.INSTANCE);
         register(StreamingTimeLayerTransformer.LAYER_KEY, StreamingTimeLayerTransformer.INSTANCE);
         register(StreamingUrlLayerTransformer.LAYER_KEY, StreamingUrlLayerTransformer.INSTANCE);
     }

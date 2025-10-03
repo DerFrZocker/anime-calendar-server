@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.core.layer.LayerParserKey;
 import de.derfrzocker.anime.calendar.server.layer.api.LayerConfig;
 import de.derfrzocker.anime.calendar.server.layer.common.parser.BoundFilterConfigParser;
 import de.derfrzocker.anime.calendar.server.layer.common.parser.IntegrationUrlLayerConfigParser;
+import de.derfrzocker.anime.calendar.server.layer.common.parser.LocalizedNameLayerConfigParser;
 import de.derfrzocker.anime.calendar.server.layer.common.parser.RegionFilterConfigParser;
 import de.derfrzocker.anime.calendar.server.layer.common.parser.SimpleIntegerLayerConfigParser;
 import de.derfrzocker.anime.calendar.server.layer.common.parser.SimpleOffsetIntegerLayerConfigParser;
@@ -70,6 +71,7 @@ public class LayerConfigParserServiceImpl implements LayerConfigParserService {
     void registerLayers() {
         register(BoundFilterConfigParser.PARSER_KEY, BoundFilterConfigParser.INSTANCE);
         register(IntegrationUrlLayerConfigParser.PARSER_KEY, IntegrationUrlLayerConfigParser.INSTANCE);
+        register(LocalizedNameLayerConfigParser.PARSER_KEY, LocalizedNameLayerConfigParser.INSTANCE);
         register(RegionFilterConfigParser.PARSER_KEY, RegionFilterConfigParser.INSTANCE);
         register(SimpleIntegerLayerConfigParser.PARSER_KEY, SimpleIntegerLayerConfigParser.INSTANCE);
         register(SimpleOffsetIntegerLayerConfigParser.PARSER_KEY, SimpleOffsetIntegerLayerConfigParser.INSTANCE);

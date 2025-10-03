@@ -11,6 +11,8 @@ public final class EpisodeBuilder {
     @Nullable
     private String episodeName;
     @Nullable
+    private String episodeNameLanguage;
+    @Nullable
     private Either<String, Integer> episodeNumber;
     @Nullable
     private Either<String, Integer> episodeNumbers;
@@ -37,6 +39,15 @@ public final class EpisodeBuilder {
     public EpisodeBuilder withEpisodeName(String episodeName) {
         this.episodeName = episodeName;
         return this;
+    }
+
+    public EpisodeBuilder withEpisodeNameLanguage(String episodeNameLanguage) {
+        this.episodeNameLanguage = episodeNameLanguage;
+        return this;
+    }
+
+    public String episodeNameLanguage() {
+        return this.episodeNameLanguage;
     }
 
     public EpisodeBuilder withEpisodeNumber(Either<String, Integer> episodeNumber) {
@@ -84,7 +95,7 @@ public final class EpisodeBuilder {
     }
 
     public int episodeIndex() {
-        return episodeIndex;
+        return this.episodeIndex;
     }
 
     public Episode build() {
