@@ -1,5 +1,6 @@
 package de.derfrzocker.anime.calendar.rest.api;
 
+import de.derfrzocker.anime.calendar.rest.constrain.ValidateLanguage;
 import de.derfrzocker.anime.calendar.rest.constrain.ValidateStreamType;
 import de.derfrzocker.anime.calendar.server.anime.api.Region;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public record AnimeOptionsQueryParams(@QueryParam("region") @DefaultValue("DE_DE") Region region,
                                       @QueryParam("useRegionName") @DefaultValue("true") boolean useRegionName,
+                                      @QueryParam("languagePriorities") List<@ValidateLanguage String> languagePriorities,
                                       @QueryParam("streamType") List<@ValidateStreamType StreamType> streamTypes) {
 
     // TODO 2025-05-10: Should this be really here?
@@ -24,6 +26,10 @@ public record AnimeOptionsQueryParams(@QueryParam("region") @DefaultValue("DE_DE
 
         if (!streamTypes().isEmpty()) {
             builder.withStreamTypes(streamTypes());
+        }
+
+        if (languagePriorities() != null) {
+            builder.withLanguagePriorities(languagePriorities());
         }
 
         return builder;

@@ -43,7 +43,8 @@ https://api.anime-calendar.com/v3/ical/myanimelist?ani=<myanimelist-anime-id>&an
 ### Using Anime-Calendar Anime IDs
 
 You can also generate a calendar using Anime-Calendar's own internal anime IDs, independent of MyAnimeList.
-You can find a list of Anime-Calendars anime IDs [here](https://github.com/DerFrZocker/anime-calendar-server/wiki/Anime-List).
+You can find a list of Anime-Calendars anime
+IDs [here](https://github.com/DerFrZocker/anime-calendar-server/wiki/Anime-List).
 
 <p>
 
@@ -67,6 +68,7 @@ https://api.anime-calendar.com/v3/ical?ani=<anime-calendar-anime-id>&ani=<anime-
 
 You can customize your calendar using optional query parameters on the iCal endpoint:
 
-| Query Parameter | Possible Values | Default      | Description                                                                                                                                                                                                                                                                                                                                                              |
-|-----------------|-----------------|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| streamType      | `org`, `sub`    | `sub`, `org` | You can specify multiple `streamType` parameters to set the priority order. The first one provided has the highest priority. If no time is available for that type, the next one is used. For example, setting `streamType=sub&streamType=org` means the calendar will use the subtitled release time if available, and fall back to the original airing time otherwise. |
+| Query Parameter    | Possible Values | Default      | Description                                                                                                                                                                                                                                                                                                                                                              |
+|--------------------|-----------------|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| streamType         | `org`, `sub`    | `sub`, `org` | You can specify multiple `streamType` parameters to set the priority order. The first one provided has the highest priority. If no time is available for that type, the next one is used. For example, setting `streamType=sub&streamType=org` means the calendar will use the subtitled release time if available, and fall back to the original airing time otherwise. |
+| languagePriorities | `de`, `en`      |              | Sets the anime name language. You can specifiy multiple `languagePriorities` prarameters to set the priority order. Similar to `streamType`.                                                                                                                                                                                                                             |
