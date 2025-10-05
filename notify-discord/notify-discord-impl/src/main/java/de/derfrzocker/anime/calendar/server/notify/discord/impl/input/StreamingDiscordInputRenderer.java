@@ -28,6 +28,6 @@ public class StreamingDiscordInputRenderer implements DiscordInputRenderer {
         builder.addTextField("integrationId", "Streaming service", 1, 20);
         builder.addTextField("integrationAnimeId", "Streaming anime id", 1, 20);
         builder.addTextField("streamingEpisode", "Episode number", 1, 5);
-        builder.addTextField("streamingTime", "Streaming time", 23, 25);
+        builder.addTextField("streamingTime", "Streaming time", 20, 25);
     }
 }
