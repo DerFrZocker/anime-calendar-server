@@ -12,7 +12,7 @@ import java.time.Instant;
 
 public record StreamingNotification(NotificationId id, Instant createdAt, UserId createdBy, Instant updatedAt,
                                     UserId updatedBy, AnimeId animeId, int orgEpisodeIndex, Instant orgStreamingTime,
-                                    IntegrationId referenceIntegrationId,
+                                    String name, IntegrationId referenceIntegrationId,
                                     IntegrationAnimeId referenceIntegrationAnimeId) implements ModificationInfo {
 
     public static final String NOTIFICATION_TYPE_RAW = "Streaming";
@@ -29,6 +29,7 @@ public record StreamingNotification(NotificationId id, Instant createdAt, UserId
                                          createData.animeId(),
                                          createData.orgEpisodeIndex(),
                                          createData.orgStreamingTime(),
+                                         createData.name(),
                                          createData.referenceIntegrationId(),
                                          createData.referenceIntegrationAnimeId());
     }
@@ -42,6 +43,7 @@ public record StreamingNotification(NotificationId id, Instant createdAt, UserId
                                          animeId(),
                                          orgEpisodeIndex(),
                                          orgStreamingTime(),
+                                         name(),
                                          referenceIntegrationId(),
                                          referenceIntegrationAnimeId());
     }

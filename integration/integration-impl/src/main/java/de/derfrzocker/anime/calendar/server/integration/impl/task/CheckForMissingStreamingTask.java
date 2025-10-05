@@ -99,7 +99,11 @@ public class CheckForMissingStreamingTask {
             return;
         }
 
-        AnimeOptions options = AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE).withStreamTypes(StreamType.ORG).build();
+        AnimeOptions options =
+                AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE)
+                                   .withStreamTypes(StreamType.ORG)
+                                   .withLanguagePriorities("en")
+                                   .build();
         List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime, options, context);
 
         Instant startOfWeek = OffsetDateTime.now().with(DayOfWeek.MONDAY).with(LocalTime.MIN).toInstant();
@@ -146,9 +150,15 @@ public class CheckForMissingStreamingTask {
                                              Episode referenceEpisode,
                                              IntegrationAnimeId referenceIntegrationAnimeId,
                                              RequestContext context) {
+        String name = anime.title();
+        if (referenceEpisode.episodeName() != null) {
+            name = referenceEpisode.episodeName();
+        }
+
         StreamingNotificationCreateData createData = new StreamingNotificationCreateData(anime.id(),
                                                                                          referenceEpisode.episodeId(),
                                                                                          referenceEpisode.streamingTime(),
+                                                                                         name,
                                                                                          REFERENCE_INTEGRATION_ID,
                                                                                          referenceIntegrationAnimeId);
         this.streamingNotificationService.createWithData(notification.id(), createData, context);

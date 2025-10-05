@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import java.time.Instant;
 
 public record StreamingNotificationCreateData(AnimeId animeId, int orgEpisodeIndex, Instant orgStreamingTime,
-                                              IntegrationId referenceIntegrationId,
+                                              String name, IntegrationId referenceIntegrationId,
                                               IntegrationAnimeId referenceIntegrationAnimeId) {
 
 }

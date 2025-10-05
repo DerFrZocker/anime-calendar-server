@@ -15,6 +15,7 @@ public final class StreamingNotificationDataMapper {
         data.animeId = domain.animeId();
         data.orgEpisodeIndex = domain.orgEpisodeIndex();
         data.orgStreamingTime = domain.orgStreamingTime();
+        data.name = domain.name();
         data.referenceIntegrationId = domain.referenceIntegrationId();
         data.referenceIntegrationAnimeId = domain.referenceIntegrationAnimeId();
         data.apply(domain);
@@ -31,6 +32,7 @@ public final class StreamingNotificationDataMapper {
                                          data.animeId,
                                          data.orgEpisodeIndex,
                                          data.orgStreamingTime,
+                                         data.name,
                                          data.referenceIntegrationId,
                                          data.referenceIntegrationAnimeId);
     }

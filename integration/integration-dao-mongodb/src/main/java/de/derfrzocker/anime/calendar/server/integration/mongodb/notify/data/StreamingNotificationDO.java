@@ -17,6 +17,7 @@ public class StreamingNotificationDO extends ModificationInfoDO {
     public AnimeId animeId;
     public int orgEpisodeIndex;
     public Instant orgStreamingTime;
+    public String name;
     public IntegrationId referenceIntegrationId;
     public IntegrationAnimeId referenceIntegrationAnimeId;
 }

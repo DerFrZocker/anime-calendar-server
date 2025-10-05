@@ -36,6 +36,8 @@ public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
 
         builder.setTitle("[%s] Missing Stream".formatted(notification.animeId().raw()));
 
+        builder.addField("Name:", notification.name());
+
         String url = this.integrationHelperService.getUrl(notification.referenceIntegrationId(),
                                                           notification.referenceIntegrationAnimeId());
         builder.addField("%s [%s] - ep: %d".formatted(notification.referenceIntegrationId().raw(),
