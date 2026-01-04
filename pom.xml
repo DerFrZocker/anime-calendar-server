@@ -17,15 +17,23 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <skipITs>true</skipITs>
+
         <!-- Versions -->
         <quarkus.platform.version>3.21.3</quarkus.platform.version>
-        <wiremock.version>3.12.1</wiremock.version>
-        <jda.version>5.4.0</jda.version>
-        <ical4j.version>4.0.2</ical4j.version>
+
         <compiler-plugin.version>3.14.0</compiler-plugin.version>
         <surefire-plugin.version>3.5.3</surefire-plugin.version>
         <jacoco-plugin.version>0.8.13</jacoco-plugin.version>
         <jandex-plugin.version>3.2.7</jandex-plugin.version>
+
+        <either-java.version>2.9.0</either-java.version>
+        <commons-codec.version>1.17.1</commons-codec.version>
+        <jda.version>5.4.0</jda.version>
+        <commons-text.version>1.12.0</commons-text.version>
+        <annotations.version>24.1.0</annotations.version>
+        <ical4j.version>4.0.2</ical4j.version>
+
+        <wiremock.version>3.12.1</wiremock.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +44,44 @@
                 <version>${quarkus.platform.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.spencerwi</groupId>
+                <artifactId>Either.java</artifactId>
+                <version>${either-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.dv8tion</groupId>
+                <artifactId>JDA</artifactId>
+                <version>${jda.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mnode.ical4j</groupId>
+                <artifactId>ical4j</artifactId>
+                <version>${ical4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wiremock</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>${wiremock.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -66,17 +112,14 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.spencerwi</groupId>
             <artifactId>Either.java</artifactId>
-            <version>2.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
             <scope>provided</scope>
         </dependency>
 

@@ -43,7 +43,6 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>${jda.version}</version>
         </dependency>
     </dependencies>
 

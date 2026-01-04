@@ -45,7 +45,6 @@
             <groupId>org.wiremock</groupId>
             <artifactId>wiremock</artifactId>
             <scope>test</scope>
-            <version>${wiremock.version}</version>
         </dependency>
     </dependencies>
 
