@@ -3,7 +3,6 @@ package de.derfrzocker.anime.calendar.server.ical.rest.resource;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.rest.api.AnimeOptionsQueryParams;
-import de.derfrzocker.anime.calendar.rest.constrain.ValidateAnimeId;
 import de.derfrzocker.anime.calendar.server.ical.rest.constrain.ValidateIntegrationId;
 import de.derfrzocker.anime.calendar.server.ical.rest.handler.AnimeIdICalRequestHandler;
 import jakarta.annotation.security.PermitAll;
@@ -28,10 +27,11 @@ public class AnimeIdICalResource {
 
     @GET
     @PermitAll
-    public String getByIds(@QueryParam("animeId") Set<@ValidateAnimeId AnimeId> animeIds,
-                           @QueryParam("ani") Set<@ValidateAnimeId AnimeId> ani,
-                           @QueryParam("integrationId") @ValidateIntegrationId IntegrationId integrationId,
-                           @BeanParam @Valid AnimeOptionsQueryParams options) {
+    public String getByIds(
+            @QueryParam("animeId") Set<AnimeId> animeIds,
+            @QueryParam("ani") Set<AnimeId> ani,
+            @QueryParam("integrationId") @ValidateIntegrationId IntegrationId integrationId,
+            @BeanParam @Valid AnimeOptionsQueryParams options) {
         Set<AnimeId> ids = new HashSet<>(animeIds);
         ids.addAll(ani);
         return this.requestHandler.getByIds(ids, integrationId, options);

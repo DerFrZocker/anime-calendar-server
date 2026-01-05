@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.rest.mapper.exception;
 import de.derfrzocker.anime.calendar.core.exception.ActionNotAllowedException;
 import de.derfrzocker.anime.calendar.core.exception.AlreadyCreatedException;
 import de.derfrzocker.anime.calendar.core.exception.InconsistentDataException;
+import de.derfrzocker.anime.calendar.core.exception.InvalidValueFormatException;
 import de.derfrzocker.anime.calendar.core.exception.ResourceNotFoundException;
 import de.derfrzocker.anime.calendar.core.exception.UnexpectedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
@@ -70,6 +71,11 @@ public class ExceptionMappers {
     @ServerExceptionMapper
     public RestResponse<ExceptionTO> mapException(UnexpectedException exception) {
         return build(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionTO> mapException(InvalidValueFormatException exception) {
+        return build(Response.Status.BAD_REQUEST, exception.getMessage());
     }
 
     private RestResponse<ExceptionTO> build(Response.StatusType status, String message) {

@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class AnimePresentListenerTest {
 
     private static final RequestContext REQUEST_CONTEXT = new RequestContext(new UserId("UWSXEDCRFV"), Instant.now());
-    private static final AnimeId ANIME_ID = new AnimeId("AWSXEDCRFV");
+    private static final AnimeId ANIME_ID = AnimeId.of("AWSXEDCRFV");
     private static final Anime ANIME = createWithId(ANIME_ID);
 
     private static Anime createWithId(AnimeId id) {

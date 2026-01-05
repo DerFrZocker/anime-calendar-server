@@ -20,8 +20,8 @@ public class CustomCodecProvider extends AbstractCodecProvider {
         putString(CalendarId.class, CalendarId::raw, CalendarId::new);
         putString(CalendarKey.class, CalendarKey::raw, CalendarKey::new);
         putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
-        putString(AnimeId.class, AnimeId::raw, AnimeId::new);
-        putString(IntegrationId.class, IntegrationId::raw, IntegrationId::new);
+        putString(AnimeId.class, AnimeId::raw, AnimeId::of);
+        putString(IntegrationId.class, IntegrationId::raw, IntegrationId::of);
         putString(IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
         putString(NotificationId.class, NotificationId::raw, NotificationId::new);
         putString(NotificationActionId.class, NotificationActionId::raw, NotificationActionId::new);

@@ -27,7 +27,7 @@ public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigPa
         String integrationId = decodeString(values, INTEGRATION_ID_KEY);
         String url = decodeString(values, URL_KEY);
 
-        return new IntegrationUrlLayerConfig(key, new IntegrationId(integrationId), url);
+        return new IntegrationUrlLayerConfig(key, IntegrationId.of(integrationId), url);
     }
 
     @Override

@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateAnimeId;
 import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarId;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarAnimeLinkCreateOrUpdateRequest;
 import de.derfrzocker.anime.calendar.server.rest.response.calendar.CalendarAnimeLinkListResponse;
@@ -41,17 +40,19 @@ public class CalendarAnimeLinkResource {
     @PUT
     @Path("{id}/animes/{animeId}")
     @PermitAll
-    public CalendarAnimeLinkResponse createOrUpdateWithData(@ValidateCalendarId @PathParam("id") CalendarId id,
-                                                            @ValidateAnimeId @PathParam("animeId") AnimeId animeId,
-                                                            @Valid @NotNull CalendarAnimeLinkCreateOrUpdateRequest request) {
+    public CalendarAnimeLinkResponse createOrUpdateWithData(
+            @ValidateCalendarId @PathParam("id") CalendarId id,
+            @PathParam("animeId") AnimeId animeId,
+            @Valid @NotNull CalendarAnimeLinkCreateOrUpdateRequest request) {
         return this.requestHandler.createOrUpdateWithData(id, animeId, request);
     }
 
     @DELETE
     @Path("{id}/animes/{animeId}")
     @PermitAll
-    public void deleteById(@ValidateCalendarId @PathParam("id") CalendarId id,
-                           @ValidateAnimeId @PathParam("animeId") AnimeId animeId) {
+    public void deleteById(
+            @ValidateCalendarId @PathParam("id") CalendarId id,
+            @PathParam("animeId") AnimeId animeId) {
         this.requestHandler.deleteById(id, animeId);
     }
 }

@@ -48,7 +48,7 @@ public final class NewAnimeNotificationActionDataMapper {
     private static Map<IntegrationId, IntegrationAnimeId> toDomain(Map<String, String> data) {
         Map<IntegrationId, IntegrationAnimeId> domain = new HashMap<>();
 
-        data.forEach((key, value) -> domain.put(new IntegrationId(key), new IntegrationAnimeId(value)));
+        data.forEach((key, value) -> domain.put(IntegrationId.of(key), new IntegrationAnimeId(value)));
 
         return domain;
     }

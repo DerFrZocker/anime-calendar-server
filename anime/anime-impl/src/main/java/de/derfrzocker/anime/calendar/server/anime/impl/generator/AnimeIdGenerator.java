@@ -5,11 +5,12 @@ import de.derfrzocker.anime.calendar.core.generator.AbstractIdGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class AnimeIdGenerator extends AbstractIdGenerator<AnimeId> {
+public class AnimeIdGenerator
+        extends AbstractIdGenerator<AnimeId> {
 
     @Override
     protected AnimeId wrap(String raw) {
-        return new AnimeId(raw);
+        return AnimeId.of(raw);
     }
 
     @Override

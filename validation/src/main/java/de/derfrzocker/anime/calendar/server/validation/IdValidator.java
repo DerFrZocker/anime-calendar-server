@@ -1,27 +1,10 @@
 package de.derfrzocker.anime.calendar.server.validation;
 
-import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;
 
 public final class IdValidator {
-
-    public static boolean isValid(AnimeId id) {
-        if (id == null || id.raw() == null) {
-            return false;
-        }
-
-        return isValid(id.raw(), AnimeId.ID_LENGTH, AnimeId.ID_PREFIX);
-    }
-
-    public static void validate(AnimeId id) {
-        if (isValid(id)) {
-            return;
-        }
-
-        throw InvalidIdException.with(id);
-    }
 
     public static boolean isValid(UserId id) {
         if (id == null || id.raw() == null) {

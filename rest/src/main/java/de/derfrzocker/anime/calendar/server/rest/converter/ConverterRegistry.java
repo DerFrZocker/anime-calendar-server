@@ -36,10 +36,10 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
               .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> new CalendarKey(p.getValueAsString())))
               .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(AnimeId.class, createJsonDeserializer(p -> new AnimeId(p.getValueAsString())))
+              .addDeserializer(AnimeId.class, createJsonDeserializer(p -> AnimeId.of(p.getValueAsString())))
               .addSerializer(IntegrationId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(IntegrationId.class,
-                               createJsonDeserializer(p -> new IntegrationId(p.getValueAsString())))
+                               createJsonDeserializer(p -> IntegrationId.of(p.getValueAsString())))
               .addSerializer(IntegrationAnimeId.class,
                              createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(IntegrationAnimeId.class,

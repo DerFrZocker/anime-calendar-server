@@ -24,7 +24,7 @@ public class StreamingDiscordInputApplier implements DiscordInputApplier {
 
     @Override
     public void apply(NotificationAction action, DiscordInputValuesProvider provider, RequestContext context) {
-        IntegrationId integrationId = new IntegrationId(provider.getInput("integrationId"));
+        IntegrationId integrationId = IntegrationId.of(provider.getInput("integrationId"));
         IntegrationAnimeId integrationAnimeId = new IntegrationAnimeId(provider.getInput("integrationAnimeId"));
         int streamingEpisode = Integer.parseInt(provider.getInput("streamingEpisode"));
         Instant streamingTime = Instant.parse(provider.getInput("streamingTime"));

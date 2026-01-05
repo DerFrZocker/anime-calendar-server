@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.anime;
 
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateAnimeId;
 import de.derfrzocker.anime.calendar.server.rest.request.anime.AnimeCreateRequest;
 import de.derfrzocker.anime.calendar.server.rest.request.anime.AnimeUpdateRequest;
 import de.derfrzocker.anime.calendar.server.rest.response.anime.AnimeResponse;
@@ -33,7 +32,7 @@ public class AnimeResource {
     @GET
     @Path("{id}")
     @PermitAll
-    public AnimeResponse getById(@ValidateAnimeId @PathParam("id") AnimeId id) {
+    public AnimeResponse getById(@PathParam("id") AnimeId id) {
         return this.requestHandler.getById(id);
     }
 
@@ -46,14 +45,16 @@ public class AnimeResource {
     @PUT
     @Path("{id}")
     @PermitAll
-    public AnimeResponse updateWithData(@ValidateAnimeId @PathParam("id") AnimeId id, @Valid @NotNull AnimeUpdateRequest request) {
+    public AnimeResponse updateWithData(
+            @PathParam("id") AnimeId id,
+            @Valid @NotNull AnimeUpdateRequest request) {
         return this.requestHandler.updateWithData(id, request);
     }
 
     @DELETE
     @Path("{id}")
     @PermitAll
-    public void deleteById(@ValidateAnimeId @PathParam("id") AnimeId id) {
+    public void deleteById(@PathParam("id") AnimeId id) {
         this.requestHandler.deleteById(id);
     }
 }
