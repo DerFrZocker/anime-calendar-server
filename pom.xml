@@ -35,7 +35,7 @@
         <!-- https://github.com/apache/commons-codec/tags -->
         <commons-codec.version>1.20.0</commons-codec.version>
         <!-- https://github.com/discord-jda/JDA/releases -->
-        <jda.version>5.6.1</jda.version>
+        <jda.version>6.2.1</jda.version>
         <!-- https://github.com/apache/commons-text/tags -->
         <commons-text.version>1.15.0</commons-text.version>
         <!-- https://github.com/JetBrains/java-annotations/releases -->

@@ -57,7 +57,7 @@ public class ButtonClickListener {
 
     public void onButtonClicked(@Observes ButtonInteractionEvent event) {
         ButtonInteraction interaction = event.getInteraction();
-        NotificationActionId customId = new NotificationActionId(interaction.getButton().getId());
+        NotificationActionId customId = new NotificationActionId(interaction.getButton().getCustomId());
         RequestContext context = new RequestContext(LINKING_USER, Instant.now());
 
         Optional<NotificationAction> oAction = this.actionService.getById(customId, context);
@@ -87,8 +87,9 @@ public class ButtonClickListener {
 
         interaction.deferEdit().queue();
 
-        NotificationActionUpdateData updateData = new NotificationActionUpdateData(Change.to(context.requestTime()),
-                                                                                   Change.to(context.requestUser()));
+        NotificationActionUpdateData updateData = new NotificationActionUpdateData(
+                Change.to(context.requestTime()),
+                Change.to(context.requestUser()));
         action = this.actionService.updateWithData(action.id(), updateData, context);
 
         this.notificationActionTriggerEvent.fire(new NotificationActionTriggerEvent(notification, action, context));

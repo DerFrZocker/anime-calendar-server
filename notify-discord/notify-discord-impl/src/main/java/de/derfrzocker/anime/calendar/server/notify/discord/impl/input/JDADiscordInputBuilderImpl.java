@@ -4,12 +4,13 @@ import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
-import net.dv8tion.jda.api.interactions.modals.Modal;
+import net.dv8tion.jda.api.components.label.Label;
+import net.dv8tion.jda.api.components.textinput.TextInput;
+import net.dv8tion.jda.api.components.textinput.TextInputStyle;
+import net.dv8tion.jda.api.modals.Modal;
 
-public class JDADiscordInputBuilderImpl implements DiscordInputBuilder {
+public class JDADiscordInputBuilderImpl
+        implements DiscordInputBuilder {
 
     private String title;
     private final List<TextFieldData> textFields = new ArrayList<>();
@@ -31,15 +32,15 @@ public class JDADiscordInputBuilderImpl implements DiscordInputBuilder {
     public Modal build(NotificationAction action) {
         Modal.Builder builder = Modal.create(action.id().raw(), this.title);
 
-        List<ActionRow> textInputs = new ArrayList<>();
+        List<Label> textInputs = new ArrayList<>();
 
         for (TextFieldData textField : this.textFields) {
-            TextInput input = TextInput.create(textField.id(), textField.label(), TextInputStyle.SHORT)
+            TextInput input = TextInput.create(textField.id(), TextInputStyle.SHORT)
                                        .setMinLength(textField.minLength())
                                        .setMaxLength(textField.maxLength())
                                        .build();
 
-            textInputs.add(ActionRow.of(input));
+            textInputs.add(Label.of(textField.label(), input));
         }
 
         builder.addComponents(textInputs);
