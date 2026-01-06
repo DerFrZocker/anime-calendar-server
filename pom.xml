@@ -166,7 +166,6 @@
         <module>rest</module>
         <module>rest-base</module>
         <module>user-permission</module>
-        <module>validation</module>
     </modules>
 
     <build>

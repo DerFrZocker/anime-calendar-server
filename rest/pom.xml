@@ -28,12 +28,6 @@
         </dependency>
         <dependency>
             <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-validation</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
             <artifactId>anime-calendar-server-user-permission</artifactId>
             <version>0.0.0-SNAPSHOT</version>
             <scope>compile</scope>

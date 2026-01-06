@@ -9,24 +9,12 @@ import de.derfrzocker.anime.calendar.core.exception.UnexpectedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.BadRequestException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthenticatedException;
 import de.derfrzocker.anime.calendar.server.model.domain.exception.UnauthorizedException;
-import de.derfrzocker.anime.calendar.server.validation.exception.InvalidIdException;
-import de.derfrzocker.anime.calendar.server.validation.exception.InvalidKeyException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 public class ExceptionMappers {
-
-    @ServerExceptionMapper
-    public RestResponse<ExceptionTO> mapException(InvalidIdException exception) {
-        return build(Response.Status.BAD_REQUEST, exception.getMessage());
-    }
-
-    @ServerExceptionMapper
-    public RestResponse<ExceptionTO> mapException(InvalidKeyException exception) {
-        return build(Response.Status.BAD_REQUEST, exception.getMessage());
-    }
 
     @ServerExceptionMapper
     public RestResponse<ExceptionTO> mapException(ResourceNotFoundException exception) {
