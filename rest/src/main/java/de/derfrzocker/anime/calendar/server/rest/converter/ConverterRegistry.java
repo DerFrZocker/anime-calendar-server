@@ -28,7 +28,7 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
         SimpleModule module = new SimpleModule();
 
         module.addSerializer(UserId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(UserId.class, createJsonDeserializer(p -> new UserId(p.getValueAsString())))
+              .addDeserializer(UserId.class, createJsonDeserializer(p -> UserId.of(p.getValueAsString())))
               .addSerializer(UserToken.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(UserToken.class, createJsonDeserializer(p -> new UserToken(p.getValueAsString())))
               .addSerializer(CalendarId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))

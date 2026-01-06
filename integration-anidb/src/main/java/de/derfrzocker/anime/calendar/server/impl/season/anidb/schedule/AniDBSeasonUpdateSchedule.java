@@ -11,7 +11,7 @@ import java.time.Instant;
 @ApplicationScoped
 public class AniDBSeasonUpdateSchedule {
 
-    private static final UserId ANIDB_SEASON_UPDATE_USER = new UserId("UANIDBSEUP");
+    private static final UserId ANIDB_SEASON_UPDATE_USER = UserId.of("UANIDBSEUP");
 
     @Inject
     AniDBSeasonUpdateRequestHandler requestHandler;

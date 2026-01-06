@@ -31,7 +31,7 @@ import java.time.Instant;
 public class UserRequestHandler {
 
     // TODO 2024-12-08: Move to better place
-    private static final UserId USER_CREATE_SERVICE = new UserId("UCREATESER");
+    private static final UserId USER_CREATE_SERVICE = UserId.of("UCREATESER");
 
     private static final PermissionAction CALENDAR_CREATE_OWNER = new PermissionAction("calendar.create.owner");
 

@@ -17,7 +17,7 @@ public final class StringGenerator {
     }
 
     public static UserId generateUserId() {
-        return new UserId(generateStringId(UserId.ID_PREFIX, UserId.ID_LENGTH));
+        return UserId.of(generateStringId(UserId.ID_PREFIX, UserId.ID_LENGTH));
     }
 
     public static CalendarId generateCalendarId() {

@@ -10,7 +10,6 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.ObjectPermis
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionAction;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionType;
 import de.derfrzocker.anime.calendar.server.model.domain.permission.UserPermission;
-import de.derfrzocker.anime.calendar.server.validation.IdValidator;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Context;
@@ -21,7 +20,7 @@ import java.util.function.Function;
 @RequestScoped
 public class UserSecurityProvider {
 
-    private static final UserId SECURITY_CONTEXT_USER_ID = new UserId("USECURITYC");
+    private static final UserId SECURITY_CONTEXT_USER_ID = UserId.of("USECURITYC");
 
     private static final String USER_ID_ROLE_PREFIX = "User_";
 
@@ -43,13 +42,7 @@ public class UserSecurityProvider {
             throw new UnauthenticatedException();
         }
 
-        UserId id = new UserId(this.securityContext.getUserPrincipal().getName());
-
-        if (!isValidUserId(id)) {
-            throw new UnauthenticatedException();
-        }
-
-        return id;
+        return UserId.of(this.securityContext.getUserPrincipal().getName(), UnauthenticatedException::new);
     }
 
     public boolean hasAccessToUserData(UserId id) {
@@ -80,20 +73,22 @@ public class UserSecurityProvider {
         return hasPermission(id, action, UserPermission::anime, context);
     }
 
-    public <T> boolean hasPermission(T object,
-                                     PermissionType type,
-                                     Function<UserPermission, ObjectPermission<T>> mapper,
-                                     RequestContext context) {
+    public <T> boolean hasPermission(
+            T object,
+            PermissionType type,
+            Function<UserPermission, ObjectPermission<T>> mapper,
+            RequestContext context) {
         return this.permissionService.getById(getCurrentUserId(), context)
                                      .map(mapper)
                                      .map(permission -> permission.hasPermission(type, object))
                                      .orElse(false);
     }
 
-    public <T> boolean hasPermission(T object,
-                                     PermissionAction action,
-                                     Function<UserPermission, ObjectPermission<T>> mapper,
-                                     RequestContext context) {
+    public <T> boolean hasPermission(
+            T object,
+            PermissionAction action,
+            Function<UserPermission, ObjectPermission<T>> mapper,
+            RequestContext context) {
         return this.permissionService.getById(getCurrentUserId(), context)
                                      .map(mapper)
                                      .map(permission -> permission.hasPermission(action, object))
@@ -106,9 +101,5 @@ public class UserSecurityProvider {
 
     public RequestContext createSecurityContext() {
         return new RequestContext(SECURITY_CONTEXT_USER_ID, Instant.now());
-    }
-
-    private boolean isValidUserId(UserId id) {
-        return IdValidator.isValid(id);
     }
 }

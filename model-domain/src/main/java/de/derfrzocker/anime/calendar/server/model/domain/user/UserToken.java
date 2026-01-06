@@ -8,6 +8,6 @@ public record UserToken(String raw) {
     public static final char TOKEN_PREFIX_CHAR = 'T';
 
     public UserId userId() {
-        return new UserId(raw().substring(0, UserId.ID_LENGTH));
+        return UserId.of(raw().substring(0, UserId.ID_LENGTH));
     }
 }

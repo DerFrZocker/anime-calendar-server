@@ -34,7 +34,7 @@ public class ModalInteractListener {
 
     private static final Logger LOG = Logger.getLogger(ModalInteractListener.class);
 
-    private static final UserId LINKING_USER = new UserId("UDIANILINK");
+    private static final UserId LINKING_USER = UserId.of("UDIANILINK");
     @Inject
     NotificationService notificationService;
     @Inject

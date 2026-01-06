@@ -11,7 +11,7 @@ import java.time.Instant;
 @ApplicationScoped
 public class CheckForMissingStreamingSchedule {
 
-    private static final UserId MISSING_STREAMING_USER = new UserId("UMISSTREAM");
+    private static final UserId MISSING_STREAMING_USER = UserId.of("UMISSTREAM");
 
     @Inject
     CheckForMissingStreamingTask checkForMissingStreamingTask;

@@ -12,7 +12,7 @@ import java.time.Instant;
 @ApplicationScoped
 public class NameLinkSchedule {
 
-    private static final UserId NAME_LINK_UPDATE_USER = new UserId("UNAMELINUP");
+    private static final UserId NAME_LINK_UPDATE_USER = UserId.of("UNAMELINUP");
 
     @Inject
     NameLinkRequestHandler requestHandler;

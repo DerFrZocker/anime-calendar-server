@@ -15,7 +15,7 @@ import java.util.Set;
 @ApplicationScoped
 public class AnimeIdICalRequestHandler {
 
-    private static final UserId ICAL_USER = new UserId("UICALHANDL");
+    private static final UserId ICAL_USER = UserId.of("UICALHANDL");
 
     @Inject
     ICalCalendarBuilder iCalCalendarBuilder;

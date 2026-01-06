@@ -17,7 +17,7 @@ public class SameUserIdPredicateParser implements PredicateParser<SameUserIdPred
             return new SameUserIdPredicate(null);
         }
 
-        return new SameUserIdPredicate(new UserId(value));
+        return new SameUserIdPredicate(UserId.of(value));
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.time.Instant;
 @ApplicationScoped
 public class MyAnimeListNameAndSeasonUpdateSchedule {
 
-    private static final UserId MY_ANIME_LIST_NAME_AND_SEASON_UPDATE_USER = new UserId("UMALNASEUP");
+    private static final UserId MY_ANIME_LIST_NAME_AND_SEASON_UPDATE_USER = UserId.of("UMALNASEUP");
 
     @Inject
     MyAnimeListNameAndSeasonUpdateRequestHandler requestHandler;

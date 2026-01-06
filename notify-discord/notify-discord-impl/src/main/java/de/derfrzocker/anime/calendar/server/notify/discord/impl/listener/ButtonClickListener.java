@@ -40,7 +40,7 @@ public class ButtonClickListener {
 
     private static final Logger LOG = Logger.getLogger(ButtonClickListener.class);
 
-    private static final UserId LINKING_USER = new UserId("UDIANILINK");
+    private static final UserId LINKING_USER = UserId.of("UDIANILINK");
 
     @Inject
     NotificationService notificationService;

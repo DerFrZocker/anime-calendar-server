@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequestScoped
 public class MyAnimeListICalRequestHandler {
 
-    private static final UserId ICAL_USER = new UserId("UICALHANDL");
+    private static final UserId ICAL_USER = UserId.of("UICALHANDL");
 
     @Inject
     ICalCalendarBuilder iCalCalendarBuilder;

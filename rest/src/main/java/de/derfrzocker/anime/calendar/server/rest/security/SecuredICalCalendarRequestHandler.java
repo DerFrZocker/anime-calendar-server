@@ -11,7 +11,7 @@ import java.time.Instant;
 @RequestScoped
 public class SecuredICalCalendarRequestHandler {
 
-    private static final UserId ICAL_USER = new UserId("UICALHANDL");
+    private static final UserId ICAL_USER = UserId.of("UICALHANDL");
 
     @Inject
     ICalCalendarRequestHandler requestHandler;

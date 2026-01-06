@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.user;
 
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateUserId;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserCreateResponse;
 import de.derfrzocker.anime.calendar.server.rest.response.user.UserResponse;
 import de.derfrzocker.anime.calendar.server.rest.security.SecuredUserRequestHandler;
@@ -26,7 +25,7 @@ public class UserResource {
     @GET
     @Path("{id}")
     @PermitAll
-    public UserResponse getById(@ValidateUserId @PathParam("id") UserId id) {
+    public UserResponse getById(@PathParam("id") UserId id) {
         return this.requestHandler.getById(id);
     }
 

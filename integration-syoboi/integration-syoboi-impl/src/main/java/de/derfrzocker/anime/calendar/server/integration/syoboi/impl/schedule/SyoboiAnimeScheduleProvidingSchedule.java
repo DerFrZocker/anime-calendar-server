@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @ApplicationScoped
 public class SyoboiAnimeScheduleProvidingSchedule {
 
-    private static final UserId SYOBOI_ANIME_CREATE_AND_UPDATE_UPDATE_USER = new UserId("USYANIMCAU");
+    private static final UserId SYOBOI_ANIME_CREATE_AND_UPDATE_UPDATE_USER = UserId.of("USYANIMCAU");
 
     @Inject
     AnimeScheduleProviderService scheduleProviderService;

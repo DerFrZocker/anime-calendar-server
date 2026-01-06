@@ -11,7 +11,7 @@ import java.time.Instant;
 @ApplicationScoped
 public class AniDBNameUpdateSchedule {
 
-    private static final UserId ANIDB_NAME_UPDATE_USER = new UserId("UANIDBNAUP");
+    private static final UserId ANIDB_NAME_UPDATE_USER = UserId.of("UANIDBNAUP");
 
     @Inject
     AniDBNameUpdateRequestHandler requestHandler;

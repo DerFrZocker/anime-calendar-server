@@ -24,7 +24,7 @@ public class SameActionAndUserIdBiPredicateParser implements BiPredicateParser<S
         }
 
         if (idValue != null) {
-            id = new UserId(idValue);
+            id = UserId.of(idValue);
         }
 
         return new SameActionAndUserIdBiPredicate(action, id);
