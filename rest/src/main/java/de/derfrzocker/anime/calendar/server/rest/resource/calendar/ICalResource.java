@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
 import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
-import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarKey;
 import de.derfrzocker.anime.calendar.server.rest.security.SecuredICalCalendarRequestHandler;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.RequestScoped;
@@ -22,7 +21,7 @@ public class ICalResource {
     @GET
     @Path("{calendarKey}")
     @PermitAll
-    public String getByKey(@ValidateCalendarKey @PathParam("calendarKey") CalendarKey key) {
+    public String getByKey(@PathParam("calendarKey") CalendarKey key) {
         return this.requestHandler.getByKey(key);
     }
 }

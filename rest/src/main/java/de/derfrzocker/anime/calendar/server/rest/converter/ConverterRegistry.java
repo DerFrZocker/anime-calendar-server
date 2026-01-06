@@ -35,7 +35,7 @@ public class ConverterRegistry
               .addSerializer(CalendarId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(CalendarId.class, createJsonDeserializer(p -> CalendarId.of(p.getValueAsString())))
               .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> new CalendarKey(p.getValueAsString())))
+              .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> CalendarKey.of(p.getValueAsString())))
               .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(AnimeId.class, createJsonDeserializer(p -> AnimeId.of(p.getValueAsString())))
               .addSerializer(IntegrationId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))

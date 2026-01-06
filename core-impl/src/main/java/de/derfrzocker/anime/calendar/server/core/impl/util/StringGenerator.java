@@ -29,7 +29,7 @@ public final class StringGenerator {
     }
 
     public static CalendarKey generateCalendarKey(CalendarId calendarId) {
-        return new CalendarKey(calendarId.raw() + generateStringId(
+        return CalendarKey.of(calendarId.raw() + generateStringId(
                 CalendarKey.KEY_PREFIX_CHAR,
                 CalendarKey.KEY_LENGTH - CalendarId.ID_LENGTH));
     }
