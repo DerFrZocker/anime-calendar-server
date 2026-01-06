@@ -10,7 +10,7 @@ public record CalendarKey(@NotNull String raw) {
 
     @NotNull
     public CalendarId calendarId() {
-        return new CalendarId(raw().substring(0, CalendarId.ID_LENGTH));
+        return CalendarId.of(raw().substring(0, CalendarId.ID_LENGTH));
     }
 
     public CalendarKey {

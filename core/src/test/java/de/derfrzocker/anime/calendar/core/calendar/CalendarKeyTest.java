@@ -20,9 +20,9 @@ class CalendarKeyTest {
     // <editor-fold desc="#calendarId()" defaultstate="collapsed">
     @Test
     void testCalendarId() {
-        CalendarKey calendarKey = new CalendarKey("ABCDEFGHIJKLMNPQRSTU");
+        CalendarKey calendarKey = new CalendarKey("CBCDEFGHIJKLMNPQRSTU");
 
-        assertEquals(new CalendarId("ABCDEFGHIJ"), calendarKey.calendarId(), "Calendar id should be correct.");
+        assertEquals(new CalendarId("CBCDEFGHIJ"), calendarKey.calendarId(), "Calendar id should be correct.");
     }
     // </editor-fold>
 }

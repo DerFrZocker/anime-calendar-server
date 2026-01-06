@@ -21,7 +21,8 @@ import jakarta.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class ConverterRegistry implements ObjectMapperCustomizer {
+public class ConverterRegistry
+        implements ObjectMapperCustomizer {
 
     @Override
     public void customize(ObjectMapper objectMapper) {
@@ -32,18 +33,21 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
               .addSerializer(UserToken.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(UserToken.class, createJsonDeserializer(p -> new UserToken(p.getValueAsString())))
               .addSerializer(CalendarId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(CalendarId.class, createJsonDeserializer(p -> new CalendarId(p.getValueAsString())))
+              .addDeserializer(CalendarId.class, createJsonDeserializer(p -> CalendarId.of(p.getValueAsString())))
               .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> new CalendarKey(p.getValueAsString())))
               .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
               .addDeserializer(AnimeId.class, createJsonDeserializer(p -> AnimeId.of(p.getValueAsString())))
               .addSerializer(IntegrationId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(IntegrationId.class,
-                               createJsonDeserializer(p -> IntegrationId.of(p.getValueAsString())))
-              .addSerializer(IntegrationAnimeId.class,
-                             createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(IntegrationAnimeId.class,
-                               createJsonDeserializer(p -> new IntegrationAnimeId(p.getValueAsString())));
+              .addDeserializer(
+                      IntegrationId.class,
+                      createJsonDeserializer(p -> IntegrationId.of(p.getValueAsString())))
+              .addSerializer(
+                      IntegrationAnimeId.class,
+                      createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
+              .addDeserializer(
+                      IntegrationAnimeId.class,
+                      createJsonDeserializer(p -> new IntegrationAnimeId(p.getValueAsString())));
 
         objectMapper.registerModule(module);
     }
@@ -56,7 +60,8 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
         return new InlineJsonDeserializer<>(deserializer);
     }
 
-    private static class InlineJsonSerializer<T> extends JsonSerializer<T> {
+    private static class InlineJsonSerializer<T>
+            extends JsonSerializer<T> {
 
         private final ConsumerJsonSerializer<T> consumer;
 
@@ -70,7 +75,8 @@ public class ConverterRegistry implements ObjectMapperCustomizer {
         }
     }
 
-    private static class InlineJsonDeserializer<T> extends JsonDeserializer<T> {
+    private static class InlineJsonDeserializer<T>
+            extends JsonDeserializer<T> {
 
         private final ProducerJsonDeserializer<T> producer;
 

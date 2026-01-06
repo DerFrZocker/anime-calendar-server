@@ -21,7 +21,7 @@ public final class StringGenerator {
     }
 
     public static CalendarId generateCalendarId() {
-        return new CalendarId(generateStringId(CalendarId.ID_PREFIX, CalendarId.ID_LENGTH));
+        return CalendarId.of(generateStringId(CalendarId.ID_PREFIX, CalendarId.ID_LENGTH));
     }
 
     public static AnimeAccountLinkId generateAnimeAccountLink() {

@@ -6,7 +6,8 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.PermissionAc
 import java.util.HashMap;
 import java.util.Map;
 
-public class SameActionAndCalendarIdBiPredicateParser implements BiPredicateParser<SameActionAndCalendarIdBiPredicate> {
+public class SameActionAndCalendarIdBiPredicateParser
+        implements BiPredicateParser<SameActionAndCalendarIdBiPredicate> {
 
     private static final String ACTION = "action";
     private static final String CALENDAR_ID = "id";
@@ -24,7 +25,7 @@ public class SameActionAndCalendarIdBiPredicateParser implements BiPredicatePars
         }
 
         if (idValue != null) {
-            id = new CalendarId(idValue);
+            id = CalendarId.of(idValue);
         }
 
         return new SameActionAndCalendarIdBiPredicate(action, id);

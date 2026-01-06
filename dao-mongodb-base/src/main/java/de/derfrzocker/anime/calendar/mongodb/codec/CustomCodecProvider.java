@@ -18,7 +18,7 @@ public class CustomCodecProvider
     {
         putString(UserId.class, UserId::raw, UserId::of);
         putString(HashedUserToken.class, HashedUserToken::raw, HashedUserToken::new);
-        putString(CalendarId.class, CalendarId::raw, CalendarId::new);
+        putString(CalendarId.class, CalendarId::raw, CalendarId::of);
         putString(CalendarKey.class, CalendarKey::raw, CalendarKey::new);
         putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
         putString(AnimeId.class, AnimeId::raw, AnimeId::of);

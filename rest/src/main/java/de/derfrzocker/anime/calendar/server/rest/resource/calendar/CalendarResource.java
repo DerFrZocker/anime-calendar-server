@@ -1,7 +1,6 @@
 package de.derfrzocker.anime.calendar.server.rest.resource.calendar;
 
 import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.server.rest.constrain.ValidateCalendarId;
 import de.derfrzocker.anime.calendar.server.rest.request.calendar.CalendarCreateRequest;
 import de.derfrzocker.anime.calendar.server.rest.response.calendar.CalendarResponse;
 import de.derfrzocker.anime.calendar.server.rest.security.SecuredCalendarRequestHandler;
@@ -30,7 +29,7 @@ public class CalendarResource {
     @GET
     @Path("{id}")
     @PermitAll
-    public CalendarResponse getById(@ValidateCalendarId @PathParam("id") CalendarId id) {
+    public CalendarResponse getById(@PathParam("id") CalendarId id) {
         return this.requestHandler.getById(id);
     }
 

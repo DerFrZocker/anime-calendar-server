@@ -5,7 +5,8 @@ import de.derfrzocker.anime.calendar.server.model.domain.permission.PredicatePar
 import java.util.HashMap;
 import java.util.Map;
 
-public class SameCalendarIdPredicateParser implements PredicateParser<SameCalendarIdPredicate> {
+public class SameCalendarIdPredicateParser
+        implements PredicateParser<SameCalendarIdPredicate> {
 
     private static final String CALENDAR_ID = "id";
 
@@ -17,7 +18,7 @@ public class SameCalendarIdPredicateParser implements PredicateParser<SameCalend
             return new SameCalendarIdPredicate(null);
         }
 
-        return new SameCalendarIdPredicate(new CalendarId(value));
+        return new SameCalendarIdPredicate(CalendarId.of(value));
     }
 
     @Override
