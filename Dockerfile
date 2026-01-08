@@ -3,11 +3,11 @@ WORKDIR /usr/src
 
 COPY ./ ./
 
-RUN mvn package -DskipTests=true
+RUN mvn package -DskipTests=true -B
 
 FROM builder AS tester
 
-RUN mvn verify
+RUN mvn verify -B
 
 FROM eclipse-temurin:21-jre-alpine
 
