@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.rest.mapper.exception;
+package de.derfrzocker.anime.calendar.rest.exception;
 
 import de.derfrzocker.anime.calendar.core.exception.ActionNotAllowedException;
 import de.derfrzocker.anime.calendar.core.exception.AlreadyCreatedException;
