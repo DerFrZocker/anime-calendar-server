@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.rest.converter;
+package de.derfrzocker.anime.calendar.rest.converter;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -19,6 +19,7 @@ import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 import jakarta.inject.Singleton;
 import java.io.IOException;
+import java.util.function.Function;
 
 @Singleton
 public class ConverterRegistry
@@ -28,28 +29,25 @@ public class ConverterRegistry
     public void customize(ObjectMapper objectMapper) {
         SimpleModule module = new SimpleModule();
 
-        module.addSerializer(UserId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(UserId.class, createJsonDeserializer(p -> UserId.of(p.getValueAsString())))
-              .addSerializer(UserToken.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(UserToken.class, createJsonDeserializer(p -> new UserToken(p.getValueAsString())))
-              .addSerializer(CalendarId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(CalendarId.class, createJsonDeserializer(p -> CalendarId.of(p.getValueAsString())))
-              .addSerializer(CalendarKey.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(CalendarKey.class, createJsonDeserializer(p -> CalendarKey.of(p.getValueAsString())))
-              .addSerializer(AnimeId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(AnimeId.class, createJsonDeserializer(p -> AnimeId.of(p.getValueAsString())))
-              .addSerializer(IntegrationId.class, createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(
-                      IntegrationId.class,
-                      createJsonDeserializer(p -> IntegrationId.of(p.getValueAsString())))
-              .addSerializer(
-                      IntegrationAnimeId.class,
-                      createJsonSerializer(((value, gen) -> gen.writeString(value.raw()))))
-              .addDeserializer(
-                      IntegrationAnimeId.class,
-                      createJsonDeserializer(p -> new IntegrationAnimeId(p.getValueAsString())));
+        register(module, AnimeId.class, AnimeId::raw, AnimeId::of);
+        register(module, CalendarId.class, CalendarId::raw, CalendarId::of);
+        register(module, CalendarKey.class, CalendarKey::raw, CalendarKey::of);
+        register(module, IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
+        register(module, IntegrationId.class, IntegrationId::raw, IntegrationId::of);
+        register(module, UserId.class, UserId::raw, UserId::of);
+        register(module, UserToken.class, UserToken::raw, UserToken::new);
 
         objectMapper.registerModule(module);
+    }
+
+    private <T> void register(
+            SimpleModule module,
+            Class<T> clazz,
+            Function<T, String> serializer,
+            Function<String, T> deserializer) {
+        module
+                .addSerializer(clazz, createJsonSerializer((value, gen) -> gen.writeString(serializer.apply(value))))
+                .addDeserializer(clazz, createJsonDeserializer(p -> deserializer.apply(p.getValueAsString())));
     }
 
     private <T> JsonSerializer<T> createJsonSerializer(ConsumerJsonSerializer<T> serializer) {
