@@ -28,6 +28,7 @@ import de.derfrzocker.anime.calendar.server.notify.api.NotificationCreateData;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationHelperService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -43,12 +44,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class CheckForMissingStreamingTask {
-
-    private static final Logger LOG = Logger.getLogger(CheckForMissingStreamingTask.class);
 
     private static final IntegrationId REFERENCE_INTEGRATION_ID = IntegrationIds.MY_ANIME_LIST;
 
@@ -74,36 +72,34 @@ public class CheckForMissingStreamingTask {
     public Uni<Void> checkForMissingStreaming(RequestContext context) {
         try (Stream<Anime> stream = this.animeService.getAll(context)) {
             List<Anime> animes = stream.toList();
-            LOG.infof("Checking for missing streaming in '%d' animes ...", animes.size());
+            Log.infof("Checking for missing streaming in '%d' animes ...", animes.size());
 
-            return Multi.createFrom()
-                        .iterable(animes)
-                        .emitOn(Infrastructure.getDefaultExecutor())
-                        .invoke(anime -> checkForMissingStreaming(anime, context))
-                        .collect()
-                        .asList()
-                        .onFailure()
-                        .invoke(throwable -> {
-                            LOG.errorf("An error occurred while checking for missing streaming.", throwable);
-                        })
-                        .invoke(() -> LOG.infof("Finished checking for missing streaming."))
-                        .replaceWithVoid();
+            return Multi
+                    .createFrom()
+                    .iterable(animes)
+                    .emitOn(Infrastructure.getDefaultExecutor())
+                    .invoke(anime -> checkForMissingStreaming(anime, context))
+                    .collect()
+                    .asList()
+                    .onFailure()
+                    .invoke(error -> Log.errorf(error, "An error occurred while checking for missing streaming."))
+                    .invoke(() -> Log.infof("Finished checking for missing streaming."))
+                    .replaceWithVoid();
         }
     }
 
     private void checkForMissingStreaming(Anime anime, RequestContext context) {
-        if (anime.episodeLayers()
-                 .stream()
-                 .anyMatch(config -> Objects.equals(config.transformConfig().key(),
-                                                    StreamingUrlLayerTransformer.LAYER_KEY))) {
+        if (anime.episodeLayers().stream().anyMatch(config -> Objects.equals(
+                config.transformConfig().key(),
+                StreamingUrlLayerTransformer.LAYER_KEY))) {
             return;
         }
 
-        AnimeOptions options =
-                AnimeOptionsBuilder.anAnimeOptions(Region.DE_DE)
-                                   .withStreamTypes(StreamType.ORG)
-                                   .withLanguagePriorities("en")
-                                   .build();
+        AnimeOptions options = AnimeOptionsBuilder
+                .anAnimeOptions(Region.DE_DE)
+                .withStreamTypes(StreamType.ORG)
+                .withLanguagePriorities("en")
+                .build();
         List<Episode> episodes = this.episodeBuilderService.buildEpisodes(anime, options, context);
 
         Instant startOfWeek = OffsetDateTime.now().with(DayOfWeek.MONDAY).with(LocalTime.MIN).toInstant();
@@ -140,50 +136,57 @@ public class CheckForMissingStreamingTask {
     }
 
     private Notification createBaseNotification(RequestContext context) {
-        NotificationCreateData createData = new NotificationCreateData(StreamingNotification.NOTIFICATION_TYPE,
-                                                                       Instant.now().plus(this.validLength));
+        NotificationCreateData createData = new NotificationCreateData(
+                StreamingNotification.NOTIFICATION_TYPE,
+                Instant.now().plus(this.validLength));
         return this.notificationService.createWithData(createData, context);
     }
 
-    private void createStreamingNotification(Notification notification,
-                                             Anime anime,
-                                             Episode referenceEpisode,
-                                             IntegrationAnimeId referenceIntegrationAnimeId,
-                                             RequestContext context) {
+    private void createStreamingNotification(
+            Notification notification,
+            Anime anime,
+            Episode referenceEpisode,
+            IntegrationAnimeId referenceIntegrationAnimeId,
+            RequestContext context) {
         String name = anime.title();
         if (referenceEpisode.episodeName() != null) {
             name = referenceEpisode.episodeName();
         }
 
-        StreamingNotificationCreateData createData = new StreamingNotificationCreateData(anime.id(),
-                                                                                         referenceEpisode.episodeId(),
-                                                                                         referenceEpisode.streamingTime(),
-                                                                                         name,
-                                                                                         REFERENCE_INTEGRATION_ID,
-                                                                                         referenceIntegrationAnimeId);
+        StreamingNotificationCreateData createData = new StreamingNotificationCreateData(
+                anime.id(),
+                referenceEpisode.episodeId(),
+                referenceEpisode.streamingTime(),
+                name,
+                REFERENCE_INTEGRATION_ID,
+                referenceIntegrationAnimeId);
         this.streamingNotificationService.createWithData(notification.id(), createData, context);
     }
 
     private NotificationAction createBaseAction(Notification notification, RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(notification.id(),
-                                                                                   StreamingNotificationAction.NOTIFICATION_ACTION_TYPE,
-                                                                                   true);
+        NotificationActionCreateData createData = new NotificationActionCreateData(
+                notification.id(),
+                StreamingNotificationAction.NOTIFICATION_ACTION_TYPE,
+                true);
         return this.notificationActionService.createWithData(createData, context);
     }
 
-    private void createStreamingAction(NotificationAction action,
-                                       Anime anime,
-                                       int orgEpisodeIndex,
-                                       RequestContext context) {
-        StreamingNotificationActionCreateData createData = new StreamingNotificationActionCreateData(anime.id(),
-                                                                                                     orgEpisodeIndex);
+    private void createStreamingAction(
+            NotificationAction action,
+            Anime anime,
+            int orgEpisodeIndex,
+            RequestContext context) {
+        StreamingNotificationActionCreateData createData = new StreamingNotificationActionCreateData(
+                anime.id(),
+                orgEpisodeIndex);
         this.streamingNotificationActionService.createWithData(action.id(), createData, context);
     }
 
     private Optional<IntegrationAnimeId> getIntegrationAnimeId(Anime anime, RequestContext context) {
-        try (Stream<AnimeIntegrationLink> stream = this.animeIntegrationLinkService.getAllWithId(anime.id(),
-                                                                                                 REFERENCE_INTEGRATION_ID,
-                                                                                                 context)) {
+        try (Stream<AnimeIntegrationLink> stream = this.animeIntegrationLinkService.getAllWithId(
+                anime.id(),
+                REFERENCE_INTEGRATION_ID,
+                context)) {
 
             return stream.findAny().map(AnimeIntegrationLink::integrationAnimeId);
         }

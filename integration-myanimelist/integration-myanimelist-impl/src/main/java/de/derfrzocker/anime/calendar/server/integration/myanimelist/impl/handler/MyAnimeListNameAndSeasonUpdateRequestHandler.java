@@ -16,6 +16,7 @@ import de.derfrzocker.anime.calendar.server.integration.name.service.AnimeNameHo
 import de.derfrzocker.anime.calendar.server.season.api.AnimeSeasonInfo;
 import de.derfrzocker.anime.calendar.server.season.api.AnimeSeasonInfoCreateData;
 import de.derfrzocker.anime.calendar.server.season.service.AnimeSeasonInfoService;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -28,15 +29,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class MyAnimeListNameAndSeasonUpdateRequestHandler {
 
     private static final NameType DEFAULT_NAME_TYPE = new NameType("main");
     private static final NameLanguage DEFAULT_NAME_LANGUAGE = new NameLanguage("x-jat");
-
-    private static final Logger LOG = Logger.getLogger(MyAnimeListNameAndSeasonUpdateRequestHandler.class);
 
     @Inject
     MyAnimeListSeasonInfoService seasonInfoService;
@@ -54,33 +52,32 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
         List<MyAnimeListSeasonInfo> data = new ArrayList<>();
         data.addAll(this.seasonInfoService.getAllByYearAndSeason(year, season, context));
         data.addAll(this.seasonInfoService.getAllByYearAndSeason(season.nextYear(year), season.nextSeason(), context));
-        data.addAll(this.seasonInfoService.getAllByYearAndSeason(season.previousYear(year),
-                                                                 season.previousSeason(),
-                                                                 context));
+        data.addAll(this.seasonInfoService.getAllByYearAndSeason(
+                season.previousYear(year),
+                season.previousSeason(),
+                context));
 
-        LOG.info("Creating or updating '%d' anime names and season.".formatted(data.size()));
+        Log.infof("Creating or updating '%d' anime names and season.", data.size());
 
-        return Multi.createFrom()
-                    .iterable(data)
-                    .emitOn(Infrastructure.getDefaultExecutor())
-                    .invoke(info -> createOrUpdateName(info, context))
-                    .invoke(info -> createOrUpdateSeason(info, context))
-                    .collect()
-                    .asList()
-                    .onFailure()
-                    .invoke(d -> {
-                        LOG.error("MyAnimeList names and season creating or updating failed.", d);
-                    })
-                    .invoke(() -> {
-                        LOG.info("MyAnimeList names and season created or updated successfully.");
-                    })
-                    .replaceWithVoid();
+        return Multi
+                .createFrom()
+                .iterable(data)
+                .emitOn(Infrastructure.getDefaultExecutor())
+                .invoke(info -> createOrUpdateName(info, context))
+                .invoke(info -> createOrUpdateSeason(info, context))
+                .collect()
+                .asList()
+                .onFailure()
+                .invoke(error -> Log.errorf(error, "MyAnimeList names and season creating or updating failed."))
+                .invoke(() -> Log.infof("MyAnimeList names and season created or updated successfully."))
+                .replaceWithVoid();
     }
 
     private void createOrUpdateName(MyAnimeListSeasonInfo info, RequestContext context) {
-        Optional<AnimeNameHolder> current = this.nameService.getById(IntegrationIds.MY_ANIME_LIST,
-                                                                     info.animeId(),
-                                                                     context);
+        Optional<AnimeNameHolder> current = this.nameService.getById(
+                IntegrationIds.MY_ANIME_LIST,
+                info.animeId(),
+                context);
 
         if (current.isPresent()) {
             updateName(info, current.get(), context);
@@ -90,11 +87,12 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
     }
 
     private void createOrUpdateSeason(MyAnimeListSeasonInfo info, RequestContext context) {
-        Optional<AnimeSeasonInfo> current = this.seasonService.getById(IntegrationIds.MY_ANIME_LIST,
-                                                                       info.animeId(),
-                                                                       info.year().getValue(),
-                                                                       info.season(),
-                                                                       context);
+        Optional<AnimeSeasonInfo> current = this.seasonService.getById(
+                IntegrationIds.MY_ANIME_LIST,
+                info.animeId(),
+                info.year().getValue(),
+                info.season(),
+                context);
 
         if (current.isPresent()) {
             updateSeason(info, current.get(), context);
@@ -104,10 +102,11 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
     }
 
     private void createName(MyAnimeListSeasonInfo info, RequestContext context) {
-        this.nameService.createWithData(IntegrationIds.MY_ANIME_LIST,
-                                        info.animeId(),
-                                        new AnimeNameHolderCreateData(List.of(info.name())),
-                                        context);
+        this.nameService.createWithData(
+                IntegrationIds.MY_ANIME_LIST,
+                info.animeId(),
+                new AnimeNameHolderCreateData(List.of(info.name())),
+                context);
     }
 
     private void updateName(MyAnimeListSeasonInfo info, AnimeNameHolder current, RequestContext context) {
@@ -143,19 +142,21 @@ public class MyAnimeListNameAndSeasonUpdateRequestHandler {
             return;
         }
 
-        this.nameService.updateWithData(IntegrationIds.MY_ANIME_LIST,
-                                        info.animeId(),
-                                        new AnimeNameHolderUpdateData(Change.addingToList(info.name())),
-                                        context);
+        this.nameService.updateWithData(
+                IntegrationIds.MY_ANIME_LIST,
+                info.animeId(),
+                new AnimeNameHolderUpdateData(Change.addingToList(info.name())),
+                context);
     }
 
     private void createSeason(MyAnimeListSeasonInfo info, RequestContext context) {
-        this.seasonService.createWithData(IntegrationIds.MY_ANIME_LIST,
-                                          info.animeId(),
-                                          info.year().getValue(),
-                                          info.season(),
-                                          new AnimeSeasonInfoCreateData(),
-                                          context);
+        this.seasonService.createWithData(
+                IntegrationIds.MY_ANIME_LIST,
+                info.animeId(),
+                info.year().getValue(),
+                info.season(),
+                new AnimeSeasonInfoCreateData(),
+                context);
     }
 
     private void updateSeason(MyAnimeListSeasonInfo info, AnimeSeasonInfo current, RequestContext context) {

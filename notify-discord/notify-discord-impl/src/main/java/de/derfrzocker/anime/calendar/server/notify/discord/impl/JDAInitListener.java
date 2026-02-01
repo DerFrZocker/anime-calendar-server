@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl;
 
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.config.DiscordConfig;
+import io.quarkus.logging.Log;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,13 +18,10 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
 @ApplicationScoped
 public class JDAInitListener {
-
-    private static final Logger LOG = Logger.getLogger(JDAInitListener.class);
 
     @ConfigProperty(name = "discord.bot.token")
     String discordToken;
@@ -36,7 +34,7 @@ public class JDAInitListener {
 
     public void onStartup(@Observes StartupEvent event) {
         if (this.jda != null) {
-            LOG.error("JDA already initialized.");
+            Log.errorf("JDA already initialized.");
             return;
         }
 
@@ -75,7 +73,7 @@ public class JDAInitListener {
 
     public void onShutdown(@Observes ShutdownEvent event) throws ExecutionException, InterruptedException {
         if (this.jda == null) {
-            LOG.error("JDA not initialized.");
+            Log.errorf("JDA not initialized.");
             return;
         }
 

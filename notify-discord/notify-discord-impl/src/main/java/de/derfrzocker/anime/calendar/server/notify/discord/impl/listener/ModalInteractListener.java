@@ -22,7 +22,6 @@ import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import org.jboss.logging.Logger;
 
 // TODO 2024-12-22: For better security in the future, we should link the discord account to a userid and check for
 //  the users permission, this way we can also drag which user exactly made the change.
@@ -31,8 +30,6 @@ import org.jboss.logging.Logger;
 //  For now however it is fine as it is.
 @ApplicationScoped
 public class ModalInteractListener {
-
-    private static final Logger LOG = Logger.getLogger(ModalInteractListener.class);
 
     private static final UserId LINKING_USER = UserId.of("UDIANILINK");
     @Inject

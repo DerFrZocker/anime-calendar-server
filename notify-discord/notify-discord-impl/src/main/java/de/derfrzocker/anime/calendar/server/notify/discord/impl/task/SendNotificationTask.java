@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.server.notify.discord.impl.config.DiscordCo
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer.JDADiscordMessageBuilderImpl;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationSendEvent;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
@@ -15,12 +16,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class SendNotificationTask {
-
-    private static final Logger LOG = Logger.getLogger(SendNotificationTask.class);
 
     @Inject
     Instance<DiscordMessageRenderer> rendererInstance;
@@ -40,7 +38,7 @@ public class SendNotificationTask {
 
             builder.build().forEach(message -> channel.sendMessage(message).queue());
         } catch (Exception e) {
-            LOG.errorv(e, "Failed to send notification, for event '{}'.", event);
+            Log.errorf(e, "Failed to send notification, for event '%s'.", event);
             trySendException(e);
         }
     }
@@ -60,7 +58,7 @@ public class SendNotificationTask {
 
             this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
         } catch (Exception e) {
-            LOG.errorv("Could not send error message to Discord.", e);
+            Log.errorf(e, "Could not send error message to Discord.");
         }
     }
 }

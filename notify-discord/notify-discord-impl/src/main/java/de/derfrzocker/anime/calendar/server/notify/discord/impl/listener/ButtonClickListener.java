@@ -15,6 +15,7 @@ import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputRen
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTriggerEvent;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
@@ -28,7 +29,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import org.jboss.logging.Logger;
 
 // TODO 2024-12-22: For better security in the future, we should link the discord account to a userid and check for
 //  the users permission, this way we can also drag which user exactly made the change.
@@ -37,8 +37,6 @@ import org.jboss.logging.Logger;
 //  For now however it is fine as it is.
 @ApplicationScoped
 public class ButtonClickListener {
-
-    private static final Logger LOG = Logger.getLogger(ButtonClickListener.class);
 
     private static final UserId LINKING_USER = UserId.of("UDIANILINK");
 
@@ -105,7 +103,7 @@ public class ButtonClickListener {
 
             event.replyModal(builder.build(action)).queue();
         } catch (Exception e) {
-            LOG.errorv(e, "Failed to send input request, for event '{}'.", event);
+            Log.errorf(e, "Failed to send input request, for event '%s'.", event);
             trySendException(e);
         }
     }
@@ -125,7 +123,7 @@ public class ButtonClickListener {
 
             this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
         } catch (Exception e) {
-            LOG.errorv("Could not send error message to Discord.", e);
+            Log.errorf(e, "Could not send error message to Discord.");
         }
     }
 }

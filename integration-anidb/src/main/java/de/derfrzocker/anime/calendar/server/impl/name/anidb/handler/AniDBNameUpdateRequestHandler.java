@@ -12,6 +12,7 @@ import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeNameHolder
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameLanguage;
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameType;
 import de.derfrzocker.anime.calendar.server.integration.name.service.AnimeNameHolderService;
+import io.quarkus.logging.Log;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -28,7 +29,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,8 +38,6 @@ import org.xml.sax.SAXException;
 @ApplicationScoped
 public class AniDBNameUpdateRequestHandler {
 
-    private static final Logger LOG = Logger.getLogger(AniDBNameUpdateRequestHandler.class);
-
     @RestClient
     AniDBRestClient restClient;
     @Inject
@@ -48,28 +46,26 @@ public class AniDBNameUpdateRequestHandler {
     public Uni<Void> createOrUpdate(RequestContext context) {
         List<ParsedAnimeNameHolder> nameHolders = readAll();
 
-        LOG.info("Creating or updating '%d' anime names.".formatted(nameHolders.size()));
+        Log.infof("Creating or updating '%d' anime names.", nameHolders.size());
 
-        return Multi.createFrom()
-                    .iterable(nameHolders)
-                    .emitOn(Infrastructure.getDefaultExecutor())
-                    .invoke(holder -> createOrUpdate(holder, context))
-                    .collect()
-                    .asList()
-                    .onFailure()
-                    .invoke(d -> {
-                        LOG.error("AniDB names creating or updating failed.", d);
-                    })
-                    .invoke(() -> {
-                        LOG.info("AniDB names created or updated successfully.");
-                    })
-                    .replaceWithVoid();
+        return Multi
+                .createFrom()
+                .iterable(nameHolders)
+                .emitOn(Infrastructure.getDefaultExecutor())
+                .invoke(holder -> createOrUpdate(holder, context))
+                .collect()
+                .asList()
+                .onFailure()
+                .invoke(error -> Log.errorf(error, "AniDB names creating or updating failed."))
+                .invoke(() -> Log.infof("AniDB names created or updated successfully."))
+                .replaceWithVoid();
     }
 
     private void createOrUpdate(ParsedAnimeNameHolder read, RequestContext context) {
-        Optional<AnimeNameHolder> current = this.service.getById(IntegrationIds.ANIDB,
-                                                                 read.integrationAnimeId(),
-                                                                 context);
+        Optional<AnimeNameHolder> current = this.service.getById(
+                IntegrationIds.ANIDB,
+                read.integrationAnimeId(),
+                context);
 
         if (current.isPresent()) {
             update(read, current.get(), context);
@@ -79,18 +75,20 @@ public class AniDBNameUpdateRequestHandler {
     }
 
     private void create(ParsedAnimeNameHolder read, RequestContext context) {
-        this.service.createWithData(IntegrationIds.ANIDB,
-                                    read.integrationAnimeId(),
-                                    new AnimeNameHolderCreateData(read.names()),
-                                    context);
+        this.service.createWithData(
+                IntegrationIds.ANIDB,
+                read.integrationAnimeId(),
+                new AnimeNameHolderCreateData(read.names()),
+                context);
     }
 
     private void update(ParsedAnimeNameHolder read, AnimeNameHolder current, RequestContext context) {
         if (read.names().size() != current.names().size()) {
-            this.service.updateWithData(IntegrationIds.ANIDB,
-                                        read.integrationAnimeId(),
-                                        new AnimeNameHolderUpdateData(Change.to(read.names())),
-                                        context);
+            this.service.updateWithData(
+                    IntegrationIds.ANIDB,
+                    read.integrationAnimeId(),
+                    new AnimeNameHolderUpdateData(Change.to(read.names())),
+                    context);
         }
 
         boolean same = true;
@@ -105,10 +103,11 @@ public class AniDBNameUpdateRequestHandler {
             return;
         }
 
-        this.service.updateWithData(IntegrationIds.ANIDB,
-                                    read.integrationAnimeId(),
-                                    new AnimeNameHolderUpdateData(Change.to(read.names())),
-                                    context);
+        this.service.updateWithData(
+                IntegrationIds.ANIDB,
+                read.integrationAnimeId(),
+                new AnimeNameHolderUpdateData(Change.to(read.names())),
+                context);
     }
 
     private List<ParsedAnimeNameHolder> readAll() {
@@ -155,9 +154,10 @@ public class AniDBNameUpdateRequestHandler {
     }
 
     private AnimeName parseName(Element name) {
-        return new AnimeName(new NameType(name.getAttribute("type")),
-                             new NameLanguage(name.getAttribute("xml:lang")),
-                             name.getTextContent());
+        return new AnimeName(
+                new NameType(name.getAttribute("type")),
+                new NameLanguage(name.getAttribute("xml:lang")),
+                name.getTextContent());
     }
 
     private Document parse(File file) {

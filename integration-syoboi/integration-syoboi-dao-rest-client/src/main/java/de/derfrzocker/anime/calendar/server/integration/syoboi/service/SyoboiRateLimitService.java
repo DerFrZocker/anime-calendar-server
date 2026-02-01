@@ -6,12 +6,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.time.temporal.ChronoUnit;
 import java.util.function.Supplier;
 import org.eclipse.microprofile.faulttolerance.Retry;
-import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class SyoboiRateLimitService {
-
-    private static final Logger LOG = Logger.getLogger(SyoboiRateLimitService.class);
 
     public void rateLimit(Runnable runnable) {
         rateLimit(() -> {

@@ -12,6 +12,7 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProvidedTIDD
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.TitleMediumAndProgramResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.mapper.ProvidedTIDDataDataMapper;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.SyoboiRateLimitService;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import java.time.YearMonth;
@@ -21,12 +22,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 
 @Dependent
-public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
-
-    private static final Logger LOG = Logger.getLogger(TIDDataProviderRestDaoImpl.class);
+public class TIDDataProviderRestDaoImpl
+        implements TIDDataProviderDao {
 
     @RestClient
     TIDDataProviderRestClient restClient;
@@ -37,8 +36,9 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
 
     @Override
     public Optional<ProvidedTIDData> provideById(TID id, RequestContext context) {
-        return this.rateLimitService.rateLimit(() -> this.restClient.getTitleMediumAndProgramms(id.raw(),
-                                                                                                this.syoboiConfig.getAnimeScheduleDays()))
+        return this.rateLimitService.rateLimit(() -> this.restClient.getTitleMediumAndProgramms(
+                           id.raw(),
+                           this.syoboiConfig.getAnimeScheduleDays()))
                                     .map(response -> toDomain(id, response));
     }
 
@@ -59,7 +59,7 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
         try {
             firstStart = YearMonth.of(Integer.parseInt(data.FirstYear()), Integer.parseInt(data.FirstMonth()));
         } catch (NumberFormatException e) {
-            LOG.error("Could not parse first year for tid data '%s'.".formatted(tid.raw()), e);
+            Log.errorf(e, "Could not parse first year for tid data '%s'.", tid.raw());
             return null;
         }
         YearMonth firstEnd = null;
@@ -85,7 +85,7 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
                                       .map(this::parseChannelIds)
                                       .orElse(List.of());
         } else {
-            LOG.error("Could not find any programs for tid data '%s'.".formatted(tid.raw()));
+            Log.errorf("Could not find any programs for tid data '%s'.", tid.raw());
             firstChannelIds = List.of();
         }
 
