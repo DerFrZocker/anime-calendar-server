@@ -14,7 +14,7 @@ import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResul
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameType;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.NewAnimeTaskConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
@@ -55,7 +55,7 @@ public class NewAnimeTask {
     @Inject
     NotificationHelperService helperService;
     @Inject
-    SyoboiConfig config;
+    NewAnimeTaskConfig config;
 
     public void onNewAnime(@Observes PostNewAnimeFoundEvent foundEvent) {
         RequestContext context = foundEvent.context();
@@ -90,7 +90,7 @@ public class NewAnimeTask {
     }
 
     private Notification createNewNotification(RequestContext context) {
-        Instant validUntil = Instant.now().plus(this.config.getNewAnimeActionValidLength());
+        Instant validUntil = Instant.now().plus(this.config.validDuration());
         NotificationCreateData createData = new NotificationCreateData(NOTIFICATION_TYPE, validUntil);
 
         return this.notificationService.createWithData(createData, context);

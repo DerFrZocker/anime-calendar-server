@@ -1,7 +1,9 @@
 package de.derfrzocker.anime.calendar.server.impl.season.anidb.client;
 
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.server.impl.season.anidb.config.AniDBUDPClientConfig;
 import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Dependent
 public class AniDBUDPClient {
@@ -18,29 +19,13 @@ public class AniDBUDPClient {
     private static final String ANI_DB_UDP_VERSION = "3";
     private static final int UDP_PACKET_SIZE = 4096;
 
-    @ConfigProperty(name = "anidb.season-update.udp.username")
-    String username;
-    @ConfigProperty(name = "anidb.season-update.udp.password")
-    String password;
-    @ConfigProperty(name = "anidb.season-update.udp.client-id")
-    String clientId;
-    @ConfigProperty(name = "anidb.season-update.udp.client-version")
-    String clientVersion;
-    @ConfigProperty(name = "anidb.season-update.udp.local-port")
-    int localPort;
-    @ConfigProperty(name = "anidb.season-update.udp.address")
-    String address;
-    @ConfigProperty(name = "anidb.season-update.udp.port")
-    int port;
-    @ConfigProperty(name = "anidb.season-update.udp.timeout")
-    int timeout;
-    @ConfigProperty(name = "anidb.season-update.udp.sleep-time")
-    long sleepTime;
+    @Inject
+    AniDBUDPClientConfig config;
 
     public List<AniDBSeasonInfo> getSeasonData() {
-        try (DatagramSocket datagramSocket = new DatagramSocket(localPort)) {
-            datagramSocket.connect(InetAddress.getByName(address), port);
-            datagramSocket.setSoTimeout(timeout);
+        try (DatagramSocket datagramSocket = new DatagramSocket(this.config.localPort())) {
+            datagramSocket.connect(InetAddress.getByName(this.config.address()), this.config.port());
+            datagramSocket.setSoTimeout(this.config.timeout());
 
             String session = auth(datagramSocket);
             String result = readCalendar(datagramSocket, session);
@@ -67,12 +52,13 @@ public class AniDBUDPClient {
     }
 
     private String auth(DatagramSocket datagramSocket) throws IOException, InterruptedException {
-        send(datagramSocket,
-             "AUTH user=%s&pass=%s&protover=%s&client=%s&clientver=%s".formatted(username,
-                                                                                 password,
-                                                                                 ANI_DB_UDP_VERSION,
-                                                                                 clientId,
-                                                                                 clientVersion));
+        send(
+                datagramSocket, "AUTH user=%s&pass=%s&protover=%s&client=%s&clientver=%s".formatted(
+                        this.config.username(),
+                        this.config.password(),
+                        ANI_DB_UDP_VERSION,
+                        this.config.clientId(),
+                        this.config.clientVersion()));
         String result = receive(datagramSocket);
 
         if (!result.startsWith("200 ") && !result.startsWith("201 ")) {
@@ -86,9 +72,8 @@ public class AniDBUDPClient {
         return result;
     }
 
-    private String readCalendar(DatagramSocket datagramSocket, String session) throws
-                                                                               IOException,
-                                                                               InterruptedException {
+    private String readCalendar(DatagramSocket datagramSocket, String session)
+            throws IOException, InterruptedException {
         send(datagramSocket, "CALENDAR s=%s".formatted(session));
 
         String response = receive(datagramSocket);
@@ -108,7 +93,7 @@ public class AniDBUDPClient {
 
     private void send(DatagramSocket datagramSocket, String dataString) throws IOException, InterruptedException {
         // TODO 2024-12-17: Check if this can be made better
-        Thread.sleep(sleepTime); // The UDP API is rated limited, so we slow down
+        Thread.sleep(this.config.sleepTime()); // The UDP API is rated limited, so we slow down
         byte[] data = dataString.getBytes(StandardCharsets.US_ASCII);
         DatagramPacket datagramPacket = new DatagramPacket(data, data.length);
         datagramSocket.send(datagramPacket);

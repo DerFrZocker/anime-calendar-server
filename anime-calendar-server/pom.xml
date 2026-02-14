@@ -179,6 +179,12 @@
             <artifactId>anime-calendar-server-user-permission</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- Quarkus -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-config-yaml</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 @ApplicationScoped
 public class JDAInitListener {
 
-    @ConfigProperty(name = "discord.bot.token")
+    @ConfigProperty(name = "notify.discord.token")
     String discordToken;
     @Inject
     JDAEventPublisher eventPublisher;
@@ -42,21 +42,21 @@ public class JDAInitListener {
             JDA jda = JDABuilder.createLight(this.discordToken).addEventListeners(new ListenerAdapter() {
                 @Override
                 public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-                    if (Objects.equals(config.getChannelId(), event.getChannel().getId())) {
+                    if (Objects.equals(config.channelId(), event.getChannel().getId())) {
                         eventPublisher.fire(event);
                     }
                 }
 
                 @Override
                 public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-                    if (Objects.equals(config.getChannelId(), event.getChannel().getId())) {
+                    if (Objects.equals(config.channelId(), event.getChannel().getId())) {
                         eventPublisher.fire(event);
                     }
                 }
 
                 @Override
                 public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-                    if (Objects.equals(config.getChannelId(), event.getChannel().getId())) {
+                    if (Objects.equals(config.channelId(), event.getChannel().getId())) {
                         eventPublisher.fire(event);
                     }
                 }

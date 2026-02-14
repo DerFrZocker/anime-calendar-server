@@ -4,7 +4,7 @@ import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedTIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.config.TIDDataProviderConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProgramByCountResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProgramByCountTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProvidedAnimeScheduleTDO;
@@ -24,22 +24,22 @@ import java.util.Optional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Dependent
-public class TIDDataProviderRestDaoImpl
-        implements TIDDataProviderDao {
+public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
 
     @RestClient
     TIDDataProviderRestClient restClient;
     @Inject
     SyoboiRateLimitService rateLimitService;
     @Inject
-    SyoboiConfig syoboiConfig;
+    TIDDataProviderConfig tidDataProviderConfig;
 
     @Override
     public Optional<ProvidedTIDData> provideById(TID id, RequestContext context) {
-        return this.rateLimitService.rateLimit(() -> this.restClient.getTitleMediumAndProgramms(
-                           id.raw(),
-                           this.syoboiConfig.getAnimeScheduleDays()))
-                                    .map(response -> toDomain(id, response));
+        return this.rateLimitService
+                .rateLimit(() -> this.restClient.getTitleMediumAndProgramms(
+                        id.raw(),
+                        this.tidDataProviderConfig.programDays()))
+                .map(response -> toDomain(id, response));
     }
 
     private ProvidedTIDData toDomain(TID id, TitleMediumAndProgramResponseTDO response) {
@@ -71,19 +71,20 @@ public class TIDDataProviderRestDaoImpl
         List<ChannelId> firstChannelIds;
 
         if (response.Programs() != null) {
-            firstChannelIds = response.Programs()
-                                      .values()
-                                      .stream()
-                                      .filter(schedule -> schedule.Count() != null)
-                                      .max(Comparator.comparing(ProvidedAnimeScheduleTDO::Count))
-                                      .stream()
-                                      .findFirst()
-                                      .flatMap(schedule -> this.rateLimitService.rateLimit(() -> this.restClient.getProgrammByCount(
-                                              id.raw(),
-                                              schedule.Count())))
-                                      .map(ProgramByCountResponseTDO::Programs)
-                                      .map(this::parseChannelIds)
-                                      .orElse(List.of());
+            firstChannelIds = response
+                    .Programs()
+                    .values()
+                    .stream()
+                    .filter(schedule -> schedule.Count() != null)
+                    .max(Comparator.comparing(ProvidedAnimeScheduleTDO::Count))
+                    .stream()
+                    .findFirst()
+                    .flatMap(schedule -> this.rateLimitService.rateLimit(() -> this.restClient.getProgrammByCount(
+                            id.raw(),
+                            schedule.Count())))
+                    .map(ProgramByCountResponseTDO::Programs)
+                    .map(this::parseChannelIds)
+                    .orElse(List.of());
         } else {
             Log.errorf("Could not find any programs for tid data '%s'.", tid.raw());
             firstChannelIds = List.of();
@@ -97,12 +98,13 @@ public class TIDDataProviderRestDaoImpl
             return List.of();
         }
 
-        return programs.values()
-                       .stream()
-                       .filter(Objects::nonNull)
-                       .map(ProgramByCountTDO::ChID)
-                       .distinct()
-                       .map(ChannelId::new)
-                       .toList();
+        return programs
+                .values()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(ProgramByCountTDO::ChID)
+                .distinct()
+                .map(ChannelId::new)
+                .toList();
     }
 }

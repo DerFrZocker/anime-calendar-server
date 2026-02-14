@@ -4,7 +4,7 @@ import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ProvidedAnimeSchedule;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostSyoboiAnimeScheduleRetrieveEvent;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiAnimeScheduleProvidingConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiAnimeProgramProviderConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.AnimeScheduleProviderService;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,19 +16,19 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @ApplicationScoped
-public class SyoboiAnimeScheduleProvidingSchedule {
+public class SyoboiAnimeProgramProviderSchedule {
 
     private static final UserId SYOBOI_ANIME_CREATE_AND_UPDATE_UPDATE_USER = UserId.of("USYANIMCAU");
 
     @Inject
     AnimeScheduleProviderService scheduleProviderService;
     @Inject
-    SyoboiAnimeScheduleProvidingConfig config;
+    SyoboiAnimeProgramProviderConfig config;
     @Inject
     Event<PostSyoboiAnimeScheduleRetrieveEvent> event;
 
-    @Scheduled(cron = "{integration.syoboi.schedule.anime-schedule-providing.cron:off}",
-               executionMaxDelay = "{integration.syoboi.schedule.anime-schedule-providing.jitter}")
+    @Scheduled(cron = "{integration.syoboi.schedule.anime-program-provider.cron:off}",
+               executionMaxDelay = "{integration.syoboi.schedule.anime-program-provider.jitter}")
     public void schedule() {
         RequestContext context = new RequestContext(SYOBOI_ANIME_CREATE_AND_UPDATE_UPDATE_USER, Instant.now());
         List<ProvidedAnimeSchedule> schedules;
@@ -41,6 +41,6 @@ public class SyoboiAnimeScheduleProvidingSchedule {
     }
 
     private Stream<ProvidedAnimeSchedule> getScheduleData(RequestContext context) {
-        return this.scheduleProviderService.provideAllWithData(LocalDate.now(), this.config.days(), context);
+        return this.scheduleProviderService.provideAllWithData(LocalDate.now(), this.config.programDays(), context);
     }
 }

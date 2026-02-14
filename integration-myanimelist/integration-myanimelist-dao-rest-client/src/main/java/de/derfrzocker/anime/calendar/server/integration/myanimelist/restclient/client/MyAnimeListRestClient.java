@@ -14,20 +14,22 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.RestResponse;
 
 @Path("/v2")
-@RegisterRestClient(configKey = "integration-myanimelist-dao")
+@RegisterRestClient(configKey = "myanimelist")
 @RegisterClientHeaders(MyAnimeListHeaderFactory.class)
 public interface MyAnimeListRestClient {
 
     @GET
     @Path("/anime/season/{year}/{season}")
-    RestResponse<AnimeListResponseTDO> getSeasonAnime(@PathParam("year") int year,
-                                                      @PathParam("season") MyAnimeListSeason season,
-                                                      @QueryParam("limit") int limit);
+    RestResponse<AnimeListResponseTDO> getSeasonAnime(
+            @PathParam("year") int year,
+            @PathParam("season") MyAnimeListSeason season,
+            @QueryParam("limit") int limit);
 
     @GET
     @Path("/users/{userName}/animelist")
     @ClientQueryParam(name = "nsfw", value = "true")
-    RestResponse<UserListResponseTDO> getUserAnimes(@PathParam("userName") String userName,
-                                                    @QueryParam("status") MyAnimeListStatus status,
-                                                    @QueryParam("limit") int limit);
+    RestResponse<UserListResponseTDO> getUserAnimes(
+            @PathParam("userName") String userName,
+            @QueryParam("status") MyAnimeListStatus status,
+            @QueryParam("limit") int limit);
 }

@@ -13,6 +13,7 @@ import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import de.derfrzocker.anime.calendar.server.episode.service.EpisodeBuilderService;
 import de.derfrzocker.anime.calendar.server.integration.api.AnimeIntegrationLink;
+import de.derfrzocker.anime.calendar.server.integration.impl.config.CheckForMissingStreamingProviderTaskConfig;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotification;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.notify.api.StreamingNotificationActionCreateData;
@@ -35,7 +36,6 @@ import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class CheckForMissingStreamingTask {
@@ -66,8 +65,8 @@ public class CheckForMissingStreamingTask {
     StreamingNotificationActionService streamingNotificationActionService;
     @Inject
     NotificationHelperService notificationHelperService;
-    @ConfigProperty(name = "notification.integration-link.valid-length")
-    Duration validLength;
+    @Inject
+    CheckForMissingStreamingProviderTaskConfig config;
 
     public Uni<Void> checkForMissingStreaming(RequestContext context) {
         try (Stream<Anime> stream = this.animeService.getAll(context)) {
@@ -138,7 +137,7 @@ public class CheckForMissingStreamingTask {
     private Notification createBaseNotification(RequestContext context) {
         NotificationCreateData createData = new NotificationCreateData(
                 StreamingNotification.NOTIFICATION_TYPE,
-                Instant.now().plus(this.validLength));
+                Instant.now().plus(this.config.validDuration()));
         return this.notificationService.createWithData(createData, context);
     }
 

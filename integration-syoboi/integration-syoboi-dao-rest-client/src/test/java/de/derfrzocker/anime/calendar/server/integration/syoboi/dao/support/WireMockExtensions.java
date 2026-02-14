@@ -24,9 +24,9 @@ public class WireMockExtensions implements QuarkusTestResourceLifecycleManager {
                                              </ChComment><ChGID>1</ChGID><ChNumber>7</ChNumber></ChItem></ChItems></ChLookupResponse>
                                              """)));
 
-        return Map.of("quarkus.rest-client.syoboi-collection.url",
+        return Map.of("quarkus.rest-client.syoboi.url",
                       this.wireMockServer.baseUrl(),
-                      "syoboi.client.user-agent",
+                      "quarkus.rest-client.syoboi.user-agent",
                       "Test");
     }
 

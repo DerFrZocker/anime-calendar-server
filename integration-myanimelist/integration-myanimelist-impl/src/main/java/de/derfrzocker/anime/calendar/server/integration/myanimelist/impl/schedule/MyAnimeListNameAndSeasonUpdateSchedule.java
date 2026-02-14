@@ -16,11 +16,12 @@ public class MyAnimeListNameAndSeasonUpdateSchedule {
     @Inject
     MyAnimeListNameAndSeasonUpdateRequestHandler requestHandler;
 
-    @Scheduled(cron = "{integration.myanimelist.schedule.season-info.cron:off}",
-               executionMaxDelay = "{integration.myanimelist.schedule.season-info.jitter}")
+    @Scheduled(cron = "{integration.myanimelist.schedule.update-season-info.cron:off}",
+               executionMaxDelay = "{integration.myanimelist.schedule.update-season-info.jitter}")
     public void schedule() {
-        this.requestHandler.createOrUpdate(new RequestContext(MY_ANIME_LIST_NAME_AND_SEASON_UPDATE_USER, Instant.now()))
-                           .subscribe()
-                           .asCompletionStage();
+        this.requestHandler
+                .createOrUpdate(new RequestContext(MY_ANIME_LIST_NAME_AND_SEASON_UPDATE_USER, Instant.now()))
+                .subscribe()
+                .asCompletionStage();
     }
 }

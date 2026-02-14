@@ -1,17 +1,11 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.config;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithName;
 
-@ApplicationScoped
-public class DiscordConfig {
+@ConfigMapping(prefix = "notify.discord")
+public interface DiscordConfig {
 
-    @Inject
-    @ConfigProperty(name = "discord.bot.channel-id")
-    String channelId;
-
-    public String getChannelId() {
-        return this.channelId;
-    }
+    @WithName("channel-id")
+    String channelId();
 }

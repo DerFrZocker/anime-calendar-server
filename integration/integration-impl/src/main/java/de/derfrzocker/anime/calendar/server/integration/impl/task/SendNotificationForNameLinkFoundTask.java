@@ -9,6 +9,7 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.ManualLinkNotificationActionCreateData;
+import de.derfrzocker.anime.calendar.server.integration.impl.config.NameLinkFoundTaskConfig;
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameSearchResult;
 import de.derfrzocker.anime.calendar.server.integration.name.event.PostNameLinkSearchEvent;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
@@ -27,13 +28,11 @@ import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class SendNotificationForNameLinkFoundTask {
@@ -58,8 +57,8 @@ public class SendNotificationForNameLinkFoundTask {
     NotificationHelperService helperService;
     @Inject
     AnimeIntegrationLinkService linkService;
-    @ConfigProperty(name = "notification.integration-link.valid-length")
-    Duration validLength;
+    @Inject
+    NameLinkFoundTaskConfig config;
 
     public void onNewNameLink(@Observes PostNameLinkSearchEvent event) {
         List<IntegrationId> integrationIds = new ArrayList<>();
@@ -103,7 +102,7 @@ public class SendNotificationForNameLinkFoundTask {
     private Notification createNewNotification(RequestContext context) {
         NotificationCreateData createData = new NotificationCreateData(
                 NOTIFICATION_TYPE,
-                Instant.now().plus(this.validLength));
+                Instant.now().plus(this.config.validDuration()));
         return this.notificationService.createWithData(createData, context);
     }
 

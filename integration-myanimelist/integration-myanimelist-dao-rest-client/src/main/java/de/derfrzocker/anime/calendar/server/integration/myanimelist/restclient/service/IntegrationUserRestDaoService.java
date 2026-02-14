@@ -24,11 +24,12 @@ public class IntegrationUserRestDaoService {
     @RestClient
     MyAnimeListRestClient restClient;
 
-    @CacheResult(cacheName = "integration-myanimelist-dao-user-list-anime-ids")
-    public SimpleRestResponseHolder<Set<IntegrationAnimeId>> getAnimeIds(@CacheKey IntegrationUserId user,
-                                                                         @CacheKey MyAnimeListStatus status,
-                                                                         @CacheKey int limit,
-                                                                         RequestContext context) {
+    @CacheResult(cacheName = "integration-myanimelist-rest-client-user-list-anime-ids")
+    public SimpleRestResponseHolder<Set<IntegrationAnimeId>> getAnimeIds(
+            @CacheKey IntegrationUserId user,
+            @CacheKey MyAnimeListStatus status,
+            @CacheKey int limit,
+            RequestContext context) {
         RestResponse<UserListResponseTDO> response = this.restClient.getUserAnimes(user.raw(), status, limit);
         if (response.getStatus() != RestResponse.Status.OK.getStatusCode()) {
             return new SimpleRestResponseHolder<>(response.getStatus(), null);
@@ -37,14 +38,15 @@ public class IntegrationUserRestDaoService {
         UserListResponseTDO responseEntity = response.getEntity();
         Set<IntegrationAnimeId> animeIds = new HashSet<>();
         if (responseEntity != null && responseEntity.data() != null) {
-            responseEntity.data()
-                          .stream()
-                          .map(UserListDataTDO::node)
-                          .filter(Objects::nonNull)
-                          .map(UserListNodeTDO::id)
-                          .map(String::valueOf)
-                          .map(IntegrationAnimeId::new)
-                          .forEach(animeIds::add);
+            responseEntity
+                    .data()
+                    .stream()
+                    .map(UserListDataTDO::node)
+                    .filter(Objects::nonNull)
+                    .map(UserListNodeTDO::id)
+                    .map(String::valueOf)
+                    .map(IntegrationAnimeId::new)
+                    .forEach(animeIds::add);
         }
 
         return new SimpleRestResponseHolder<>(response.getStatus(), animeIds);

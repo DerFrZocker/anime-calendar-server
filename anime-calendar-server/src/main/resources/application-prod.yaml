@@ -1,0 +1,28 @@
+integration:
+  schedule:
+    check-for-missing-streaming-provider:
+      cron: "off"
+
+  anidb:
+    udp-client:
+      local-port: 8181
+    schedule:
+      name-update:
+        cron: "0 0 5 */2 * ?"
+      season-update:
+        cron: "0 0 7,19 * * ?"
+
+  myanimelist:
+    schedule:
+      update-season-info:
+        cron: "0 0 8,20 * * ?"
+
+  name-link:
+    schedule:
+      name-link:
+        cron: "off"
+
+  syoboi:
+    schedule:
+      anime-program-provider:
+        cron: "0 0 9,21 * * ?"

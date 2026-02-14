@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.server.integration.impl.name.service;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.server.integration.impl.config.NameSearchServiceConfig;
 import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeName;
 import de.derfrzocker.anime.calendar.server.integration.name.api.AnimeNameHolder;
 import de.derfrzocker.anime.calendar.server.integration.name.api.NameLanguage;
@@ -16,7 +17,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.Optional;
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class NameSearchServiceImpl implements NameSearchService {
@@ -29,25 +29,26 @@ public class NameSearchServiceImpl implements NameSearchService {
 
     @Inject
     AnimeNameHolderService nameHolderService;
-    @ConfigProperty(name = "name-search-service.distance-threshold")
-    int distanceThreshold;
+    @Inject
+    NameSearchServiceConfig config;
     private LevenshteinDistance levenshteinDistance;
 
     @PostConstruct
     void init() {
-        this.levenshteinDistance = new LevenshteinDistance(this.distanceThreshold);
+        this.levenshteinDistance = new LevenshteinDistance(this.config.distanceThreshold());
     }
 
     @Override
     public Multi<NameSearchResult> search(IntegrationId id, String name, RequestContext context) {
-        return Multi.createFrom()
-                    .item(id)
-                    .emitOn(Infrastructure.getDefaultExecutor())
-                    .flatMap(integrationId -> collectNames(integrationId, context))
-                    .map(holder -> checkHolder(holder, name))
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .filter(result -> isValid(result, name));
+        return Multi
+                .createFrom()
+                .item(id)
+                .emitOn(Infrastructure.getDefaultExecutor())
+                .flatMap(integrationId -> collectNames(integrationId, context))
+                .map(holder -> checkHolder(holder, name))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(result -> isValid(result, name));
     }
 
     private Optional<NameSearchResult> checkHolder(AnimeNameHolder holder, String animeName) {

@@ -1,0 +1,35 @@
+quarkus:
+  devservies:
+    enabled: false
+
+integration:
+  schedule:
+    check-for-missing-streaming-provider:
+      cron: "off"
+
+  anidb:
+    schedule:
+      name-update:
+        cron: "off"
+      season-update:
+        cron: "off"
+    udp-client:
+      local-port: 8181
+
+  myanimelist:
+    schedule:
+      update-season-info:
+        cron: "off"
+
+  name-link:
+    schedule:
+      name-link:
+        cron: "off"
+
+  syoboi:
+    schedule:
+      anime-program-provider:
+        cron: "off"
+
+rest-client:
+  user-agent: "ICal-Anime-Calendar/3-Local-Development (+https://github.com/DerFrZocker/anime-calendar-server)"

@@ -121,7 +121,7 @@ public class ButtonClickListener {
             MessageCreateBuilder builder = new MessageCreateBuilder();
             builder.setEmbeds(embed.build());
 
-            this.jda.getTextChannelById(this.config.getChannelId()).sendMessage(builder.build()).queue();
+            this.jda.getTextChannelById(this.config.channelId()).sendMessage(builder.build()).queue();
         } catch (Exception e) {
             Log.errorf(e, "Could not send error message to Discord.");
         }

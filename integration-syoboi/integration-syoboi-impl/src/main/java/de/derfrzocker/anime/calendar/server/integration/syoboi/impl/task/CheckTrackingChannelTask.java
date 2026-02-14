@@ -12,7 +12,7 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdate
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataCreateEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataUpdateEvent;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.CheckTrackingChannelTaskConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedChannelService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
@@ -50,7 +50,7 @@ public class CheckTrackingChannelTask {
     @Inject
     ResolvedChannelService channelService;
     @Inject
-    SyoboiConfig config;
+    CheckTrackingChannelTaskConfig config;
 
     public void onTIDDataCreate(@Observes PostTIDDataCreateEvent createEvent) {
         if (createEvent.tidData().trackingChannelId() != null) {
@@ -74,15 +74,15 @@ public class CheckTrackingChannelTask {
         }
 
         if (tidData.firstChannelIds().size() == 1) {
-            this.tidDataService.updateWithData(tidData.tid(),
-                                               new TIDDataUpdateData(Change.nothing(),
-                                                                     Change.to(tidData.firstChannelIds().getFirst()),
-                                                                     Change.nothing(),
-                                                                     Change.nothing(),
-                                                                     Change.nothing(),
-                                                                     Change.nothing(),
-                                                                     Change.nothing()),
-                                               context);
+            this.tidDataService.updateWithData(
+                    tidData.tid(), new TIDDataUpdateData(
+                            Change.nothing(),
+                            Change.to(tidData.firstChannelIds().getFirst()),
+                            Change.nothing(),
+                            Change.nothing(),
+                            Change.nothing(),
+                            Change.nothing(),
+                            Change.nothing()), context);
             return;
         }
 
@@ -100,8 +100,8 @@ public class CheckTrackingChannelTask {
 
         for (ChannelId channelId : tidData.firstChannelIds()) {
             NotificationAction notificationAction = createNewNotificationAction(notification.id(), context);
-            ResolvedChannel channel = this.channelService.resolveById(channelId, context)
-                                                         .orElseThrow(inconsistentNotFound(channelId));
+            ResolvedChannel channel = this.channelService.resolveById(channelId, context).orElseThrow(
+                    inconsistentNotFound(channelId));
             createNewNotificationAction(notificationAction.id(), tidData, channel, context);
         }
 
@@ -109,7 +109,7 @@ public class CheckTrackingChannelTask {
     }
 
     private Notification createNewNotification(RequestContext context) {
-        Instant validUntil = Instant.now().plus(this.config.getTrackingChannelActionValidLength());
+        Instant validUntil = Instant.now().plus(this.config.validDuration());
         NotificationCreateData createData = new NotificationCreateData(NOTIFICATION_TYPE, validUntil);
 
         return this.notificationService.createWithData(createData, context);
@@ -120,16 +120,18 @@ public class CheckTrackingChannelTask {
         return this.actionService.createWithData(createData, context);
     }
 
-    private void createNewNotificationAction(NotificationActionId actionId,
-                                             TIDData tidData,
-                                             ResolvedChannel channel,
-                                             RequestContext context) {
+    private void createNewNotificationAction(
+            NotificationActionId actionId,
+            TIDData tidData,
+            ResolvedChannel channel,
+            RequestContext context) {
         TrackingChannelNotificationActionCreateData createData = createData(tidData, channel);
         this.trackingActionService.createWithData(actionId, createData, context);
     }
 
     private TrackingChannelNotificationActionCreateData createData(TIDData tidData, ResolvedChannel channel) {
-        return new TrackingChannelNotificationActionCreateData(tidData.tid(),
+        return new TrackingChannelNotificationActionCreateData(
+                tidData.tid(),
                                                                tidData.title(),
                                                                channel.id(),
                                                                channel.name());

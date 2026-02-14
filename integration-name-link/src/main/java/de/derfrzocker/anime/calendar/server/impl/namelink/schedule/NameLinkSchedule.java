@@ -19,7 +19,8 @@ public class NameLinkSchedule {
     @Inject
     AnimeService animeService;
 
-    @Scheduled(cron = "{name-link.search-missing.cron:off}", executionMaxDelay = "{name-link.search-missing.jitter}")
+    @Scheduled(cron = "{integration.name-link.schedule.name-link.cron:off}",
+               executionMaxDelay = "{integration.name-link.schedule.name-link.jitter}")
     public void schedule() {
         RequestContext context = new RequestContext(NAME_LINK_UPDATE_USER, Instant.now());
         this.animeService.getAll(context).forEach(anime -> {

@@ -16,8 +16,8 @@ public class CheckForMissingStreamingSchedule {
     @Inject
     CheckForMissingStreamingTask checkForMissingStreamingTask;
 
-    @Scheduled(cron = "{integration.search-missing-streaming.cron:off}",
-               executionMaxDelay = "{integration.search-missing-streaming.jitter}")
+    @Scheduled(cron = "{integration.schedule.check-for-missing-streaming-provider.cron:off}",
+               executionMaxDelay = "{integration.schedule.check-for-missing-streaming-provider.jitter}")
     public void schedule() {
         RequestContext context = new RequestContext(MISSING_STREAMING_USER, Instant.now());
         this.checkForMissingStreamingTask.checkForMissingStreaming(context).subscribe().asCompletionStage();

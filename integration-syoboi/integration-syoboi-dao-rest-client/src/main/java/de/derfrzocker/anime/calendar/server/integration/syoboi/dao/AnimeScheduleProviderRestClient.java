@@ -2,7 +2,6 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.dao;
 
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ProgramByTIDAndChIDResponseTDO;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.data.ScheduleResponseTDO;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.header.SyoboiHeaderFactory;
 import io.quarkus.rest.client.reactive.ClientQueryParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -10,11 +9,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.util.Optional;
-import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(configKey = "syoboi-collection")
-@RegisterClientHeaders(SyoboiHeaderFactory.class)
+@RegisterRestClient(configKey = "syoboi")
 public interface AnimeScheduleProviderRestClient {
 
     @GET
@@ -26,6 +23,7 @@ public interface AnimeScheduleProviderRestClient {
     @Path("/db.php")
     @ClientQueryParam(name = "Command", value = "ProgLookup")
     @Produces(MediaType.TEXT_XML)
-    ProgramByTIDAndChIDResponseTDO getProgrammByTIDAndChID(@QueryParam("TID") String tid,
-                                                           @QueryParam("ChID") String channelId);
+    ProgramByTIDAndChIDResponseTDO getProgrammByTIDAndChID(
+            @QueryParam("TID") String tid,
+            @QueryParam("ChID") String channelId);
 }

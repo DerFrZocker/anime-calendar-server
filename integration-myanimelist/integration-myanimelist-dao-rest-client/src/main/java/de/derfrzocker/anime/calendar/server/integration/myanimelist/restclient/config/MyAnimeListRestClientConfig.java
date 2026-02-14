@@ -3,7 +3,7 @@ package de.derfrzocker.anime.calendar.server.integration.myanimelist.restclient.
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithName;
 
-@ConfigMapping(prefix = "integration.myanimelist.dao.rest-client")
+@ConfigMapping(prefix = "integration.myanimelist.rest-client")
 public interface MyAnimeListRestClientConfig {
 
     @WithName("client-id")

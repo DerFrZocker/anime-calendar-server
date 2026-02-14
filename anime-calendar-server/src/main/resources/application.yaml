@@ -1,0 +1,102 @@
+quarkus:
+  application:
+    name: "Anime Calendar"
+  analytics:
+    disabled: true
+
+  secutiry:
+    jaxrs:
+      deny-unannotated-endpoints: true
+
+  http:
+    port: 8080
+
+  management:
+    enabled: true
+    port: 9000
+    root-path: "/"
+
+  rest-client:
+    syoboi:
+      user-agent: "${rest-client.user-agent}"
+      url: "https://cal.syoboi.jp"
+    anidb:
+      user-agent: "${rest-client.user-agent}"
+      url: "http://anidb.net"
+    myanimelist:
+      user-agent: "${rest-client.user-agent}"
+      url: "https://api.myanimelist.net"
+
+  cache:
+    caffeine:
+      integration-myanimelist-rest-client-user-list-anime-ids:
+        maximum-size: 1024
+        expire-after-write: "5m"
+
+microprofile:
+  rest:
+    client:
+      disable:
+        default:
+          mapper: true
+
+integration:
+  schedule:
+    check-for-missing-streaming-provider:
+      jitter: "30m"
+  service:
+    name-search:
+      distance-threshold: 20
+  task:
+    check-for-missing-streaming-provider:
+      notification:
+        valid-duration: "P1D"
+    name-link-found:
+      notification:
+        valid-duration: "P1D"
+
+  anidb:
+    schedule:
+      name-update:
+        jitter: "30m"
+      season-update:
+        jitter: "30m"
+    udp-client:
+      address: "api.anidb.net"
+      port: 9000
+      timeout: 5000
+      sleep-time: 5000
+
+  myanimelist:
+    rest-client:
+      season-info:
+        size-limit: 300
+      user-list:
+        size-limit: 500
+    schedule:
+      update-season-info:
+        jitter: "30m"
+
+  name-link:
+    schedule:
+      name-link:
+        jitter: "30m"
+
+  syoboi:
+    rest-client:
+      tid-data-provider:
+        program-days: 15
+    schedule:
+      anime-program-provider:
+        jitter: "30m"
+        program-days: 15
+    service:
+      resolved-tid-data:
+        valid-duration: "P5D"
+    task:
+      check-tracking-channel:
+        notification:
+          valid-duration: "P1D"
+      new-anime:
+        notification:
+          valid-duration: "P1D"

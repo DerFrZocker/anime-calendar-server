@@ -16,10 +16,12 @@ public class AniDBSeasonUpdateSchedule {
     @Inject
     AniDBSeasonUpdateRequestHandler requestHandler;
 
-    @Scheduled(cron = "{anidb.season-update.cron:off}", executionMaxDelay = "{anidb.season-update.jitter}")
+    @Scheduled(cron = "{integration.anidb.schedule.season-update.cron:off}",
+               executionMaxDelay = "{integration.anidb.schedule.season-update.jitter}")
     public void schedule() {
-        this.requestHandler.createOrUpdate(new RequestContext(ANIDB_SEASON_UPDATE_USER, Instant.now()))
-                           .subscribe()
-                           .asCompletionStage();
+        this.requestHandler
+                .createOrUpdate(new RequestContext(ANIDB_SEASON_UPDATE_USER, Instant.now()))
+                .subscribe()
+                .asCompletionStage();
     }
 }

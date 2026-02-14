@@ -33,20 +33,23 @@ public class AnimeScheduleProviderRestDaoImpl implements AnimeScheduleProviderDa
 
     @Override
     public Stream<ProvidedAnimeSchedule> provideAllWithData(LocalDate start, int days, RequestContext context) {
-        return this.rateLimitService.rateLimit(() -> this.restClient.getProgramByDate(start.toString(), days))
-                                    .map(ScheduleResponseTDO::Programs)
-                                    .map(Map::values)
-                                    .stream()
-                                    .flatMap(Collection::stream)
-                                    .filter(data -> data.Count() != null)
-                                    .map(this::toDomain);
+        return this.rateLimitService
+                .rateLimit(() -> this.restClient.getProgramByDate(start.toString(), days))
+                .map(ScheduleResponseTDO::Programs)
+                .map(Map::values)
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(data -> data.Count() != null)
+                .map(this::toDomain);
     }
 
     @Override
     public Stream<ProvidedAnimeSchedule> provideAllWithData(TID tid, ChannelId channelId, RequestContext context) {
-        return this.rateLimitService.rateLimit(() -> this.restClient.getProgrammByTIDAndChID(tid.raw(),
-                                                                                             channelId.raw())).progItems.progItems.stream()
-                                                                                                                                  .map(this::toDomain);
+        return this.rateLimitService.rateLimit(() -> this.restClient.getProgrammByTIDAndChID(
+                           tid.raw(),
+                           channelId.raw())).progItems.progItems
+                .stream()
+                .map(this::toDomain);
     }
 
     private ProvidedAnimeSchedule toDomain(ProvidedAnimeScheduleTDO data) {

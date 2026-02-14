@@ -8,7 +8,7 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TID;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdateData;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.SyoboiConfig;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.ResolvedTIDDataServiceConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedTIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataProviderService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
@@ -25,14 +25,15 @@ public class ResolvedTIDDataServiceImpl implements ResolvedTIDDataService {
     @Inject
     TIDDataProviderService provider;
     @Inject
-    SyoboiConfig config;
+    ResolvedTIDDataServiceConfig config;
 
     @Override
     public Optional<ResolvedTIDData> resolveById(TID id, RequestContext context) {
-        return this.service.getById(id, context)
-                           .flatMap(tidData -> updateIfNeeded(tidData, context))
-                           .or(() -> createNew(id, context))
-                           .map(ResolvedTIDData::from);
+        return this.service
+                .getById(id, context)
+                .flatMap(tidData -> updateIfNeeded(tidData, context))
+                .or(() -> createNew(id, context))
+                .map(ResolvedTIDData::from);
     }
 
     private Optional<TIDData> updateIfNeeded(TIDData tidData, RequestContext context) {
@@ -51,31 +52,34 @@ public class ResolvedTIDDataServiceImpl implements ResolvedTIDDataService {
     }
 
     private Optional<TIDData> createNew(TID id, RequestContext context) {
-        return this.provider.provideById(id, context)
-                            .map(providedTIDData -> this.service.createWithData(id,
-                                                                                toCreateData(providedTIDData),
-                                                                                context));
+        return this.provider.provideById(id, context).map(providedTIDData -> this.service.createWithData(
+                id,
+                toCreateData(
+                        providedTIDData),
+                context));
 
     }
 
     private TIDDataUpdateData toUpdateData(ProvidedTIDData providedTIDData) {
-        return new TIDDataUpdateData(Change.to(providedTIDData.title()),
-                                     Change.nothing(),
-                                     Change.to(providedTIDData.firstStart()),
-                                     Change.to(providedTIDData.firstEnd()),
-                                     Change.to(providedTIDData.firstChannelIds()),
-                                     Change.nothing(),
-                                     Change.to(createValidUntil(providedTIDData)));
+        return new TIDDataUpdateData(
+                Change.to(providedTIDData.title()),
+                Change.nothing(),
+                Change.to(providedTIDData.firstStart()),
+                Change.to(providedTIDData.firstEnd()),
+                Change.to(providedTIDData.firstChannelIds()),
+                Change.nothing(),
+                Change.to(createValidUntil(providedTIDData)));
     }
 
     private TIDDataCreateData toCreateData(ProvidedTIDData providedTIDData) {
-        return new TIDDataCreateData(providedTIDData.title(),
-                                     null,
-                                     providedTIDData.firstStart(),
-                                     providedTIDData.firstEnd(),
-                                     providedTIDData.firstChannelIds(),
-                                     true,
-                                     createValidUntil(providedTIDData));
+        return new TIDDataCreateData(
+                providedTIDData.title(),
+                null,
+                providedTIDData.firstStart(),
+                providedTIDData.firstEnd(),
+                providedTIDData.firstChannelIds(),
+                true,
+                createValidUntil(providedTIDData));
     }
 
     private Instant createValidUntil(ProvidedTIDData providedTIDData) {
@@ -83,7 +87,7 @@ public class ResolvedTIDDataServiceImpl implements ResolvedTIDDataService {
             return null;
         }
 
-        return Instant.now().plus(this.config.getTIDDataValidationDuration());
+        return Instant.now().plus(this.config.validDuration());
     }
 
     private boolean isValid(TIDData tidData) {
