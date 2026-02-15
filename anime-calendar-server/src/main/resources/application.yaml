@@ -22,7 +22,7 @@ quarkus:
       url: "https://cal.syoboi.jp"
     anidb:
       user-agent: "${rest-client.user-agent}"
-      url: "http://anidb.net"
+      url: "https://anidb.net"
     myanimelist:
       user-agent: "${rest-client.user-agent}"
       url: "https://api.myanimelist.net"
