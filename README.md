@@ -72,3 +72,9 @@ You can customize your calendar using optional query parameters on the iCal endp
 |--------------------|-----------------|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | streamType         | `org`, `sub`    | `sub`, `org` | You can specify multiple `streamType` parameters to set the priority order. The first one provided has the highest priority. If no time is available for that type, the next one is used. For example, setting `streamType=sub&streamType=org` means the calendar will use the subtitled release time if available, and fall back to the original airing time otherwise. |
 | languagePriorities | `de`, `en`      |              | Sets the anime name language. You can specifiy multiple `languagePriorities` prarameters to set the priority order. Similar to `streamType`.                                                                                                                                                                                                                             |
+
+## Links
+
+- [Website](https://www.anime-calendar.com)
+- [GitHub - Frontend](https://github.com/derfrzocker/anime-calendar-frontend)
+- [Donate](https://github.com/sponsors/DerFrZocker)
