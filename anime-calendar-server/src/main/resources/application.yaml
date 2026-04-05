@@ -4,7 +4,7 @@ quarkus:
   analytics:
     disabled: true
 
-  secutiry:
+  security:
     jaxrs:
       deny-unannotated-endpoints: true
 
