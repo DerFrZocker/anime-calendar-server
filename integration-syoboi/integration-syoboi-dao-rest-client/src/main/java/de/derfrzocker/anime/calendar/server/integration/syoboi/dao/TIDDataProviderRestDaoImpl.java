@@ -69,7 +69,6 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
                 firstEnd = YearMonth.of(Integer.parseInt(data.FirstEndYear()), Integer.parseInt(data.FirstEndMonth()));
             } catch (NumberFormatException e) {
                 Log.errorf(e, "Could not parse first end year for tid data '%s'.", tid.raw());
-                return null;
             }
         }
 
