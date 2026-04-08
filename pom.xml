@@ -24,8 +24,8 @@
 
         <!-- https://github.com/apache/maven-compiler-plugin/releases -->
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
-        <!-- https://github.com/apache/maven-surefire -->
-        <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <!-- https://github.com/apache/maven-surefire/releases -->
+        <surefire-plugin.version>3.5.5</surefire-plugin.version>
         <!-- https://github.com/jacoco/jacoco/releases -->
         <jacoco-plugin.version>0.8.14</jacoco-plugin.version>
         <!-- https://github.com/smallrye/jandex/releases -->
