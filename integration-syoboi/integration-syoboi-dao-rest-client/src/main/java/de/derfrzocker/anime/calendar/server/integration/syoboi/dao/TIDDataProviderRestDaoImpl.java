@@ -62,10 +62,15 @@ public class TIDDataProviderRestDaoImpl implements TIDDataProviderDao {
             Log.errorf(e, "Could not parse first year for tid data '%s'.", tid.raw());
             return null;
         }
-        YearMonth firstEnd = null;
 
+        YearMonth firstEnd = null;
         if (data.FirstEndYear() != null) {
-            firstEnd = YearMonth.of(Integer.parseInt(data.FirstEndYear()), Integer.parseInt(data.FirstEndMonth()));
+            try {
+                firstEnd = YearMonth.of(Integer.parseInt(data.FirstEndYear()), Integer.parseInt(data.FirstEndMonth()));
+            } catch (NumberFormatException e) {
+                Log.errorf(e, "Could not parse first end year for tid data '%s'.", tid.raw());
+                return null;
+            }
         }
 
         List<ChannelId> firstChannelIds;
