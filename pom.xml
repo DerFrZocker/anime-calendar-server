@@ -41,7 +41,7 @@
         <!-- https://github.com/JetBrains/java-annotations/releases -->
         <annotations.version>26.1.0</annotations.version>
         <!-- https://github.com/ical4j/ical4j/releases -->
-        <ical4j.version>4.2.3</ical4j.version>
+        <ical4j.version>4.2.5</ical4j.version>
 
         <!-- https://github.com/wiremock/wiremock/releases -->
         <wiremock.version>3.13.2</wiremock.version>
