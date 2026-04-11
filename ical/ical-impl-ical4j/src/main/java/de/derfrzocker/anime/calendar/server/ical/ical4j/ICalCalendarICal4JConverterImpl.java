@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.ical.ical4j;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.episode.api.AnimeEpisodes;
+import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.Episode;
 import de.derfrzocker.anime.calendar.server.ical.ICalCalendarConverter;
 import de.derfrzocker.anime.calendar.server.ical.api.ICalCalendar;
@@ -26,7 +27,7 @@ public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
     private final static String PROID = "-//Marvin (DerFrZocker)//anime calendar 2.0//DE";
 
     @Override
-    public ICalCalendar convert(Collection<AnimeEpisodes> animeEpisodes, RequestContext context) {
+    public ICalCalendar convert(Collection<AnimeEpisodes> animeEpisodes, AnimeOptions options, RequestContext context) {
         Calendar calendar = new Calendar();
         calendar.add(new ProdId.Factory().createProperty(PROID));
         calendar.add(new Version.Factory().createProperty(Version.VALUE_2_0));
@@ -34,25 +35,25 @@ public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
         calendar.add(new Uid.Factory().createProperty(UUID.randomUUID().toString()));
 
         for (AnimeEpisodes animeEpisode : animeEpisodes) {
-            addAnime(calendar, animeEpisode);
+            addAnime(calendar, animeEpisode, options);
         }
 
         calendar.validate();
         return new ICalCalendar(calendar.toString());
     }
 
-    private void addAnime(Calendar calendar, AnimeEpisodes animeEpisodes) {
+    private void addAnime(Calendar calendar, AnimeEpisodes animeEpisodes, AnimeOptions options) {
         for (Episode episode : animeEpisodes.episodes()) {
-            addEpisode(calendar, animeEpisodes.anime(), episode);
+            addEpisode(calendar, animeEpisodes.anime(), episode, options);
         }
     }
 
-    private void addEpisode(Calendar calendar, Anime anime, Episode episode) {
+    private void addEpisode(Calendar calendar, Anime anime, Episode episode, AnimeOptions options) {
         if (episode.streamingTime() == null) {
             return;
         }
 
-        // Don't add episodeCount older than 14 days
+        // Don't add episodes older than 14 days
         if (Instant.now().isAfter(episode.streamingTime().plus(Period.ofDays(14)))) {
             return;
         }
@@ -107,10 +108,19 @@ public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
             description.append(episode.integrationLink());
         }
 
-        VEvent calendarEntry = new VEvent(episode.streamingTime(),
-                                          Duration.ofMinutes(episode.episodeLength()),
-                                          summary.toString());
+        VEvent calendarEntry = new VEvent(
+                episode.streamingTime(),
+                Duration.ofMinutes(episode.episodeLength()),
+                summary.toString());
         calendarEntry.add(new Description(description.toString()));
+        // #3: Add stable UID, since Samsung Calendar import fails otherwise
+        // (and per the specification the UID is required, meaning it was non-compliant before)
+        calendarEntry.add(new Uid(anime.id().raw() +
+                                  "-" +
+                                  episode.episodeId() +
+                                  "-" +
+                                  Integer.toUnsignedString(options.hashCode()) +
+                                  "@anime-calendar.com"));
         calendar.add(calendarEntry);
     }
 }

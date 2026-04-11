@@ -44,6 +44,6 @@ public class ICalCalendarBuilderImpl implements ICalCalendarBuilder {
             });
         }
 
-        return this.iCalCalendarConverter.convert(animeEpisodes, context);
+        return this.iCalCalendarConverter.convert(animeEpisodes, options, context);
     }
 }
