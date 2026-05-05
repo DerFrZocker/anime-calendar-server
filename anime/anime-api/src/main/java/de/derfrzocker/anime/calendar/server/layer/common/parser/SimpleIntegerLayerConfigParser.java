@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.SimpleIntegerLay
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class SimpleIntegerLayerConfigParser extends AbstractLayerConfigParser<SimpleIntegerLayerConfig> {
 
@@ -19,7 +18,7 @@ public final class SimpleIntegerLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull SimpleIntegerLayerConfig decode(@NotNull Map<String, Object> values) {
+    public SimpleIntegerLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         int value = decodeInt(values, VALUE_KEY);
@@ -28,7 +27,7 @@ public final class SimpleIntegerLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull SimpleIntegerLayerConfig config) {
+    public Map<String, Object> encode(SimpleIntegerLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

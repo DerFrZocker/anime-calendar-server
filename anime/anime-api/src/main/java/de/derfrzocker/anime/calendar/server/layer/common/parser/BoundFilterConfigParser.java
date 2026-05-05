@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.BoundFilterConfi
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class BoundFilterConfigParser extends AbstractLayerConfigParser<BoundFilterConfig> {
 
@@ -20,7 +19,7 @@ public final class BoundFilterConfigParser extends AbstractLayerConfigParser<Bou
     }
 
     @Override
-    public @NotNull BoundFilterConfig decode(@NotNull Map<String, Object> values) {
+    public BoundFilterConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         int minInclusive = decodeInt(values, MIN_INCLUSIVE_KEY);
@@ -30,7 +29,7 @@ public final class BoundFilterConfigParser extends AbstractLayerConfigParser<Bou
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull BoundFilterConfig config) {
+    public Map<String, Object> encode(BoundFilterConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

@@ -9,7 +9,6 @@ import java.time.Instant;
 import java.time.Period;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class StreamingTimeLayerConfigParser extends AbstractLayerConfigParser<StreamingTimeLayerConfig> {
 
@@ -25,7 +24,7 @@ public final class StreamingTimeLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull StreamingTimeLayerConfig decode(@NotNull Map<String, Object> values) {
+    public StreamingTimeLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         Instant startTime = decodeInstant(values, START_TIME_KEY);
@@ -37,7 +36,7 @@ public final class StreamingTimeLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull StreamingTimeLayerConfig config) {
+    public Map<String, Object> encode(StreamingTimeLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

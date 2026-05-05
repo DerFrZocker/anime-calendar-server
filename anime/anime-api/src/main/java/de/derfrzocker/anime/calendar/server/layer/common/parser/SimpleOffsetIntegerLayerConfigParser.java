@@ -6,9 +6,9 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.SimpleOffsetInte
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
-public final class SimpleOffsetIntegerLayerConfigParser extends AbstractLayerConfigParser<SimpleOffsetIntegerLayerConfig> {
+public final class SimpleOffsetIntegerLayerConfigParser
+        extends AbstractLayerConfigParser<SimpleOffsetIntegerLayerConfig> {
 
     public static final LayerParserKey PARSER_KEY = new LayerParserKey("simple-offset-integer-layer");
     public static final SimpleOffsetIntegerLayerConfigParser INSTANCE = new SimpleOffsetIntegerLayerConfigParser();
@@ -20,7 +20,7 @@ public final class SimpleOffsetIntegerLayerConfigParser extends AbstractLayerCon
     }
 
     @Override
-    public @NotNull SimpleOffsetIntegerLayerConfig decode(@NotNull Map<String, Object> values) {
+    public SimpleOffsetIntegerLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         int value = decodeInt(values, VALUE_KEY);
@@ -30,7 +30,7 @@ public final class SimpleOffsetIntegerLayerConfigParser extends AbstractLayerCon
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull SimpleOffsetIntegerLayerConfig config) {
+    public Map<String, Object> encode(SimpleOffsetIntegerLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

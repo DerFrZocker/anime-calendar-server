@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.StreamingUrlLaye
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class StreamingUrlLayerConfigParser extends AbstractLayerConfigParser<StreamingUrlLayerConfig> {
 
@@ -20,7 +19,7 @@ public final class StreamingUrlLayerConfigParser extends AbstractLayerConfigPars
     }
 
     @Override
-    public @NotNull StreamingUrlLayerConfig decode(@NotNull Map<String, Object> values) {
+    public StreamingUrlLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         String streamingService = decodeString(values, STREAMING_SERVICE_KEY);
@@ -30,7 +29,7 @@ public final class StreamingUrlLayerConfigParser extends AbstractLayerConfigPars
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull StreamingUrlLayerConfig config) {
+    public Map<String, Object> encode(StreamingUrlLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

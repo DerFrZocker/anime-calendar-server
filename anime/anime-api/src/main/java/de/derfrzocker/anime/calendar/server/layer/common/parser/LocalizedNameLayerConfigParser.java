@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.LocalizedNameLay
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class LocalizedNameLayerConfigParser extends AbstractLayerConfigParser<LocalizedNameLayerConfig> {
 
@@ -20,7 +19,7 @@ public final class LocalizedNameLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull LocalizedNameLayerConfig decode(@NotNull Map<String, Object> values) {
+    public LocalizedNameLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         String language = decodeString(values, LANGUAGE_KEY);
@@ -30,7 +29,7 @@ public final class LocalizedNameLayerConfigParser extends AbstractLayerConfigPar
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull LocalizedNameLayerConfig config) {
+    public Map<String, Object> encode(LocalizedNameLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

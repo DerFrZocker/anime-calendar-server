@@ -3,29 +3,19 @@ package de.derfrzocker.anime.calendar.server.episode.api;
 import com.spencerwi.either.Either;
 import java.time.Instant;
 import java.util.function.Function;
-import org.jetbrains.annotations.Nullable;
 
 public final class EpisodeBuilder {
 
     private final int episodeIndex;
-    @Nullable
     private String episodeName;
-    @Nullable
     private String episodeNameLanguage;
-    @Nullable
     private Either<String, Integer> episodeNumber;
-    @Nullable
     private Either<String, Integer> episodeNumbers;
-    @Nullable
     private StreamType type;
-    @Nullable
     private String animeListLink;
-    @Nullable
     private String streamingLink;
-    @Nullable
     private Instant streamingTime;
     private int episodeLength;
-    @Nullable
     private String integrationLink;
 
     private EpisodeBuilder(int episodeIndex) {
@@ -99,15 +89,16 @@ public final class EpisodeBuilder {
     }
 
     public Episode build() {
-        return new Episode(episodeIndex,
-                           episodeName,
-                           episodeNumber == null ? null : episodeNumber.fold(Function.identity(), String::valueOf),
-                           episodeNumbers == null ? null : episodeNumbers.fold(Function.identity(), String::valueOf),
-                           type,
-                           animeListLink,
-                           streamingLink,
-                           streamingTime,
-                           episodeLength,
-                           integrationLink);
+        return new Episode(
+                episodeIndex,
+                episodeName,
+                episodeNumber == null ? null : episodeNumber.fold(Function.identity(), String::valueOf),
+                episodeNumbers == null ? null : episodeNumbers.fold(Function.identity(), String::valueOf),
+                type,
+                animeListLink,
+                streamingLink,
+                streamingTime,
+                episodeLength,
+                integrationLink);
     }
 }

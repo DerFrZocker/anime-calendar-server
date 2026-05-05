@@ -7,7 +7,6 @@ import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.api.AbstractLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.config.StreamingTimeLayerConfig;
 import java.time.Period;
-import org.jetbrains.annotations.NotNull;
 
 public final class StreamingTimeLayerTransformer extends AbstractLayerTransformer<StreamingTimeLayerConfig> {
 
@@ -18,10 +17,11 @@ public final class StreamingTimeLayerTransformer extends AbstractLayerTransforme
     }
 
     @Override
-    public void transform(@NotNull Anime anime,
-                          @NotNull AnimeOptions animeOptions,
-                          @NotNull StreamingTimeLayerConfig layerConfig,
-                          @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(
+            Anime anime,
+            AnimeOptions animeOptions,
+            StreamingTimeLayerConfig layerConfig,
+            EpisodeBuilder episodeBuilder) {
         if (animeOptions.streamTypes().isEmpty()) {
             return;
         }

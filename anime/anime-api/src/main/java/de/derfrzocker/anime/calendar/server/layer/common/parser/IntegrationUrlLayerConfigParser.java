@@ -7,7 +7,6 @@ import de.derfrzocker.anime.calendar.server.layer.common.config.IntegrationUrlLa
 import de.derfrzocker.anime.calendar.server.layer.parser.AbstractLayerConfigParser;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigParser<IntegrationUrlLayerConfig> {
 
@@ -21,7 +20,7 @@ public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigPa
     }
 
     @Override
-    public @NotNull IntegrationUrlLayerConfig decode(@NotNull Map<String, Object> values) {
+    public IntegrationUrlLayerConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         String integrationId = decodeString(values, INTEGRATION_ID_KEY);
@@ -31,7 +30,7 @@ public final class IntegrationUrlLayerConfigParser extends AbstractLayerConfigPa
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull IntegrationUrlLayerConfig config) {
+    public Map<String, Object> encode(IntegrationUrlLayerConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());

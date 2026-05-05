@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.api.AbstractLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.config.LocalizedNameLayerConfig;
-import org.jetbrains.annotations.NotNull;
 
 public final class LocalizedNameLayerTransformer extends AbstractLayerTransformer<LocalizedNameLayerConfig> {
 
@@ -17,10 +16,11 @@ public final class LocalizedNameLayerTransformer extends AbstractLayerTransforme
     }
 
     @Override
-    public void transform(@NotNull Anime anime,
-                          @NotNull AnimeOptions animeOptions,
-                          @NotNull LocalizedNameLayerConfig layerConfig,
-                          @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(
+            Anime anime,
+            AnimeOptions animeOptions,
+            LocalizedNameLayerConfig layerConfig,
+            EpisodeBuilder episodeBuilder) {
         if (animeOptions.languagePriorities().isEmpty()) {
             return;
         }

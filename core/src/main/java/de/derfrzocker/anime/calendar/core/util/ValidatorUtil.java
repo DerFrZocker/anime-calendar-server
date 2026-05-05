@@ -1,11 +1,10 @@
 package de.derfrzocker.anime.calendar.core.util;
 
 import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
 
 public final class ValidatorUtil {
 
-    public static boolean isValidId(@NotNull String input, int length, char prefix) {
+    public static boolean isValidId(String input, int length, char prefix) {
         Objects.requireNonNull(input, "input must not be null.");
 
         if (!isValidLength(input, length)) {
@@ -24,25 +23,25 @@ public final class ValidatorUtil {
                 ValidChars.DISALLOW_O);
     }
 
-    public static boolean isLengthBetween(@NotNull String input, int minInclusive, int maxInclusive) {
+    public static boolean isLengthBetween(String input, int minInclusive, int maxInclusive) {
         Objects.requireNonNull(input, "input must not be null.");
 
         return input.length() >= minInclusive && input.length() <= maxInclusive;
     }
 
-    public static boolean isValidLength(@NotNull String input, int length) {
+    public static boolean isValidLength(String input, int length) {
         Objects.requireNonNull(input, "input must not be null.");
 
         return input.length() == length;
     }
 
-    public static boolean isValidStartChar(@NotNull String input, char prefix) {
+    public static boolean isValidStartChar(String input, char prefix) {
         Objects.requireNonNull(input, "input must not be null.");
 
         return isValidChar(input, prefix, 0);
     }
 
-    public static boolean isValidChar(@NotNull String input, char prefix, int position) {
+    public static boolean isValidChar(String input, char prefix, int position) {
         Objects.requireNonNull(input, "input must not be null.");
 
         if (position >= input.length()) {
@@ -56,7 +55,7 @@ public final class ValidatorUtil {
         return input.charAt(position) == prefix;
     }
 
-    public static boolean hasOnlyValidChars(@NotNull String input, @NotNull ValidChars... validChars) {
+    public static boolean hasOnlyValidChars(String input, ValidChars... validChars) {
         Objects.requireNonNull(input, "input must not be null.");
         Objects.requireNonNull(validChars, "validChars must not be null.");
 
@@ -97,7 +96,7 @@ public final class ValidatorUtil {
 
         A_TO_Z_UPPERCASE, A_TO_Z_LOWERCASE, DIGITS, DISALLOW_ZERO, DISALLOW_O;
 
-        public static boolean contains(@NotNull ValidChars[] validChars, @NotNull ValidChars target) {
+        public static boolean contains(ValidChars[] validChars, ValidChars target) {
             Objects.requireNonNull(validChars, "validChars must not be null.");
             Objects.requireNonNull(target, "target must not be null.");
 

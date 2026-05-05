@@ -1,11 +1,17 @@
 package de.derfrzocker.anime.calendar.server.episode.api;
 
 import java.time.Instant;
-import org.jetbrains.annotations.Nullable;
 
-public record Episode(int episodeId, @Nullable String episodeName, @Nullable String episodeNumber,
-                      @Nullable String episodeNumbers, @Nullable StreamType type, @Nullable String animeListLink,
-                      @Nullable String streamingLink, @Nullable Instant streamingTime, int episodeLength,
-                      @Nullable String integrationLink) {
+public record Episode(
+        int episodeId,
+        String episodeName,
+        String episodeNumber,
+        String episodeNumbers,
+        StreamType type,
+        String animeListLink,
+        String streamingLink,
+        Instant streamingTime,
+        int episodeLength,
+        String integrationLink) {
 
 }

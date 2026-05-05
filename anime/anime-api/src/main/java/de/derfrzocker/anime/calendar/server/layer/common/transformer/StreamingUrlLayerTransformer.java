@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.api.AbstractLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.config.StreamingUrlLayerConfig;
-import org.jetbrains.annotations.NotNull;
 
 public final class StreamingUrlLayerTransformer extends AbstractLayerTransformer<StreamingUrlLayerConfig> {
 
@@ -17,10 +16,11 @@ public final class StreamingUrlLayerTransformer extends AbstractLayerTransformer
     }
 
     @Override
-    public void transform(@NotNull Anime anime,
-                          @NotNull AnimeOptions animeOptions,
-                          @NotNull StreamingUrlLayerConfig layerConfig,
-                          @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(
+            Anime anime,
+            AnimeOptions animeOptions,
+            StreamingUrlLayerConfig layerConfig,
+            EpisodeBuilder episodeBuilder) {
         episodeBuilder.withStreamingLink(layerConfig.url());
     }
 

@@ -6,7 +6,6 @@ import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptions;
 import de.derfrzocker.anime.calendar.server.episode.api.EpisodeBuilder;
 import de.derfrzocker.anime.calendar.server.layer.api.AbstractLayerTransformer;
 import de.derfrzocker.anime.calendar.server.layer.common.config.SimpleIntegerLayerConfig;
-import org.jetbrains.annotations.NotNull;
 
 public final class EpisodeLengthLayerTransformer extends AbstractLayerTransformer<SimpleIntegerLayerConfig> {
 
@@ -17,10 +16,11 @@ public final class EpisodeLengthLayerTransformer extends AbstractLayerTransforme
     }
 
     @Override
-    public void transform(@NotNull Anime anime,
-                          @NotNull AnimeOptions animeOptions,
-                          @NotNull SimpleIntegerLayerConfig layerConfig,
-                          @NotNull EpisodeBuilder episodeBuilder) {
+    public void transform(
+            Anime anime,
+            AnimeOptions animeOptions,
+            SimpleIntegerLayerConfig layerConfig,
+            EpisodeBuilder episodeBuilder) {
         episodeBuilder.withEpisodeLength(layerConfig.value());
     }
 

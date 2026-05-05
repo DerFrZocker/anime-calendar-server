@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.jetbrains.annotations.Nullable;
 
 @MongoEntity(collection = "TIDData")
 public class TIDDataDO extends ModificationInfoDO {
@@ -16,10 +15,10 @@ public class TIDDataDO extends ModificationInfoDO {
     @BsonId
     public TID tid;
     public String title;
-    public @Nullable ChannelId trackingChannelId;
+    public ChannelId trackingChannelId;
     public YearMonth firstStart;
-    public @Nullable YearMonth firstEnd;
+    public YearMonth firstEnd;
     public List<ChannelId> firstChannelIds;
     public boolean include;
-    public @Nullable Instant validUntil;
+    public Instant validUntil;
 }

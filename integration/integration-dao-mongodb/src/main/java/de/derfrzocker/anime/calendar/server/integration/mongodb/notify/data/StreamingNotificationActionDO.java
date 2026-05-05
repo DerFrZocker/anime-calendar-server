@@ -8,7 +8,6 @@ import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import java.time.Instant;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.jetbrains.annotations.Nullable;
 
 @MongoEntity(collection = "StreamingNotificationAction")
 public class StreamingNotificationActionDO extends ModificationInfoDO {
@@ -17,8 +16,8 @@ public class StreamingNotificationActionDO extends ModificationInfoDO {
     public NotificationActionId id;
     public AnimeId animeId;
     public int orgEpisodeIndex;
-    public @Nullable IntegrationId integrationId;
-    public @Nullable IntegrationAnimeId integrationAnimeId;
+    public IntegrationId integrationId;
+    public IntegrationAnimeId integrationAnimeId;
     public int streamingEpisode;
-    public @Nullable Instant streamingTime;
+    public Instant streamingTime;
 }

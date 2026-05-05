@@ -7,7 +7,6 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.jetbrains.annotations.Nullable;
 
 @MongoEntity(collection = "ManualLinkNotificationAction")
 public class ManualLinkNotificationActionDO extends ModificationInfoDO {
@@ -16,6 +15,5 @@ public class ManualLinkNotificationActionDO extends ModificationInfoDO {
     public NotificationActionId id;
     public AnimeId animeId;
     public IntegrationId integrationId;
-    @Nullable
     public IntegrationAnimeId integrationAnimeId;
 }

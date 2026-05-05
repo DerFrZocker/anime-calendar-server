@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.jetbrains.annotations.NotNull;
 
 public final class RegionFilterConfigParser extends AbstractLayerConfigParser<RegionFilterConfig> {
 
@@ -23,7 +22,7 @@ public final class RegionFilterConfigParser extends AbstractLayerConfigParser<Re
     }
 
     @Override
-    public @NotNull RegionFilterConfig decode(@NotNull Map<String, Object> values) {
+    public RegionFilterConfig decode(Map<String, Object> values) {
 
         LayerKey key = decodeLayerKey(values);
         Set<Region> applicableRegions = decodeRegions(values, APPLICABLE_REGIONS_KEY);
@@ -32,7 +31,7 @@ public final class RegionFilterConfigParser extends AbstractLayerConfigParser<Re
     }
 
     @Override
-    public @NotNull Map<String, Object> encode(@NotNull RegionFilterConfig config) {
+    public Map<String, Object> encode(RegionFilterConfig config) {
         Map<String, Object> values = new LinkedHashMap<>();
 
         encodeLayerKey(values, config.key());
