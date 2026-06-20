@@ -15,6 +15,6 @@ public class NewAnimeDiscordInputRenderer implements DiscordInputRenderer {
     public void render(NotificationAction action, DiscordInputBuilder builder, RequestContext context) {
         builder.setTitle("Manual Set Title");
 
-        builder.addTextField("title", "title", 1, 2048);
+        builder.addTextField("title", "Title", 1, 2048);
     }
 }

@@ -5,7 +5,7 @@ import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotif
 import static de.derfrzocker.anime.calendar.server.integration.exception.IntegrationLinkNotificationActionExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.server.integration.service.AnimeIntegrationLinkService;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTriggerEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;

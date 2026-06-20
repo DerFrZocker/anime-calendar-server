@@ -16,6 +16,7 @@ import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
+import java.util.Comparator;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -35,20 +36,26 @@ public class NotificationHelperServiceImpl implements NotificationHelperService 
         Notification notification = this.notificationService.getById(id, context).orElseThrow(notFound(id));
 
         try (Stream<NotificationAction> actionStream = this.notificationActionService.getAllWithData(id, context)) {
-            this.notificationSendEvent.fire(new NotificationSendEvent(notification, actionStream.toList(), context));
+            this.notificationSendEvent.fire(new NotificationSendEvent(
+                    notification,
+                    actionStream.sorted(Comparator.comparing(NotificationAction::priority)).toList(),
+                    context));
         }
     }
 
     @Override
     public void execute(NotificationActionId id, RequestContext context) {
-        NotificationAction notificationAction = this.notificationActionService.getById(id, context)
-                                                                              .orElseThrow(notFound(id));
+        NotificationAction notificationAction = this.notificationActionService
+                .getById(id, context)
+                .orElseThrow(notFound(id));
         NotificationId notificationId = notificationAction.notificationId();
-        Notification notification = this.notificationService.getById(notificationId, context)
-                                                            .orElseThrow(inconsistentNotFound(notificationId));
+        Notification notification = this.notificationService
+                .getById(notificationId, context)
+                .orElseThrow(inconsistentNotFound(notificationId));
 
-        this.notificationActionTriggerEvent.fire(new NotificationActionTriggerEvent(notification,
-                                                                                    notificationAction,
-                                                                                    context));
+        this.notificationActionTriggerEvent.fire(new NotificationActionTriggerEvent(
+                notification,
+                notificationAction,
+                context));
     }
 }

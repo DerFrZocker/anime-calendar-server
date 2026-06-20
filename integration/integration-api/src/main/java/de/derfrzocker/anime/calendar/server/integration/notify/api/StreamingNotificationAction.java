@@ -7,7 +7,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import java.time.Instant;
 
 public record StreamingNotificationAction(

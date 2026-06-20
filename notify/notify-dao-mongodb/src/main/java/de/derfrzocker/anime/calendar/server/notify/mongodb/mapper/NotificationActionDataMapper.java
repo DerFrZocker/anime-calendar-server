@@ -15,6 +15,7 @@ public final class NotificationActionDataMapper {
         data.notificationId = domain.notificationId();
         data.actionType = domain.actionType();
         data.requireUserInput = domain.requireUserInput();
+        data.priority = domain.priority();
         data.executedAt = domain.executedAt();
         data.executedBy = domain.executedBy();
         data.apply(domain);
@@ -23,15 +24,17 @@ public final class NotificationActionDataMapper {
     }
 
     public static NotificationAction toDomain(NotificationActionDO data) {
-        return new NotificationAction(data.id,
-                                      data.createdAt,
-                                      data.createdBy,
-                                      data.updatedAt,
-                                      data.updatedBy,
-                                      data.notificationId,
-                                      data.actionType,
-                                      data.requireUserInput,
-                                      data.executedAt,
-                                      data.executedBy);
+        return new NotificationAction(
+                data.id,
+                data.createdAt,
+                data.createdBy,
+                data.updatedAt,
+                data.updatedBy,
+                data.notificationId,
+                data.actionType,
+                data.priority,
+                data.requireUserInput,
+                data.executedAt,
+                data.executedBy);
     }
 }

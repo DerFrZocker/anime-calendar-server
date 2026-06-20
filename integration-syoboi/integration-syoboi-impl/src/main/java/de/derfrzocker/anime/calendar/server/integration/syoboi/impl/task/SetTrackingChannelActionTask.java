@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdate
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTriggerEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;

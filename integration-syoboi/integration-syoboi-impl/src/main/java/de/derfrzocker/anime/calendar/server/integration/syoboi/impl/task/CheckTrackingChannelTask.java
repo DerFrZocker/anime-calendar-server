@@ -3,7 +3,9 @@ package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.ChannelExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationType;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ResolvedChannel;
@@ -19,9 +21,7 @@ import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingC
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationCreateData;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationType;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationHelperService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
@@ -116,7 +116,11 @@ public class CheckTrackingChannelTask {
     }
 
     private NotificationAction createNewNotificationAction(NotificationId id, RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, NOTIFICATION_ACTION_TYPE, false);
+        NotificationActionCreateData createData = new NotificationActionCreateData(
+                id,
+                NOTIFICATION_ACTION_TYPE,
+                0,
+                false);
         return this.actionService.createWithData(createData, context);
     }
 
@@ -132,8 +136,8 @@ public class CheckTrackingChannelTask {
     private TrackingChannelNotificationActionCreateData createData(TIDData tidData, ResolvedChannel channel) {
         return new TrackingChannelNotificationActionCreateData(
                 tidData.tid(),
-                                                               tidData.title(),
-                                                               channel.id(),
-                                                               channel.name());
+                tidData.title(),
+                channel.id(),
+                channel.name());
     }
 }

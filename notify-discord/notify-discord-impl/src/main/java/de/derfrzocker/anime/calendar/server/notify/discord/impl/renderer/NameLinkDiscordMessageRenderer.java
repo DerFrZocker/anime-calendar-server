@@ -10,7 +10,7 @@ import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelpe
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.service.ManualLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;

@@ -5,7 +5,9 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationType;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.integration.api.ManualLinkNotificationActionCreateData;
@@ -18,9 +20,7 @@ import de.derfrzocker.anime.calendar.server.integration.service.ManualLinkNotifi
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationCreateData;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationType;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationHelperService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
@@ -111,7 +111,7 @@ public class SendNotificationForNameLinkFoundTask {
             NotificationActionType actionType,
             boolean requireUserInput,
             RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType, requireUserInput);
+        NotificationActionCreateData createData = new NotificationActionCreateData(id, actionType, 0, requireUserInput);
         return this.actionService.createWithData(createData, context);
     }
 

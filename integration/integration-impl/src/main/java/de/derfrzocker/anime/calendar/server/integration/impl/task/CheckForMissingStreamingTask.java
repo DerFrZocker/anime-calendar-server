@@ -166,6 +166,7 @@ public class CheckForMissingStreamingTask {
         NotificationActionCreateData createData = new NotificationActionCreateData(
                 notification.id(),
                 StreamingNotificationAction.NOTIFICATION_ACTION_TYPE,
+                0,
                 true);
         return this.notificationActionService.createWithData(createData, context);
     }

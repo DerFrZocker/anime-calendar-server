@@ -7,7 +7,7 @@ import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputApplier;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTriggerEvent;

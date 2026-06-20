@@ -3,6 +3,7 @@ package de.derfrzocker.anime.calendar.server.notify.api;
 import de.derfrzocker.anime.calendar.core.ModificationInfo;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationType;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 

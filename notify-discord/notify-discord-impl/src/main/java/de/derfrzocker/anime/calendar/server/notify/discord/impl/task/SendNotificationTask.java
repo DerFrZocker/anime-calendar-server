@@ -1,7 +1,7 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.task;
 
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationType;
+import de.derfrzocker.anime.calendar.core.notify.NotificationType;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.config.DiscordConfig;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer.JDADiscordMessageBuilderImpl;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;

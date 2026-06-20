@@ -1,49 +1,38 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
-import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
-import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
-import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationActionService;
+import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotification;
+import de.derfrzocker.anime.calendar.server.anime.exception.NewAnimeNotificationExceptions;
+import de.derfrzocker.anime.calendar.server.anime.service.NewAnimeNotificationService;
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelperService;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.api.IgnoreTIDDataNotificationAction;
-import de.derfrzocker.anime.calendar.server.integration.syoboi.service.IgnoreTIDDataNotificationActionService;
+import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
+import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageActionRenderer;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
 
 @ApplicationScoped
 @Named("NewAnime" + DiscordMessageRenderer.NAME_SUFFIX)
 public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
-    private static final NotificationActionType NEW_ANIME_ACTION_TYPE = new NotificationActionType("NewAnime");
-    private static final NotificationActionType IGNORE_ACTION_TYPE = new NotificationActionType("IgnoreTIDData");
-
     @Inject
-    NewAnimeNotificationActionService newAnimeActionService;
-    @Inject
-    IgnoreTIDDataNotificationActionService ignoreTIDDataActionService;
+    NewAnimeNotificationService newAnimeNotificationService;
     @Inject
     IntegrationHelperService integrationHelperService;
+    @Any
+    @Inject
+    Instance<DiscordMessageActionRenderer> actionRenderers;
 
     @Override
     public void render(NotificationHolder holder, DiscordMessageBuilder builder, RequestContext context) {
-        List<NewAnimeNotificationAction> newAnimes = toSpecificAction(holder.actions(), context);
+        NewAnimeNotification notification = toNotification(holder.notification(), context);
 
         if (holder.actions().isEmpty()) {
             // TODO 2025-02-23: Log better error here
@@ -53,118 +42,25 @@ public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
         builder.setTitle("New Anime found:");
 
-        Map<IntegrationId, Set<IntegrationAnimeId>> integrations = new HashMap<>();
+        String url = this.integrationHelperService.getUrl(
+                notification.integrationId(),
+                notification.integrationAnimeId());
+        builder.addField(
+                "From: %s - Id: %s".formatted(
+                        notification.integrationId().raw(),
+                        notification.integrationAnimeId().raw()), url);
 
-        newAnimes.forEach(newAnime -> {
-            newAnime.links().forEach((integrationId, integrationAnimeId) -> {
-                integrations.computeIfAbsent(integrationId, k -> new HashSet<>()).add(integrationAnimeId);
-            });
-        });
-
-        int minAmount = Integer.MAX_VALUE;
-        IntegrationId min = null;
-
-        for (Map.Entry<IntegrationId, Set<IntegrationAnimeId>> entry : integrations.entrySet()) {
-            if (entry.getValue().size() < minAmount) {
-                min = entry.getKey();
-                minAmount = entry.getValue().size();
-            }
+        for (NotificationAction action : holder.actions()) {
+            actionRenderers
+                    .select(Identifier.Literal.of(action.actionType().raw()))
+                    .get()
+                    .render(holder, action, builder, context);
         }
-
-        if (min != null) {
-            for (IntegrationAnimeId animeId : integrations.get(min)) {
-                String url = this.integrationHelperService.getUrl(min, animeId);
-                builder.addField("[%s] [%s]".formatted(min.raw(), animeId.raw()), url);
-                for (NewAnimeNotificationAction action : newAnimes) {
-                    if (!Objects.equals(action.links().get(min), animeId)) {
-                        continue;
-                    }
-
-                    for (Map.Entry<IntegrationId, IntegrationAnimeId> entry : action.links().entrySet()) {
-                        if (Objects.equals(entry.getKey(), min)) {
-                            continue;
-                        }
-                        url = this.integrationHelperService.getUrl(entry.getKey(), entry.getValue());
-                        builder.addField("-> [%s] [%s] [%s] %s".formatted(entry.getKey().raw(),
-                                                                          entry.getValue().raw(),
-                                                                          action.score(),
-                                                                          action.title()), url);
-
-                        builder.addButton("Create [%s] %s".formatted(entry.getKey().raw(), entry.getValue().raw()),
-                                          action.id().raw());
-                    }
-                }
-            }
-        }
-
-        findIgnoreActions(holder.actions(), context).forEach(action -> {
-            String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI,
-                                                              new IntegrationAnimeId(action.tid().raw()));
-            builder.addField("Ignorable [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()), url);
-            builder.addButton("Ignore [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), action.tid().raw()),
-                              action.id().raw());
-        });
-
-        findManualAction(holder.actions(), context).forEach(action -> {
-            // TODO 2025-04-07: Make it not hardcoded to Syoboi
-            IntegrationAnimeId animeId = action.links().get(IntegrationIds.SYOBOI);
-            String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI, animeId);
-            builder.addField("Manual Link [%s] [%s]".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()), url);
-            builder.addButton("Manual Link [%s] %s".formatted(IntegrationIds.SYOBOI.raw(), animeId.raw()),
-                              action.id().raw());
-        });
     }
 
-    private List<NewAnimeNotificationAction> toSpecificAction(List<NotificationAction> actions,
-                                                              RequestContext context) {
-        return actions.stream()
-                      .filter(action -> !action.requireUserInput())
-                      .filter(action -> Objects.equals(action.actionType(), NEW_ANIME_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.newAnimeActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-02-23: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get)
-                      .sorted(Comparator.comparingInt(NewAnimeNotificationAction::score))
-                      .toList();
-    }
-
-    private Stream<IgnoreTIDDataNotificationAction> findIgnoreActions(List<NotificationAction> actions,
-                                                                      RequestContext context) {
-        return actions.stream()
-                      .filter(action -> Objects.equals(action.actionType(), IGNORE_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.ignoreTIDDataActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-04-05: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get);
-    }
-
-    private Stream<NewAnimeNotificationAction> findManualAction(List<NotificationAction> actions,
-                                                                RequestContext context) {
-        return actions.stream()
-                      .filter(NotificationAction::requireUserInput)
-                      .filter(action -> Objects.equals(action.actionType(), NEW_ANIME_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.newAnimeActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-02-23: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get)
-                      .sorted(Comparator.comparingInt(NewAnimeNotificationAction::score));
+    private NewAnimeNotification toNotification(Notification notify, RequestContext context) {
+        return this.newAnimeNotificationService
+                .getById(notify.id(), context)
+                .orElseThrow(NewAnimeNotificationExceptions.inconsistentNotFound(notify.id()));
     }
 }
