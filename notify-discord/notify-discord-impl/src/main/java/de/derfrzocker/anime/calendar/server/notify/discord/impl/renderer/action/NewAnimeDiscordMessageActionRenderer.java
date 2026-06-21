@@ -1,4 +1,4 @@
-package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
+package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer.action;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
