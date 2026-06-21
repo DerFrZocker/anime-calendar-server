@@ -3,11 +3,11 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.listener;
 import static de.derfrzocker.anime.calendar.server.notify.exception.NotificationExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.config.DiscordConfig;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.input.JDADiscordInputBuilderImpl;
@@ -16,11 +16,12 @@ import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTrigg
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
 import io.quarkus.logging.Log;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
-import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
@@ -44,6 +45,7 @@ public class ButtonClickListener {
     NotificationService notificationService;
     @Inject
     NotificationActionService actionService;
+    @Any
     @Inject
     Instance<DiscordInputRenderer> rendererInstance;
     @Inject
@@ -70,8 +72,9 @@ public class ButtonClickListener {
             return;
         }
 
-        Notification notification = this.notificationService.getById(action.notificationId(), context)
-                                                            .orElseThrow(inconsistentNotFound(action.notificationId()));
+        Notification notification = this.notificationService
+                .getById(action.notificationId(), context)
+                .orElseThrow(inconsistentNotFound(action.notificationId()));
         if (Instant.now().isAfter(notification.validUntil())) {
             // TODO 2025-02-25: Should we remove it?
             interaction.deferEdit().queue();
@@ -109,7 +112,7 @@ public class ButtonClickListener {
     }
 
     private DiscordInputRenderer selectRenderer(NotificationActionType type) {
-        return this.rendererInstance.select(NamedLiteral.of(type.raw() + DiscordInputRenderer.NAME_SUFFIX)).get();
+        return this.rendererInstance.select(Identifier.Literal.of(type.raw())).get();
     }
 
     private void trySendException(Exception exception) {

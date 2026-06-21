@@ -7,12 +7,12 @@ import de.derfrzocker.anime.calendar.server.integration.notify.service.Streaming
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputRenderer;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 @ApplicationScoped
-@Named(StreamingNotificationAction.NOTIFICATION_ACTION_TYPE_RAW + DiscordInputRenderer.NAME_SUFFIX)
+@Identifier(StreamingNotificationAction.NOTIFICATION_ACTION_TYPE_RAW)
 public class StreamingDiscordInputRenderer implements DiscordInputRenderer {
 
     @Inject
@@ -20,8 +20,9 @@ public class StreamingDiscordInputRenderer implements DiscordInputRenderer {
 
     @Override
     public void render(NotificationAction action, DiscordInputBuilder builder, RequestContext context) {
-        StreamingNotificationAction linkAction = this.actionService.getById(action.id(), context)
-                                                                   .orElseThrow(inconsistentNotFound(action.id()));
+        StreamingNotificationAction linkAction = this.actionService
+                .getById(action.id(), context)
+                .orElseThrow(inconsistentNotFound(action.id()));
 
         builder.setTitle("Set streaming time for %s".formatted(linkAction.animeId().raw()));
 

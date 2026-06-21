@@ -3,21 +3,22 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.listener;
 import static de.derfrzocker.anime.calendar.server.notify.exception.NotificationExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.notify.api.Notification;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionUpdateData;
 import de.derfrzocker.anime.calendar.server.notify.discord.input.DiscordInputApplier;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationActionTriggerEvent;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationService;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
-import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
@@ -38,6 +39,7 @@ public class ModalInteractListener {
     NotificationActionService actionService;
     @Inject
     Event<NotificationActionTriggerEvent> notificationActionTriggerEvent;
+    @Any
     @Inject
     Instance<DiscordInputApplier> applierInstance;
 
@@ -57,8 +59,9 @@ public class ModalInteractListener {
             return;
         }
 
-        Notification notification = this.notificationService.getById(action.notificationId(), context)
-                                                            .orElseThrow(inconsistentNotFound(action.notificationId()));
+        Notification notification = this.notificationService
+                .getById(action.notificationId(), context)
+                .orElseThrow(inconsistentNotFound(action.notificationId()));
         if (Instant.now().isAfter(notification.validUntil())) {
             // TODO 2025-02-25: Should we remove it?
             event.deferEdit().queue();
@@ -67,8 +70,9 @@ public class ModalInteractListener {
 
         event.deferEdit().queue();
 
-        NotificationActionUpdateData updateData = new NotificationActionUpdateData(Change.to(context.requestTime()),
-                                                                                   Change.to(context.requestUser()));
+        NotificationActionUpdateData updateData = new NotificationActionUpdateData(
+                Change.to(context.requestTime()),
+                Change.to(context.requestUser()));
         action = this.actionService.updateWithData(action.id(), updateData, context);
 
         DiscordInputApplier applier = this.selectApplier(action.actionType());
@@ -79,6 +83,6 @@ public class ModalInteractListener {
     }
 
     private DiscordInputApplier selectApplier(NotificationActionType type) {
-        return this.applierInstance.select(NamedLiteral.of(type.raw() + DiscordInputApplier.NAME_SUFFIX)).get();
+        return this.applierInstance.select(Identifier.Literal.of(type.raw())).get();
     }
 }

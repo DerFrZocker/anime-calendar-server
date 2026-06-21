@@ -16,10 +16,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 @ApplicationScoped
-@Named("NewAnime" + DiscordMessageRenderer.NAME_SUFFIX)
+@Identifier(NewAnimeNotification.NOTIFICATION_TYPE_RAW)
 public class NewAnimeDiscordMessageRenderer implements DiscordMessageRenderer {
 
     @Inject

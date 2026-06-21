@@ -11,14 +11,14 @@ import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@Named("TrackingChannel" + DiscordMessageRenderer.NAME_SUFFIX)
+@Identifier("TrackingChannel")
 public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRenderer {
 
     @Inject
@@ -39,8 +39,9 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
         TID tid = trackingChannels.getFirst().tid();
         String title = trackingChannels.getFirst().title();
         String url = this.integrationHelperService.getUrl(IntegrationIds.SYOBOI, new IntegrationAnimeId(tid.raw()));
-        builder.setTitle("[%s] %s".formatted(tid.raw(), title))
-               .setDescription("Links: %s\nFound following channels:".formatted(url));
+        builder
+                .setTitle("[%s] %s".formatted(tid.raw(), title))
+                .setDescription("Links: %s\nFound following channels:".formatted(url));
 
         // TODO 2024-12-23: Account for message limits
         for (TrackingChannelNotificationAction action : trackingChannels) {
@@ -50,19 +51,21 @@ public class TrackingChannelDiscordMessageRenderer implements DiscordMessageRend
         }
     }
 
-    private List<TrackingChannelNotificationAction> toSpecificAction(List<NotificationAction> actions,
-                                                                     RequestContext context) {
-        return actions.stream()
-                      .map(NotificationAction::id)
-                      .map(id -> this.trackingActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-03-10: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get)
-                      .toList();
+    private List<TrackingChannelNotificationAction> toSpecificAction(
+            List<NotificationAction> actions,
+            RequestContext context) {
+        return actions
+                .stream()
+                .map(NotificationAction::id)
+                .map(id -> this.trackingActionService.getById(id, context))
+                .filter(optional -> {
+                    if (optional.isEmpty()) {
+                        // TODO 2025-03-10: Log warning
+                        return false;
+                    }
+                    return true;
+                })
+                .map(Optional::get)
+                .toList();
     }
 }

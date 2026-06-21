@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 
@@ -19,10 +20,15 @@ public record ManualLinkNotificationAction(
         IntegrationId integrationId,
         IntegrationAnimeId integrationAnimeId) implements ModificationInfo {
 
+    public static final String NOTIFICATION_ACTION_TYPE_RAW = "ManualLink";
+    public static final NotificationActionType NOTIFICATION_ACTION_TYPE = new NotificationActionType(
+            NOTIFICATION_ACTION_TYPE_RAW);
+
     public static ManualLinkNotificationAction from(
             NotificationActionId id,
             ManualLinkNotificationActionCreateData createData,
             RequestContext context) {
+
         return new ManualLinkNotificationAction(
                 id,
                 context.requestTime(),
@@ -37,6 +43,7 @@ public record ManualLinkNotificationAction(
     public ManualLinkNotificationAction updateWithData(
             ManualLinkNotificationActionUpdateData updateData,
             RequestContext context) {
+
         return new ManualLinkNotificationAction(
                 id(),
                 createdAt(),

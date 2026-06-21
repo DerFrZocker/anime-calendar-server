@@ -1,16 +1,17 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.task;
 
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.core.notify.NotificationType;
+import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.config.DiscordConfig;
 import de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer.JDADiscordMessageBuilderImpl;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
 import de.derfrzocker.anime.calendar.server.notify.event.NotificationSendEvent;
 import io.quarkus.logging.Log;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
-import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.inject.Inject;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -20,6 +21,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 @ApplicationScoped
 public class SendNotificationTask {
 
+    @Any
     @Inject
     Instance<DiscordMessageRenderer> rendererInstance;
     @Inject
@@ -44,7 +46,7 @@ public class SendNotificationTask {
     }
 
     private DiscordMessageRenderer selectRenderer(NotificationType type) {
-        return this.rendererInstance.select(NamedLiteral.of(type.raw() + DiscordMessageRenderer.NAME_SUFFIX)).get();
+        return this.rendererInstance.select(Identifier.Literal.of(type.raw())).get();
     }
 
     private void trySendException(Exception exception) {

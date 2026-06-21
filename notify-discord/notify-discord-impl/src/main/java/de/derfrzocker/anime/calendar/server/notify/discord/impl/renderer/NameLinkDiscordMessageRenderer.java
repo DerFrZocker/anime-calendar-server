@@ -2,6 +2,7 @@ package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.anime.api.Anime;
 import de.derfrzocker.anime.calendar.server.anime.service.AnimeService;
 import de.derfrzocker.anime.calendar.server.integration.api.IntegrationLinkNotificationAction;
@@ -10,13 +11,12 @@ import de.derfrzocker.anime.calendar.server.integration.service.IntegrationHelpe
 import de.derfrzocker.anime.calendar.server.integration.service.IntegrationLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.integration.service.ManualLinkNotificationActionService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
-import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -24,12 +24,11 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @ApplicationScoped
-@Named("NameLink" + DiscordMessageRenderer.NAME_SUFFIX)
+@Identifier("NameLink")
 public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
 
     private static final NotificationActionType INTEGRATION_LINK_ACTION_TYPE = new NotificationActionType(
             "IntegrationLink");
-    private static final NotificationActionType MANUAL_LINK_ACTION_TYPE = new NotificationActionType("ManualLink");
 
     @Inject
     AnimeService animeService;
@@ -53,62 +52,73 @@ public class NameLinkDiscordMessageRenderer implements DiscordMessageRenderer {
         if (!integrationLinks.isEmpty()) {
             // TODO 2025-02-23: Better error handling
             Anime anime = this.animeService.getById(integrationLinks.getFirst().animeId(), context).orElseThrow();
-            builder.setTitle("[%s] %s".formatted(anime.id().raw(), anime.title()))
-                   .setDescription("Found following links:");
+            builder
+                    .setTitle("[%s] %s".formatted(anime.id().raw(), anime.title()))
+                    .setDescription("Found following links:");
 
             // TODO 2024-12-23: Account for message limits
             for (IntegrationLinkNotificationAction action : integrationLinks) {
                 IntegrationId integrationId = action.integrationId();
                 String url = this.integrationHelperService.getUrl(integrationId, action.integrationAnimeId());
-                builder.addField("[%s] [%s] [%s] %s".formatted(integrationId.raw(),
-                                                               action.integrationAnimeId().raw(),
-                                                               action.score(),
-                                                               action.bestName()), url);
+                builder.addField(
+                        "[%s] [%s] [%s] %s".formatted(
+                                integrationId.raw(),
+                                action.integrationAnimeId().raw(),
+                                action.score(),
+                                action.bestName()), url);
 
-                builder.addButton("Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw()),
-                                  action.id().raw());
+                builder.addButton(
+                        "Link [%s] %s".formatted(integrationId.raw(), action.integrationAnimeId().raw()),
+                        action.id().raw());
             }
         } else {
             builder.setTitle("Found no links, can only manually link it");
         }
 
         findManualActions(holder.actions(), context).forEach(action -> {
-            builder.addButton("Manual Link [%s] %s".formatted(action.animeId().raw(), action.integrationId().raw()),
-                              action.id().raw());
+            builder.addButton(
+                    "Manual Link [%s] %s".formatted(action.animeId().raw(), action.integrationId().raw()),
+                    action.id().raw());
         });
     }
 
-    private List<IntegrationLinkNotificationAction> toSpecificAction(List<NotificationAction> actions,
-                                                                     RequestContext context) {
-        return actions.stream()
-                      .filter(action -> Objects.equals(action.actionType(), INTEGRATION_LINK_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.integrationActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-02-23: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get)
-                      .sorted(Comparator.comparingInt(IntegrationLinkNotificationAction::score))
-                      .toList();
+    private List<IntegrationLinkNotificationAction> toSpecificAction(
+            List<NotificationAction> actions,
+            RequestContext context) {
+        return actions
+                .stream()
+                .filter(action -> Objects.equals(action.actionType(), INTEGRATION_LINK_ACTION_TYPE))
+                .map(NotificationAction::id)
+                .map(id -> this.integrationActionService.getById(id, context))
+                .filter(optional -> {
+                    if (optional.isEmpty()) {
+                        // TODO 2025-02-23: Log warning
+                        return false;
+                    }
+                    return true;
+                })
+                .map(Optional::get)
+                .sorted(Comparator.comparingInt(IntegrationLinkNotificationAction::score))
+                .toList();
     }
 
-    private Stream<ManualLinkNotificationAction> findManualActions(List<NotificationAction> actions,
-                                                                   RequestContext context) {
-        return actions.stream()
-                      .filter(action -> Objects.equals(action.actionType(), MANUAL_LINK_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.manualLinkActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-04-05: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get);
+    private Stream<ManualLinkNotificationAction> findManualActions(
+            List<NotificationAction> actions,
+            RequestContext context) {
+        return actions
+                .stream()
+                .filter(action -> Objects.equals(
+                        action.actionType(),
+                        ManualLinkNotificationAction.NOTIFICATION_ACTION_TYPE))
+                .map(NotificationAction::id)
+                .map(id -> this.manualLinkActionService.getById(id, context))
+                .filter(optional -> {
+                    if (optional.isEmpty()) {
+                        // TODO 2025-04-05: Log warning
+                        return false;
+                    }
+                    return true;
+                })
+                .map(Optional::get);
     }
 }

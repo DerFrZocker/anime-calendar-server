@@ -12,15 +12,15 @@ import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationHolder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageRenderer;
+import io.smallrye.common.annotation.Identifier;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped
-@Named(StreamingNotification.NOTIFICATION_TYPE_RAW + DiscordMessageRenderer.NAME_SUFFIX)
+@Identifier(StreamingNotification.NOTIFICATION_TYPE_RAW)
 public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
 
     @Inject
@@ -38,12 +38,14 @@ public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
 
         builder.addField("Name:", notification.name());
 
-        String url = this.integrationHelperService.getUrl(notification.referenceIntegrationId(),
-                                                          notification.referenceIntegrationAnimeId());
-        builder.addField("%s [%s] - ep: %d".formatted(notification.referenceIntegrationId().raw(),
-                                                      notification.referenceIntegrationAnimeId().raw(),
-                                                      notification.orgEpisodeIndex() + 1),
-                         "%s\n%s".formatted(notification.orgStreamingTime(), url));
+        String url = this.integrationHelperService.getUrl(
+                notification.referenceIntegrationId(),
+                notification.referenceIntegrationAnimeId());
+        builder.addField(
+                "%s [%s] - ep: %d".formatted(
+                        notification.referenceIntegrationId().raw(),
+                        notification.referenceIntegrationAnimeId().raw(),
+                        notification.orgEpisodeIndex() + 1), "%s\n%s".formatted(notification.orgStreamingTime(), url));
 
         List<StreamingNotificationAction> streamingActions = toSpecificAction(holder.actions(), context);
 
@@ -53,25 +55,29 @@ public class StreamingDiscordMessageRenderer implements DiscordMessageRenderer {
     }
 
     private StreamingNotification toNotification(Notification notify, RequestContext context) {
-        return this.streamingService.getById(notify.id(), context)
-                                    .orElseThrow(StreamingNotificationExceptions.inconsistentNotFound(notify.id()));
+        return this.streamingService
+                .getById(notify.id(), context)
+                .orElseThrow(StreamingNotificationExceptions.inconsistentNotFound(notify.id()));
     }
 
-    private List<StreamingNotificationAction> toSpecificAction(List<NotificationAction> actions,
-                                                               RequestContext context) {
-        return actions.stream()
-                      .filter(action -> Objects.equals(action.actionType(),
-                                                       StreamingNotificationAction.NOTIFICATION_ACTION_TYPE))
-                      .map(NotificationAction::id)
-                      .map(id -> this.streamingActionService.getById(id, context))
-                      .filter(optional -> {
-                          if (optional.isEmpty()) {
-                              // TODO 2025-02-23: Log warning
-                              return false;
-                          }
-                          return true;
-                      })
-                      .map(Optional::get)
-                      .toList();
+    private List<StreamingNotificationAction> toSpecificAction(
+            List<NotificationAction> actions,
+            RequestContext context) {
+        return actions
+                .stream()
+                .filter(action -> Objects.equals(
+                        action.actionType(),
+                        StreamingNotificationAction.NOTIFICATION_ACTION_TYPE))
+                .map(NotificationAction::id)
+                .map(id -> this.streamingActionService.getById(id, context))
+                .filter(optional -> {
+                    if (optional.isEmpty()) {
+                        // TODO 2025-02-23: Log warning
+                        return false;
+                    }
+                    return true;
+                })
+                .map(Optional::get)
+                .toList();
     }
 }
