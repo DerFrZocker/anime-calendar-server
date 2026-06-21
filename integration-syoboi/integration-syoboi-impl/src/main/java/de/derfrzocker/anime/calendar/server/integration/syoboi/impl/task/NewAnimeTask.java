@@ -1,6 +1,5 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 
-import static de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotification.NOTIFICATION_TYPE;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
@@ -8,6 +7,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationIds;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
+import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotification;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationAction;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.anime.api.NewAnimeNotificationCreateData;
@@ -101,7 +101,7 @@ public class NewAnimeTask {
             RequestContext context) {
 
         Instant validUntil = Instant.now().plus(this.config.validDuration());
-        var createData = new NotificationCreateData(NOTIFICATION_TYPE, validUntil);
+        var createData = new NotificationCreateData(NewAnimeNotification.NOTIFICATION_TYPE, validUntil);
         NotificationId id = this.notificationService.createWithData(createData, context).id();
 
         var specificCreateData = new NewAnimeNotificationCreateData(integrationId, integrationAnimeId);

@@ -13,7 +13,6 @@ public class TrackingChannelNotificationActionDO extends ModificationInfoDO {
     @BsonId
     public NotificationActionId id;
     public TID tid;
-    public String title;
     public ChannelId channelId;
     public String channelName;
 }

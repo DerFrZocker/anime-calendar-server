@@ -1,25 +1,25 @@
 package de.derfrzocker.anime.calendar.server.integration.syoboi.impl.task;
 
-import static de.derfrzocker.anime.calendar.server.integration.syoboi.exception.ChannelExceptions.inconsistentNotFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
-import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.core.notify.NotificationType;
 import de.derfrzocker.anime.calendar.core.util.Change;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ChannelId;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.ResolvedChannel;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TIDDataUpdateData;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotification;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationAction;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationActionCreateData;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.api.TrackingChannelNotificationCreateData;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataCreateEvent;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.event.PostTIDDataUpdateEvent;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.exception.ChannelExceptions;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.impl.config.CheckTrackingChannelTaskConfig;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.ResolvedChannelService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TIDDataService;
 import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationActionService;
-import de.derfrzocker.anime.calendar.server.notify.api.Notification;
-import de.derfrzocker.anime.calendar.server.notify.api.NotificationAction;
+import de.derfrzocker.anime.calendar.server.integration.syoboi.service.TrackingChannelNotificationService;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationActionCreateData;
 import de.derfrzocker.anime.calendar.server.notify.api.NotificationCreateData;
 import de.derfrzocker.anime.calendar.server.notify.service.NotificationActionService;
@@ -34,11 +34,10 @@ import java.time.YearMonth;
 @ApplicationScoped
 public class CheckTrackingChannelTask {
 
-    public static final NotificationType NOTIFICATION_TYPE = new NotificationType("TrackingChannel");
-    public static final NotificationActionType NOTIFICATION_ACTION_TYPE = new NotificationActionType("TrackingChannel");
-
     @Inject
     TrackingChannelNotificationActionService trackingActionService;
+    @Inject
+    TrackingChannelNotificationService trackingService;
     @Inject
     TIDDataService tidDataService;
     @Inject
@@ -96,48 +95,60 @@ public class CheckTrackingChannelTask {
     }
 
     private void sendNotification(TIDData tidData, RequestContext context) {
-        Notification notification = createNewNotification(context);
+        NotificationId notificationId = createTrackingChannelNotification(tidData, context);
 
+        int priority = 0;
         for (ChannelId channelId : tidData.firstChannelIds()) {
-            NotificationAction notificationAction = createNewNotificationAction(notification.id(), context);
-            ResolvedChannel channel = this.channelService.resolveById(channelId, context).orElseThrow(
-                    inconsistentNotFound(channelId));
-            createNewNotificationAction(notificationAction.id(), tidData, channel, context);
+            createTrackingChannelNotificationAction(notificationId, priority++, tidData, channelId, context);
         }
 
-        this.helperService.send(notification.id(), context);
+        this.helperService.send(notificationId, context);
     }
 
-    private Notification createNewNotification(RequestContext context) {
+    private String getChannelName(ChannelId channelId, RequestContext context) {
+        return this.channelService
+                .resolveById(channelId, context)
+                .map(ResolvedChannel::name)
+                .orElseThrow(ChannelExceptions.inconsistentNotFound(channelId));
+    }
+
+    private NotificationId createTrackingChannelNotification(TIDData tidData, RequestContext context) {
         Instant validUntil = Instant.now().plus(this.config.validDuration());
-        NotificationCreateData createData = new NotificationCreateData(NOTIFICATION_TYPE, validUntil);
+        var createData = new NotificationCreateData(TrackingChannelNotification.NOTIFICATION_TYPE, validUntil);
+        NotificationId id = this.notificationService.createWithData(createData, context).id();
 
-        return this.notificationService.createWithData(createData, context);
-    }
-
-    private NotificationAction createNewNotificationAction(NotificationId id, RequestContext context) {
-        NotificationActionCreateData createData = new NotificationActionCreateData(
-                id,
-                NOTIFICATION_ACTION_TYPE,
-                0,
-                false);
-        return this.actionService.createWithData(createData, context);
-    }
-
-    private void createNewNotificationAction(
-            NotificationActionId actionId,
-            TIDData tidData,
-            ResolvedChannel channel,
-            RequestContext context) {
-        TrackingChannelNotificationActionCreateData createData = createData(tidData, channel);
-        this.trackingActionService.createWithData(actionId, createData, context);
-    }
-
-    private TrackingChannelNotificationActionCreateData createData(TIDData tidData, ResolvedChannel channel) {
-        return new TrackingChannelNotificationActionCreateData(
+        ChannelId channelId = tidData.trackingChannelId();
+        String channelName = null;
+        if (channelId != null) {
+            channelName = getChannelName(channelId, context);
+        }
+        var specificCreateData = new TrackingChannelNotificationCreateData(
                 tidData.tid(),
                 tidData.title(),
-                channel.id(),
-                channel.name());
+                channelId,
+                channelName);
+        this.trackingService.createWithData(id, specificCreateData, context);
+
+        return id;
+    }
+
+    private void createTrackingChannelNotificationAction(
+            NotificationId id,
+            int priority,
+            TIDData tidData,
+            ChannelId channelId,
+            RequestContext context) {
+
+        var createData = new NotificationActionCreateData(
+                id,
+                TrackingChannelNotificationAction.NOTIFICATION_ACTION_TYPE,
+                priority,
+                false);
+        NotificationActionId actionId = this.actionService.createWithData(createData, context).id();
+
+        String channelName = getChannelName(channelId, context);
+        var specificCreateData = new TrackingChannelNotificationActionCreateData(tidData.tid(), channelId, channelName);
+
+        this.trackingActionService.createWithData(actionId, specificCreateData, context);
     }
 }

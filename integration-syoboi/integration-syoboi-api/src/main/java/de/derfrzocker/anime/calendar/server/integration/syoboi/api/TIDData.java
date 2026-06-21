@@ -6,6 +6,7 @@ import de.derfrzocker.anime.calendar.core.user.UserId;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
+import org.jspecify.annotations.Nullable;
 
 public record TIDData(
         TID tid,
@@ -14,7 +15,7 @@ public record TIDData(
         Instant updatedAt,
         UserId updatedBy,
         String title,
-        ChannelId trackingChannelId,
+        @Nullable ChannelId trackingChannelId,
         YearMonth firstStart,
         YearMonth firstEnd,
         List<ChannelId> firstChannelIds,

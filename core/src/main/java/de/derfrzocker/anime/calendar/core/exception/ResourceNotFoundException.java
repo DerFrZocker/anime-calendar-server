@@ -8,6 +8,7 @@ import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.core.util.WrapperUtil;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Indicates that the requested value could not be found.
@@ -20,7 +21,9 @@ public class ResourceNotFoundException extends RuntimeException {
     private static final String USER_ID = "User" + NOT_FOUND_OLD;
     private static final String CALENDAR_ID = "Calendar" + NOT_FOUND_OLD;
     private static final String USER_PERMISSION = "UserPermission" + NOT_FOUND_OLD;
-    private static final String CALENDAR_ANIME_ID = "Calendar Anime link for calendar with id '%s' and anime with id '%s' not found.";
+    private static final String
+            CALENDAR_ANIME_ID
+            = "Calendar Anime link for calendar with id '%s' and anime with id '%s' not found.";
     private static final String ANIME_NAME = "Anime name for integration '%s' and integration anime id '%s' not found.";
 
     public static Supplier<ResourceNotFoundException> from(String message) {
@@ -39,24 +42,26 @@ public class ResourceNotFoundException extends RuntimeException {
         return with(unwrapSafe(id, CalendarId::raw), CALENDAR_ID);
     }
 
-    public static <T> Supplier<ResourceNotFoundException> with(T id, String resourceName) {
+    public static <T> Supplier<ResourceNotFoundException> with(@Nullable T id, String resourceName) {
         return () -> new ResourceNotFoundException(NOT_FOUND.formatted(resourceName, WrapperUtil.toString(id)));
     }
 
     public static Supplier<ResourceNotFoundException> with(CalendarId calendarId, AnimeId animeId) {
-        return () -> new ResourceNotFoundException(CALENDAR_ANIME_ID.formatted(unwrapSafe(calendarId, CalendarId::raw),
-                                                                               unwrapSafe(animeId, AnimeId::raw)));
+        return () -> new ResourceNotFoundException(CALENDAR_ANIME_ID.formatted(
+                unwrapSafe(calendarId, CalendarId::raw),
+                unwrapSafe(animeId, AnimeId::raw)));
     }
 
     public static Supplier<ResourceNotFoundException> withPermission(UserId id) {
         return () -> new ResourceNotFoundException(USER_PERMISSION.formatted(unwrapSafe(id, UserId::raw)));
     }
 
-    public static Supplier<ResourceNotFoundException> withAnimeName(IntegrationId integrationId,
-                                                                    IntegrationAnimeId integrationAnimeId) {
-        return () -> new ResourceNotFoundException(ANIME_NAME.formatted(unwrapSafe(integrationId, IntegrationId::raw),
-                                                                        unwrapSafe(integrationAnimeId,
-                                                                                   IntegrationAnimeId::raw)));
+    public static Supplier<ResourceNotFoundException> withAnimeName(
+            IntegrationId integrationId,
+            IntegrationAnimeId integrationAnimeId) {
+        return () -> new ResourceNotFoundException(ANIME_NAME.formatted(
+                unwrapSafe(integrationId, IntegrationId::raw),
+                unwrapSafe(integrationAnimeId, IntegrationAnimeId::raw)));
     }
 
     private static Supplier<ResourceNotFoundException> with(String id, String message) {
