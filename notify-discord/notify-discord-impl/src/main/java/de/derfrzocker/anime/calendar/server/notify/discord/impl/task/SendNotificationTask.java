@@ -38,7 +38,7 @@ public class SendNotificationTask {
 
             renderer.render(new NotificationHolder(event.notification(), event.actions()), builder, event.context());
 
-            builder.build().forEach(message -> channel.sendMessage(message).queue());
+            builder.build(event.notification().validUntil()).forEach(message -> channel.sendMessage(message).queue());
         } catch (Exception e) {
             Log.errorf(e, "Failed to send notification, for event '%s'.", event);
             trySendException(e);

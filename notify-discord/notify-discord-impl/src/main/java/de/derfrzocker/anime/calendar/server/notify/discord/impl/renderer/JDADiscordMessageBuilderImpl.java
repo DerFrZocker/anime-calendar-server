@@ -1,6 +1,7 @@
 package de.derfrzocker.anime.calendar.server.notify.discord.impl.renderer;
 
 import de.derfrzocker.anime.calendar.server.notify.discord.renderer.DiscordMessageBuilder;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -46,10 +47,10 @@ public class JDADiscordMessageBuilderImpl implements DiscordMessageBuilder {
         return this;
     }
 
-    public List<MessageCreateData> build() {
+    public List<MessageCreateData> build(Instant validUntil) {
         List<EmbedBuilder> embeds = new ArrayList<>();
 
-        embeds.add(new EmbedBuilder().setTitle(this.title).setDescription(this.description));
+        embeds.add(new EmbedBuilder().setTimestamp(validUntil).setTitle(this.title).setDescription(this.description));
 
         for (int i = 0; i < this.fields.size(); i = i + 25) {
             EmbedBuilder embed;
@@ -58,6 +59,7 @@ public class JDADiscordMessageBuilderImpl implements DiscordMessageBuilder {
                 embed = embeds.getFirst();
             } else {
                 embed = new EmbedBuilder();
+                embed.setTimestamp(validUntil);
                 embed.setTitle("Continued");
                 embeds.add(embed);
             }
