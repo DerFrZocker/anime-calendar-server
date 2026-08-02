@@ -18,5 +18,4 @@
         <module>notify-dao-mongodb</module>
         <module>notify-impl</module>
     </modules>
-
 </project>

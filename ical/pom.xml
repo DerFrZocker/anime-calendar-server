@@ -19,5 +19,4 @@
         <module>ical-impl-ical4j</module>
         <module>ical-rest</module>
     </modules>
-
 </project>

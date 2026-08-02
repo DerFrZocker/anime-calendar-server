@@ -18,5 +18,4 @@
         <module>anime-dao-mongodb</module>
         <module>anime-impl</module>
     </modules>
-
 </project>

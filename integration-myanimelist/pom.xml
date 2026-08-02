@@ -19,5 +19,4 @@
         <module>integration-myanimelist-impl</module>
         <module>integration-myanimelist-rest</module>
     </modules>
-
 </project>

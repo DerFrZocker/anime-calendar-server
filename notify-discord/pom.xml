@@ -17,5 +17,4 @@
         <module>notify-discord-api</module>
         <module>notify-discord-impl</module>
     </modules>
-
 </project>

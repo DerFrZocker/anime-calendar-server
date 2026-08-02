@@ -18,5 +18,4 @@
         <module>integration-dao-mongodb</module>
         <module>integration-impl</module>
     </modules>
-
 </project>

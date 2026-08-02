@@ -19,5 +19,4 @@
         <module>integration-syoboi-dao-rest-client</module>
         <module>integration-syoboi-impl</module>
     </modules>
-
 </project>
