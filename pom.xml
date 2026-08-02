@@ -121,9 +121,7 @@
         <module>anime</module>
         <module>anime-calendar-server</module>
         <module>core</module>
-        <module>core-api</module>
         <module>core-impl</module>
-        <module>dao-mongodb</module>
         <module>dao-mongodb-base</module>
         <module>ical</module>
         <module>integration</module>
@@ -131,11 +129,9 @@
         <module>integration-myanimelist</module>
         <module>integration-name-link</module>
         <module>integration-syoboi</module>
-        <module>model-domain</module>
         <module>notify</module>
         <module>notify-discord</module>
         <module>rest-base</module>
-        <module>user-permission</module>
     </modules>
 
     <build>

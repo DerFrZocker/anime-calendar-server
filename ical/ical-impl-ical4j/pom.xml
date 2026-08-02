@@ -16,15 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-core-api</artifactId>
-            <version>0.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.derfrzocker</groupId>
             <artifactId>anime-calendar-server-ical-api</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- Misc -->
         <dependency>
             <groupId>org.mnode.ical4j</groupId>
             <artifactId>ical4j</artifactId>

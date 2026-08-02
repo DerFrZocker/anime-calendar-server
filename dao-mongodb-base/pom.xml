@@ -16,11 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>de.derfrzocker</groupId>
-            <artifactId>anime-calendar-server-model-domain</artifactId>
+            <artifactId>anime-calendar-server-core</artifactId>
             <version>0.0.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Mongodb -->
+        <!-- Quarkus -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-mongodb-panache</artifactId>

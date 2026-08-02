@@ -15,9 +15,9 @@ import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.user.UserToken;
 import io.quarkus.jackson.ObjectMapperCustomizer;
 import jakarta.inject.Singleton;
+
 import java.io.IOException;
 import java.util.function.Function;
 
@@ -35,7 +35,6 @@ public class ConverterRegistry
         register(module, IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
         register(module, IntegrationId.class, IntegrationId::raw, IntegrationId::of);
         register(module, UserId.class, UserId::raw, UserId::of);
-        register(module, UserToken.class, UserToken::raw, UserToken::new);
 
         objectMapper.registerModule(module);
     }

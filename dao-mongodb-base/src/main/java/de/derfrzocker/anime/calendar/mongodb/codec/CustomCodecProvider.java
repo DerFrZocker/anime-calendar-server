@@ -9,7 +9,6 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
-import de.derfrzocker.anime.calendar.server.model.domain.user.HashedUserToken;
 import java.time.YearMonth;
 
 public class CustomCodecProvider
@@ -17,7 +16,6 @@ public class CustomCodecProvider
 
     {
         putString(UserId.class, UserId::raw, UserId::of);
-        putString(HashedUserToken.class, HashedUserToken::raw, HashedUserToken::new);
         putString(CalendarId.class, CalendarId::raw, CalendarId::of);
         putString(CalendarKey.class, CalendarKey::raw, CalendarKey::of);
         putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
