@@ -33,7 +33,7 @@
 
         <either-java.version>2.9.0</either-java.version>
         <!-- https://github.com/apache/commons-codec/tags -->
-        <commons-codec.version>1.21.0</commons-codec.version>
+        <commons-codec.version>1.22.1</commons-codec.version>
         <!-- https://github.com/discord-jda/JDA/releases -->
         <jda.version>6.4.1</jda.version>
         <!-- https://github.com/apache/commons-text/tags -->
