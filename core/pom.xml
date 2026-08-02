@@ -12,4 +12,13 @@
 
     <artifactId>anime-calendar-server-core</artifactId>
     <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- Test -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
