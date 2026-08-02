@@ -20,7 +20,7 @@
 
         <!-- Versions -->
         <!-- https://github.com/quarkusio/quarkus/releases -->
-        <quarkus.platform.version>3.34.2</quarkus.platform.version>
+        <quarkus.platform.version>3.38.0</quarkus.platform.version>
 
         <!-- https://github.com/apache/maven-compiler-plugin/releases -->
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
