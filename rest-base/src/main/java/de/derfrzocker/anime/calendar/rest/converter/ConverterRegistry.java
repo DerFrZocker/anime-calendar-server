@@ -10,8 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
@@ -30,8 +28,6 @@ public class ConverterRegistry
         SimpleModule module = new SimpleModule();
 
         register(module, AnimeId.class, AnimeId::raw, AnimeId::of);
-        register(module, CalendarId.class, CalendarId::raw, CalendarId::of);
-        register(module, CalendarKey.class, CalendarKey::raw, CalendarKey::of);
         register(module, IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
         register(module, IntegrationId.class, IntegrationId::raw, IntegrationId::of);
         register(module, UserId.class, UserId::raw, UserId::of);

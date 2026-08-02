@@ -1,14 +1,12 @@
 package de.derfrzocker.anime.calendar.mongodb.codec;
 
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
-import de.derfrzocker.anime.calendar.core.animeaccountlink.AnimeAccountLinkId;
-import de.derfrzocker.anime.calendar.core.calendar.CalendarId;
-import de.derfrzocker.anime.calendar.core.calendar.CalendarKey;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
+
 import java.time.YearMonth;
 
 public class CustomCodecProvider
@@ -16,9 +14,6 @@ public class CustomCodecProvider
 
     {
         putString(UserId.class, UserId::raw, UserId::of);
-        putString(CalendarId.class, CalendarId::raw, CalendarId::of);
-        putString(CalendarKey.class, CalendarKey::raw, CalendarKey::of);
-        putString(AnimeAccountLinkId.class, AnimeAccountLinkId::raw, AnimeAccountLinkId::new);
         putString(AnimeId.class, AnimeId::raw, AnimeId::of);
         putString(IntegrationId.class, IntegrationId::raw, IntegrationId::of);
         putString(IntegrationAnimeId.class, IntegrationAnimeId::raw, IntegrationAnimeId::new);
