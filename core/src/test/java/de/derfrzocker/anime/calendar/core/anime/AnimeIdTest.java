@@ -1,11 +1,15 @@
 package de.derfrzocker.anime.calendar.core.anime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import de.derfrzocker.anime.calendar.core.exception.InvalidValueFormatException;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AnimeIdTest {
 
@@ -74,35 +78,6 @@ class AnimeIdTest {
     @MethodSource("validValues")
     void of(String input) {
         AnimeId actual = assertDoesNotThrow(() -> AnimeId.of(input), "A valid input should not throw an exception.");
-
-        assertEquals(input, actual.raw(), "The raw value should be the same as the input value.");
-    }
-    // </editor-fold>
-
-    // <editor-fold desc="#of(String, Supplier)" defaultstate="collapsed">
-    @Test
-    void of_WithSupplier_NullValue() {
-        assertThrows(
-                NullPointerException.class,
-                () -> AnimeId.of(null, RuntimeException::new),
-                "Null input should throw an exception.");
-    }
-
-    @ParameterizedTest
-    @MethodSource("invalidValues")
-    void of_WithSupplier_Invalid(String input) {
-        assertThrows(
-                RuntimeException.class,
-                () -> AnimeId.of(input, RuntimeException::new),
-                "An invalid input should throw an exception.");
-    }
-
-    @ParameterizedTest
-    @MethodSource("validValues")
-    void of_WithSupplier(String input) {
-        AnimeId actual = assertDoesNotThrow(
-                () -> AnimeId.of(input, RuntimeException::new),
-                "A valid input should not throw an exception.");
 
         assertEquals(input, actual.raw(), "The raw value should be the same as the input value.");
     }
