@@ -1,0 +1,15 @@
+package de.derfrzocker.anime.calendar.impl.name.anidb.client;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import java.io.File;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+@Path("/api")
+@RegisterRestClient(configKey = "anidb")
+public interface AniDBRestClient {
+
+    @GET
+    @Path("/anime-titles.xml.gz")
+    File getAnimeNames();
+}

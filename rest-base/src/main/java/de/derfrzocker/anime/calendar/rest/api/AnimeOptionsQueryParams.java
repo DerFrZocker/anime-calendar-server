@@ -1,10 +1,10 @@
 package de.derfrzocker.anime.calendar.rest.api;
 
+import de.derfrzocker.anime.calendar.anime.api.Region;
+import de.derfrzocker.anime.calendar.episode.api.AnimeOptionsBuilder;
+import de.derfrzocker.anime.calendar.episode.api.StreamType;
 import de.derfrzocker.anime.calendar.rest.constrain.ValidateLanguage;
 import de.derfrzocker.anime.calendar.rest.constrain.ValidateStreamType;
-import de.derfrzocker.anime.calendar.server.anime.api.Region;
-import de.derfrzocker.anime.calendar.server.episode.api.AnimeOptionsBuilder;
-import de.derfrzocker.anime.calendar.server.episode.api.StreamType;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.QueryParam;
 import java.util.List;

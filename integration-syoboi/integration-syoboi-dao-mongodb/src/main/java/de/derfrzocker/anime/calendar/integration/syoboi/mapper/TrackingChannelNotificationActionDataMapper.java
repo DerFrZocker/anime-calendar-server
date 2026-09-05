@@ -1,0 +1,33 @@
+package de.derfrzocker.anime.calendar.integration.syoboi.mapper;
+
+import de.derfrzocker.anime.calendar.integration.syoboi.api.TrackingChannelNotificationAction;
+import de.derfrzocker.anime.calendar.integration.syoboi.data.TrackingChannelNotificationActionDO;
+
+public final class TrackingChannelNotificationActionDataMapper {
+
+    private TrackingChannelNotificationActionDataMapper() {
+    }
+
+    public static TrackingChannelNotificationActionDO toData(TrackingChannelNotificationAction domain) {
+        TrackingChannelNotificationActionDO data = new TrackingChannelNotificationActionDO();
+
+        data.id = domain.id();
+        data.tid = domain.tid();
+        data.channelId = domain.channelId();
+        data.channelName = domain.channelName();
+        data.apply(domain);
+
+        return data;
+    }
+
+    public static TrackingChannelNotificationAction toDomain(TrackingChannelNotificationActionDO data) {
+        return new TrackingChannelNotificationAction(data.id,
+                                                     data.createdAt,
+                                                     data.createdBy,
+                                                     data.updatedAt,
+                                                     data.updatedBy,
+                                                     data.tid,
+                                                     data.channelId,
+                                                     data.channelName);
+    }
+}

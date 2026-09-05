@@ -1,0 +1,41 @@
+package de.derfrzocker.anime.calendar.integration.syoboi.impl.task;
+
+import static de.derfrzocker.anime.calendar.integration.syoboi.exception.TrackingChannelNotificationActionExceptions.inconsistentNotFound;
+import de.derfrzocker.anime.calendar.core.util.Change;
+import de.derfrzocker.anime.calendar.integration.syoboi.api.TIDDataUpdateData;
+import de.derfrzocker.anime.calendar.integration.syoboi.api.TrackingChannelNotificationAction;
+import de.derfrzocker.anime.calendar.integration.syoboi.service.TIDDataService;
+import de.derfrzocker.anime.calendar.integration.syoboi.service.TrackingChannelNotificationActionService;
+import de.derfrzocker.anime.calendar.notify.event.NotificationActionTriggerEvent;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
+public class SetTrackingChannelActionTask {
+
+    @Inject
+    TIDDataService tidDataService;
+    @Inject
+    TrackingChannelNotificationActionService actionService;
+
+    public void onActionTrigger(@Observes NotificationActionTriggerEvent event) {
+        if (!TrackingChannelNotificationAction.NOTIFICATION_ACTION_TYPE.equals(event.action().actionType())) {
+            return;
+        }
+
+        TrackingChannelNotificationAction action = this.actionService
+                .getById(event.action().id(), event.context())
+                .orElseThrow(inconsistentNotFound(event.action().id()));
+
+        this.tidDataService.updateWithData(
+                action.tid(), new TIDDataUpdateData(
+                        Change.nothing(),
+                        Change.to(action.channelId()),
+                        Change.nothing(),
+                        Change.nothing(),
+                        Change.nothing(),
+                        Change.nothing(),
+                        Change.nothing()), event.context());
+    }
+}

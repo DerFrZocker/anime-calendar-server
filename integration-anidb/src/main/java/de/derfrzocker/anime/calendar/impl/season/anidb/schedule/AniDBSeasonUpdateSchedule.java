@@ -1,0 +1,27 @@
+package de.derfrzocker.anime.calendar.impl.season.anidb.schedule;
+
+import de.derfrzocker.anime.calendar.core.RequestContext;
+import de.derfrzocker.anime.calendar.core.user.UserId;
+import de.derfrzocker.anime.calendar.impl.season.anidb.handler.AniDBSeasonUpdateRequestHandler;
+import io.quarkus.scheduler.Scheduled;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import java.time.Instant;
+
+@ApplicationScoped
+public class AniDBSeasonUpdateSchedule {
+
+    private static final UserId ANIDB_SEASON_UPDATE_USER = UserId.of("UANIDBSEUP");
+
+    @Inject
+    AniDBSeasonUpdateRequestHandler requestHandler;
+
+    @Scheduled(cron = "{integration.anidb.schedule.season-update.cron:off}",
+               executionMaxDelay = "{integration.anidb.schedule.season-update.jitter}")
+    public void schedule() {
+        this.requestHandler
+                .createOrUpdate(new RequestContext(ANIDB_SEASON_UPDATE_USER, Instant.now()))
+                .subscribe()
+                .asCompletionStage();
+    }
+}

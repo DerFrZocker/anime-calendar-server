@@ -1,0 +1,66 @@
+package de.derfrzocker.anime.calendar.notify.discord.impl.task;
+
+import de.derfrzocker.anime.calendar.core.notify.NotificationType;
+import de.derfrzocker.anime.calendar.notify.api.NotificationHolder;
+import de.derfrzocker.anime.calendar.notify.discord.impl.config.DiscordConfig;
+import de.derfrzocker.anime.calendar.notify.discord.impl.renderer.JDADiscordMessageBuilderImpl;
+import de.derfrzocker.anime.calendar.notify.discord.renderer.DiscordMessageRenderer;
+import de.derfrzocker.anime.calendar.notify.event.NotificationSendEvent;
+import io.quarkus.logging.Log;
+import io.smallrye.common.annotation.Identifier;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+
+@ApplicationScoped
+public class SendNotificationTask {
+
+    @Any
+    @Inject
+    Instance<DiscordMessageRenderer> rendererInstance;
+    @Inject
+    JDA jda;
+    @Inject
+    DiscordConfig config;
+
+    public void onNotificationSend(@Observes NotificationSendEvent event) {
+        DiscordMessageRenderer renderer = selectRenderer(event.notification().type());
+
+        try {
+            TextChannel channel = this.jda.getTextChannelById(this.config.channelId());
+            JDADiscordMessageBuilderImpl builder = new JDADiscordMessageBuilderImpl();
+
+            renderer.render(new NotificationHolder(event.notification(), event.actions()), builder, event.context());
+
+            builder.build(event.notification().validUntil()).forEach(message -> channel.sendMessage(message).queue());
+        } catch (Exception e) {
+            Log.errorf(e, "Failed to send notification, for event '%s'.", event);
+            trySendException(e);
+        }
+    }
+
+    private DiscordMessageRenderer selectRenderer(NotificationType type) {
+        return this.rendererInstance.select(Identifier.Literal.of(type.raw())).get();
+    }
+
+    private void trySendException(Exception exception) {
+        try {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setTitle("Failed to send notification");
+            embed.setDescription(exception.getMessage());
+
+            MessageCreateBuilder builder = new MessageCreateBuilder();
+            builder.setEmbeds(embed.build());
+
+            this.jda.getTextChannelById(this.config.channelId()).sendMessage(builder.build()).queue();
+        } catch (Exception e) {
+            Log.errorf(e, "Could not send error message to Discord.");
+        }
+    }
+}

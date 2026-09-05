@@ -1,0 +1,19 @@
+package de.derfrzocker.anime.calendar.integration.mongodb.data;
+
+import de.derfrzocker.anime.calendar.core.anime.AnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
+import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
+import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
+import de.derfrzocker.anime.calendar.mongodb.data.ModificationInfoDO;
+import io.quarkus.mongodb.panache.common.MongoEntity;
+import org.bson.codecs.pojo.annotations.BsonId;
+
+@MongoEntity(collection = "ManualLinkNotificationAction")
+public class ManualLinkNotificationActionDO extends ModificationInfoDO {
+
+    @BsonId
+    public NotificationActionId id;
+    public AnimeId animeId;
+    public IntegrationId integrationId;
+    public IntegrationAnimeId integrationAnimeId;
+}

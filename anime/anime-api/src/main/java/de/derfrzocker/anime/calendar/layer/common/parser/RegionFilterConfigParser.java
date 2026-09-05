@@ -1,0 +1,52 @@
+package de.derfrzocker.anime.calendar.layer.common.parser;
+
+import de.derfrzocker.anime.calendar.core.layer.LayerKey;
+import de.derfrzocker.anime.calendar.core.layer.LayerParserKey;
+import de.derfrzocker.anime.calendar.anime.api.Region;
+import de.derfrzocker.anime.calendar.layer.common.config.RegionFilterConfig;
+import de.derfrzocker.anime.calendar.layer.parser.AbstractLayerConfigParser;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public final class RegionFilterConfigParser extends AbstractLayerConfigParser<RegionFilterConfig> {
+
+    public static final LayerParserKey PARSER_KEY = new LayerParserKey("region-filter");
+    public static final RegionFilterConfigParser INSTANCE = new RegionFilterConfigParser();
+
+    private static final String APPLICABLE_REGIONS_KEY = "applicable-regions";
+
+    private RegionFilterConfigParser() {
+    }
+
+    @Override
+    public RegionFilterConfig decode(Map<String, Object> values) {
+
+        LayerKey key = decodeLayerKey(values);
+        Set<Region> applicableRegions = decodeRegions(values, APPLICABLE_REGIONS_KEY);
+
+        return new RegionFilterConfig(key, applicableRegions);
+    }
+
+    @Override
+    public Map<String, Object> encode(RegionFilterConfig config) {
+        Map<String, Object> values = new LinkedHashMap<>();
+
+        encodeLayerKey(values, config.key());
+        encodeRegions(values, APPLICABLE_REGIONS_KEY, config.applicableRegions());
+
+        return values;
+    }
+
+    private Set<Region> decodeRegions(Map<String, Object> values, String key) {
+        try (Stream<String> stream = decodeStringStream(values, key)) {
+            return stream.map(Region::valueOf).collect(Collectors.toSet());
+        }
+    }
+
+    private void encodeRegions(Map<String, Object> values, String key, Set<Region> value) {
+        encodeStringStream(values, key, value.stream().map(Enum::name));
+    }
+}
