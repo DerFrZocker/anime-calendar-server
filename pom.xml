@@ -118,8 +118,10 @@
     </dependencies>
 
     <modules>
+        <module>adapter</module>
         <module>anime</module>
         <module>anime-calendar-server</module>
+        <module>api</module>
         <module>core</module>
         <module>core-impl</module>
         <module>dao-mongodb-base</module>
@@ -129,6 +131,7 @@
         <module>integration-myanimelist</module>
         <module>integration-name-link</module>
         <module>integration-syoboi</module>
+        <module>logic</module>
         <module>notify</module>
         <module>notify-discord</module>
         <module>rest-base</module>
