@@ -6,9 +6,11 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationActionType;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.core.user.UserId;
+import jakarta.json.JsonValue;
+
 import java.time.Instant;
 
-public record NotificationAction(
+public record NotificationAction<T>(
         NotificationActionId id,
         Instant createdAt,
         UserId createdBy,
@@ -18,6 +20,7 @@ public record NotificationAction(
         NotificationActionType actionType,
         int priority,
         boolean requireUserInput,
+        T data,
         Instant executedAt,
         UserId executedBy) implements ModificationInfo {
 

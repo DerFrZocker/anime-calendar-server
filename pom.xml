@@ -120,6 +120,7 @@
     <modules>
         <module>anime</module>
         <module>anime-calendar-server</module>
+        <module>api</module>
         <module>core</module>
         <module>core-impl</module>
         <module>dao-mongodb-base</module>
