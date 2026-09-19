@@ -14,10 +14,6 @@ public final class IntegrationLinkNotificationActionExceptions {
     private IntegrationLinkNotificationActionExceptions() {
     }
 
-    public static Supplier<ResourceNotFoundException> notFound(NotificationActionId id) {
-        return ResourceNotFoundException.with(unwrapSafe(id, NotificationActionId::raw), RESOURCE_NAME);
-    }
-
     public static Supplier<InconsistentDataException> inconsistentNotFound(NotificationActionId id) {
         return InconsistentDataException.with(unwrapSafe(id, NotificationActionId::raw), RESOURCE_NAME);
     }

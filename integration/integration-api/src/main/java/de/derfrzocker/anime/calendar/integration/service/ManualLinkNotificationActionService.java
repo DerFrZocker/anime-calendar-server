@@ -5,12 +5,10 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.integration.api.ManualLinkNotificationAction;
 import de.derfrzocker.anime.calendar.integration.api.ManualLinkNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.integration.api.ManualLinkNotificationActionUpdateData;
+
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public interface ManualLinkNotificationActionService {
-
-    Stream<ManualLinkNotificationAction> getAll(RequestContext context);
 
     Optional<ManualLinkNotificationAction> getById(NotificationActionId id, RequestContext context);
 
@@ -21,6 +19,4 @@ public interface ManualLinkNotificationActionService {
     ManualLinkNotificationAction updateWithData(NotificationActionId id,
                                                 ManualLinkNotificationActionUpdateData updateData,
                                                 RequestContext context);
-
-    void deleteById(NotificationActionId id, RequestContext context);
 }

@@ -1,21 +1,21 @@
 package de.derfrzocker.anime.calendar.integration.impl.service;
 
-import static de.derfrzocker.anime.calendar.integration.exception.AnimeIntegrationLinkExceptions.alreadyCreated;
-import static de.derfrzocker.anime.calendar.integration.exception.AnimeIntegrationLinkExceptions.notFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLinkCreateData;
-import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLinkUpdateData;
 import de.derfrzocker.anime.calendar.integration.dao.AnimeIntegrationLinkDao;
 import de.derfrzocker.anime.calendar.integration.service.AnimeIntegrationLinkService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static de.derfrzocker.anime.calendar.integration.exception.AnimeIntegrationLinkExceptions.alreadyCreated;
 
 @Dependent
 public class AnimeIntegrationLinkServiceImpl implements AnimeIntegrationLinkService {
@@ -67,46 +67,9 @@ public class AnimeIntegrationLinkServiceImpl implements AnimeIntegrationLinkServ
 
         AnimeIntegrationLink link = AnimeIntegrationLink.from(animeId, integrationId, integrationAnimeId, context);
 
-        this.eventPublisher.firePreCreate(link, createData, context);
         this.dao.create(link, context);
         this.eventPublisher.firePostCreate(link, createData, context);
 
         return link;
-    }
-
-    @Override
-    public AnimeIntegrationLink updateWithData(AnimeId animeId,
-                                               IntegrationId integrationId,
-                                               IntegrationAnimeId integrationAnimeId,
-                                               AnimeIntegrationLinkUpdateData updateData,
-                                               RequestContext context) {
-        AnimeIntegrationLink current = getById(animeId,
-                                               integrationId,
-                                               integrationAnimeId,
-                                               context).orElseThrow(notFound(animeId,
-                                                                             integrationId,
-                                                                             integrationAnimeId));
-        AnimeIntegrationLink updated = current.updateWithData(updateData, context);
-
-        this.eventPublisher.firePreUpdate(current, updated, updateData, context);
-        this.dao.update(updated, context);
-        this.eventPublisher.firePostUpdate(current, updated, updateData, context);
-
-        return updated;
-    }
-
-    @Override
-    public void deleteById(AnimeId animeId,
-                           IntegrationId integrationId,
-                           IntegrationAnimeId integrationAnimeId,
-                           RequestContext context) {
-        AnimeIntegrationLink link = getById(animeId, integrationId, integrationAnimeId, context).orElseThrow(notFound(
-                animeId,
-                integrationId,
-                integrationAnimeId));
-
-        this.eventPublisher.firePreDelete(link, context);
-        this.dao.delete(link, context);
-        this.eventPublisher.firePostDelete(link, context);
     }
 }

@@ -24,14 +24,4 @@ public record AnimeIntegrationLink(AnimeId animeId, IntegrationId integrationId,
                                         context.requestTime(),
                                         context.requestUser());
     }
-
-    public AnimeIntegrationLink updateWithData(AnimeIntegrationLinkUpdateData updateData, RequestContext context) {
-        return new AnimeIntegrationLink(animeId(),
-                                        integrationId(),
-                                        integrationAnimeId(),
-                                        createdAt(),
-                                        createdBy(),
-                                        context.requestTime(),
-                                        context.requestUser());
-    }
 }

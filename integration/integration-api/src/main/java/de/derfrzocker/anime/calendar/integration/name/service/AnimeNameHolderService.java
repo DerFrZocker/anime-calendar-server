@@ -11,8 +11,6 @@ import java.util.stream.Stream;
 
 public interface AnimeNameHolderService {
 
-    Stream<AnimeNameHolder> getAll(RequestContext context);
-
     Stream<AnimeNameHolder> getAllWithId(IntegrationId integrationId, RequestContext context);
 
     Optional<AnimeNameHolder> getById(IntegrationId integrationId,
@@ -28,6 +26,4 @@ public interface AnimeNameHolderService {
                                    IntegrationAnimeId integrationAnimeId,
                                    AnimeNameHolderUpdateData updateData,
                                    RequestContext context);
-
-    void deleteById(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId, RequestContext context);
 }

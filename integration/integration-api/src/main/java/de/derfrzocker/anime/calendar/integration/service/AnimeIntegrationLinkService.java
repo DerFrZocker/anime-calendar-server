@@ -6,7 +6,7 @@ import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLink;
 import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLinkCreateData;
-import de.derfrzocker.anime.calendar.integration.api.AnimeIntegrationLinkUpdateData;
+
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -33,15 +33,4 @@ public interface AnimeIntegrationLinkService {
                                         IntegrationAnimeId integrationAnimeId,
                                         AnimeIntegrationLinkCreateData createData,
                                         RequestContext context);
-
-    AnimeIntegrationLink updateWithData(AnimeId animeId,
-                                        IntegrationId integrationId,
-                                        IntegrationAnimeId integrationAnimeId,
-                                        AnimeIntegrationLinkUpdateData updateData,
-                                        RequestContext context);
-
-    void deleteById(AnimeId animeId,
-                    IntegrationId integrationId,
-                    IntegrationAnimeId integrationAnimeId,
-                    RequestContext context);
 }

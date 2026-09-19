@@ -1,8 +1,0 @@
-package de.derfrzocker.anime.calendar.season.event;
-
-import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.season.api.AnimeSeasonInfo;
-
-public record PostAnimeSeasonInfoDeleteEvent(AnimeSeasonInfo animeSeasonInfo, RequestContext context) {
-
-}

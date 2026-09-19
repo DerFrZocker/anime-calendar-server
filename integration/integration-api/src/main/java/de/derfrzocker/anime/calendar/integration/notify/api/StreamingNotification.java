@@ -6,8 +6,9 @@ import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
-import de.derfrzocker.anime.calendar.core.user.UserId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationType;
+import de.derfrzocker.anime.calendar.core.user.UserId;
+
 import java.time.Instant;
 
 public record StreamingNotification(NotificationId id, Instant createdAt, UserId createdBy, Instant updatedAt,
@@ -32,19 +33,5 @@ public record StreamingNotification(NotificationId id, Instant createdAt, UserId
                                          createData.name(),
                                          createData.referenceIntegrationId(),
                                          createData.referenceIntegrationAnimeId());
-    }
-
-    public StreamingNotification updateWithData(StreamingNotificationUpdateData updateData, RequestContext context) {
-        return new StreamingNotification(id(),
-                                         createdAt(),
-                                         createdBy(),
-                                         context.requestTime(),
-                                         context.requestUser(),
-                                         animeId(),
-                                         orgEpisodeIndex(),
-                                         orgStreamingTime(),
-                                         name(),
-                                         referenceIntegrationId(),
-                                         referenceIntegrationAnimeId());
     }
 }

@@ -19,14 +19,4 @@ public record Notification(NotificationId id, Instant createdAt, UserId createdB
                                 createData.type(),
                                 createData.validUntil());
     }
-
-    public Notification updateWithData(NotificationUpdateData updateData, RequestContext context) {
-        return new Notification(id(),
-                                createdAt(),
-                                createdBy(),
-                                context.requestTime(),
-                                context.requestUser(),
-                                type(),
-                                validUntil());
-    }
 }

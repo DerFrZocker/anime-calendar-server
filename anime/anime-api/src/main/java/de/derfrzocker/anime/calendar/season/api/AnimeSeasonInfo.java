@@ -27,15 +27,4 @@ public record AnimeSeasonInfo(IntegrationId integrationId, IntegrationAnimeId in
                                    context.requestTime(),
                                    context.requestUser());
     }
-
-    public AnimeSeasonInfo updateWithData(AnimeSeasonInfoUpdateData updateData, RequestContext context) {
-        return new AnimeSeasonInfo(integrationId(),
-                                   integrationAnimeId(),
-                                   year(),
-                                   season(),
-                                   createdAt(),
-                                   createdBy(),
-                                   context.requestTime(),
-                                   context.requestUser());
-    }
 }

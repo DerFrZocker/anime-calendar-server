@@ -18,8 +18,6 @@ public interface AnimeService {
 
     Optional<Anime> getById(AnimeId id, RequestContext context);
 
-    Anime createWithData(AnimeCreateData createData, RequestContext context);
-
     Anime createWithData(AnimeCreateData createData, RequestContext context, Consumer<Anime> prePostEventConsumer);
 
     Anime updateWithData(AnimeId id, AnimeUpdateData updateData, RequestContext context);

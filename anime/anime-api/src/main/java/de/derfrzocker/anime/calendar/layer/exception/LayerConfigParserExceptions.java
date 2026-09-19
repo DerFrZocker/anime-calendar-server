@@ -10,10 +10,6 @@ public final class LayerConfigParserExceptions {
 
     private static final String RESOURCE_NAME = "LayerConfigParser";
 
-    public static Supplier<ResourceNotFoundException> notFound(LayerParserKey key) {
-        return ResourceNotFoundException.with(unwrapSafe(key, LayerParserKey::raw), RESOURCE_NAME);
-    }
-
     public static Supplier<InconsistentDataException> inconsistentNotFound(LayerParserKey key) {
         return InconsistentDataException.with(unwrapSafe(key, LayerParserKey::raw), RESOURCE_NAME);
     }

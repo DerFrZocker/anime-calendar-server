@@ -27,8 +27,4 @@ public interface AnimeIntegrationLinkDao {
                                            RequestContext context);
 
     void create(AnimeIntegrationLink link, RequestContext context);
-
-    void update(AnimeIntegrationLink link, RequestContext context);
-
-    void delete(AnimeIntegrationLink link, RequestContext context);
 }

@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 
 public interface TIDDataDao {
 
-    Stream<TIDData> getAll(RequestContext context);
-
     Optional<TIDData> getById(TID id, RequestContext context);
 
     void create(TIDData tidData, RequestContext context);
