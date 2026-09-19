@@ -4,6 +4,7 @@ import de.derfrzocker.anime.calendar.notify.discord.impl.config.DiscordConfig;
 import io.quarkus.logging.Log;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Produces;
@@ -38,7 +39,7 @@ public class JDAInitListener {
             return;
         }
 
-        this.jda = CompletableFuture.supplyAsync(() -> {
+        this.jda = Uni.createFrom().item(() -> {
             JDA jda = JDABuilder.createLight(this.discordToken).addEventListeners(new ListenerAdapter() {
                 @Override
                 public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -68,7 +69,7 @@ public class JDAInitListener {
                 throw new RuntimeException("Waiting for JDA to be ready was interrupted.", e);
             }
             return jda;
-        });
+        }).subscribeAsCompletionStage();
     }
 
     public void onShutdown(@Observes ShutdownEvent event) throws ExecutionException, InterruptedException {
