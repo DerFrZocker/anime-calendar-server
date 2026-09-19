@@ -1,6 +1,5 @@
 package de.derfrzocker.anime.calendar.integration.mongodb.dao;
 
-import static de.derfrzocker.anime.calendar.integration.mongodb.mapper.AnimeIntegrationLinkDataMapper.toData;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.anime.AnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
@@ -11,9 +10,12 @@ import de.derfrzocker.anime.calendar.integration.mongodb.data.AnimeIntegrationLi
 import de.derfrzocker.anime.calendar.integration.mongodb.mapper.AnimeIntegrationLinkDataMapper;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static de.derfrzocker.anime.calendar.integration.mongodb.mapper.AnimeIntegrationLinkDataMapper.toData;
 
 @Dependent
 public class AnimeIntegrationLinkMongoDBDaoImpl implements AnimeIntegrationLinkDao {
@@ -61,23 +63,6 @@ public class AnimeIntegrationLinkMongoDBDaoImpl implements AnimeIntegrationLinkD
     @Override
     public void create(AnimeIntegrationLink link, RequestContext context) {
         this.repository.persist(toData(link));
-    }
-
-    @Override
-    public void update(AnimeIntegrationLink link, RequestContext context) {
-        findById(link.animeId(), link.integrationId(), link.integrationAnimeId()).ifPresent(data -> {
-            AnimeIntegrationLinkDO newData = toData(link);
-            newData.id = data.id;
-            this.repository.update(newData);
-        });
-    }
-
-    @Override
-    public void delete(AnimeIntegrationLink link, RequestContext context) {
-        this.repository.delete("animeId = ?1 and integrationId = ?2 and integrationAnimeId = ?3",
-                               link.animeId().raw(),
-                               link.integrationId().raw(),
-                               link.integrationAnimeId().raw());
     }
 
     private Optional<AnimeIntegrationLinkDO> findById(AnimeId animeId,

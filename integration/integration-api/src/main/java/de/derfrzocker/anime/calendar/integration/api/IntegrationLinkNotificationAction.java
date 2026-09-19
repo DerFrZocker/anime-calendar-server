@@ -28,18 +28,4 @@ public record IntegrationLinkNotificationAction(NotificationActionId id, Instant
                                                      createData.score(),
                                                      createData.bestName());
     }
-
-    public IntegrationLinkNotificationAction updateWithData(IntegrationLinkNotificationActionUpdateData updateData,
-                                                            RequestContext context) {
-        return new IntegrationLinkNotificationAction(id(),
-                                                     createdAt(),
-                                                     createdBy(),
-                                                     context.requestTime(),
-                                                     context.requestUser(),
-                                                     animeId(),
-                                                     integrationId(),
-                                                     integrationAnimeId(),
-                                                     score(),
-                                                     bestName());
-    }
 }

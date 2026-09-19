@@ -1,6 +1,5 @@
 package de.derfrzocker.anime.calendar.integration.name.mongodb.dao;
 
-import static de.derfrzocker.anime.calendar.integration.name.mongodb.mapper.AnimeNameHolderDataMapper.toData;
 import de.derfrzocker.anime.calendar.core.RequestContext;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationAnimeId;
 import de.derfrzocker.anime.calendar.core.integration.IntegrationId;
@@ -10,19 +9,17 @@ import de.derfrzocker.anime.calendar.integration.name.mongodb.data.AnimeNameHold
 import de.derfrzocker.anime.calendar.integration.name.mongodb.mapper.AnimeNameHolderDataMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static de.derfrzocker.anime.calendar.integration.name.mongodb.mapper.AnimeNameHolderDataMapper.toData;
 
 @ApplicationScoped
 public class AnimeNameHolderMongoDBDaoImpl implements AnimeNameHolderDao {
 
     @Inject
     AnimeNameHolderMongoDBRepository repository;
-
-    @Override
-    public Stream<AnimeNameHolder> getAll(RequestContext context) {
-        return this.repository.findAll().stream().map(AnimeNameHolderDataMapper::toDomain);
-    }
 
     @Override
     public Stream<AnimeNameHolder> getAllWithId(IntegrationId integrationId, RequestContext context) {
@@ -50,13 +47,6 @@ public class AnimeNameHolderMongoDBDaoImpl implements AnimeNameHolderDao {
             newData.id = data.id;
             this.repository.update(newData);
         });
-    }
-
-    @Override
-    public void delete(AnimeNameHolder animeNameHolder, RequestContext context) {
-        this.repository.delete("integrationId = ?1 and integrationAnimeId = ?2",
-                               animeNameHolder.integrationId().raw(),
-                               animeNameHolder.integrationAnimeId().raw());
     }
 
     private Optional<AnimeNameHolderDO> findById(IntegrationId integrationId, IntegrationAnimeId integrationAnimeId) {

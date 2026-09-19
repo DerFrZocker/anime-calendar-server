@@ -1,10 +1,6 @@
 package de.derfrzocker.anime.calendar.notify.impl.service;
 
-import static de.derfrzocker.anime.calendar.notify.exception.NotificationActionExceptions.notFound;
-import static de.derfrzocker.anime.calendar.notify.exception.NotificationExceptions.inconsistentNotFound;
-import static de.derfrzocker.anime.calendar.notify.exception.NotificationExceptions.notFound;
 import de.derfrzocker.anime.calendar.core.RequestContext;
-import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.core.notify.NotificationId;
 import de.derfrzocker.anime.calendar.notify.api.Notification;
 import de.derfrzocker.anime.calendar.notify.api.NotificationAction;
@@ -16,8 +12,11 @@ import de.derfrzocker.anime.calendar.notify.service.NotificationService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
+
 import java.util.Comparator;
 import java.util.stream.Stream;
+
+import static de.derfrzocker.anime.calendar.notify.exception.NotificationExceptions.notFound;
 
 @ApplicationScoped
 public class NotificationHelperServiceImpl implements NotificationHelperService {
@@ -41,21 +40,5 @@ public class NotificationHelperServiceImpl implements NotificationHelperService 
                     actionStream.sorted(Comparator.comparing(NotificationAction::priority)).toList(),
                     context));
         }
-    }
-
-    @Override
-    public void execute(NotificationActionId id, RequestContext context) {
-        NotificationAction notificationAction = this.notificationActionService
-                .getById(id, context)
-                .orElseThrow(notFound(id));
-        NotificationId notificationId = notificationAction.notificationId();
-        Notification notification = this.notificationService
-                .getById(notificationId, context)
-                .orElseThrow(inconsistentNotFound(notificationId));
-
-        this.notificationActionTriggerEvent.fire(new NotificationActionTriggerEvent(
-                notification,
-                notificationAction,
-                context));
     }
 }

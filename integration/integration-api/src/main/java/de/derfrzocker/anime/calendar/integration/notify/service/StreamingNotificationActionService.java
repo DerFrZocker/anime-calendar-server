@@ -5,12 +5,10 @@ import de.derfrzocker.anime.calendar.core.notify.NotificationActionId;
 import de.derfrzocker.anime.calendar.integration.notify.api.StreamingNotificationAction;
 import de.derfrzocker.anime.calendar.integration.notify.api.StreamingNotificationActionCreateData;
 import de.derfrzocker.anime.calendar.integration.notify.api.StreamingNotificationActionUpdateData;
+
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public interface StreamingNotificationActionService {
-
-    Stream<StreamingNotificationAction> getAll(RequestContext context);
 
     Optional<StreamingNotificationAction> getById(NotificationActionId id, RequestContext context);
 
@@ -21,6 +19,4 @@ public interface StreamingNotificationActionService {
     StreamingNotificationAction updateWithData(NotificationActionId id,
                                                StreamingNotificationActionUpdateData updateData,
                                                RequestContext context);
-
-    void deleteById(NotificationActionId id, RequestContext context);
 }

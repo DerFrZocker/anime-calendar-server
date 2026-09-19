@@ -10,8 +10,6 @@ import java.util.stream.Stream;
 
 public interface TIDDataService {
 
-    Stream<TIDData> getAll(RequestContext context);
-
     Optional<TIDData> getById(TID id, RequestContext context);
 
     TIDData createWithData(TID id, TIDDataCreateData createData, RequestContext context);

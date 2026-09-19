@@ -12,10 +12,6 @@ public final class TrackingChannelNotificationExceptions {
 
     private static final String RESOURCE_NAME = "TrackingChannelNotification";
 
-    public static Supplier<ResourceNotFoundException> notFound(@Nullable NotificationId id) {
-        return ResourceNotFoundException.with(unwrapSafe(id, NotificationId::raw), RESOURCE_NAME);
-    }
-
     public static Supplier<InconsistentDataException> inconsistentNotFound(@Nullable NotificationId id) {
         return InconsistentDataException.with(unwrapSafe(id, NotificationId::raw), RESOURCE_NAME);
     }

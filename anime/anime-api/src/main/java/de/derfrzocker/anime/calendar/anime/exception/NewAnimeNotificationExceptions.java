@@ -11,10 +11,6 @@ public final class NewAnimeNotificationExceptions {
 
     private static final String RESOURCE_NAME = "NewAnimeNotification";
 
-    public static Supplier<ResourceNotFoundException> notFound(NotificationId id) {
-        return ResourceNotFoundException.with(unwrapSafe(id, NotificationId::raw), RESOURCE_NAME);
-    }
-
     public static Supplier<InconsistentDataException> inconsistentNotFound(NotificationId id) {
         return InconsistentDataException.with(unwrapSafe(id, NotificationId::raw), RESOURCE_NAME);
     }

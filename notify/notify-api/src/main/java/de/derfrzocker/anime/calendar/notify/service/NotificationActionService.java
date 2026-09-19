@@ -11,8 +11,6 @@ import java.util.stream.Stream;
 
 public interface NotificationActionService {
 
-    Stream<NotificationAction> getAll(RequestContext context);
-
     Stream<NotificationAction> getAllWithData(NotificationId notificationId, RequestContext context);
 
     Optional<NotificationAction> getById(NotificationActionId id, RequestContext context);
@@ -22,6 +20,4 @@ public interface NotificationActionService {
     NotificationAction updateWithData(NotificationActionId id,
                                       NotificationActionUpdateData updateData,
                                       RequestContext context);
-
-    void deleteById(NotificationActionId id, RequestContext context);
 }
