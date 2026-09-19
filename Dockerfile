@@ -1,4 +1,4 @@
-FROM maven:3.9.5-eclipse-temurin-25-alpine AS builder
+FROM maven:3.9.16-eclipse-temurin-25-alpine AS builder
 WORKDIR /usr/src
 
 COPY ./ ./
