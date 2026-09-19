@@ -20,12 +20,12 @@
 
         <!-- Versions -->
         <!-- https://github.com/quarkusio/quarkus/releases -->
-        <quarkus.platform.version>3.38.0</quarkus.platform.version>
+        <quarkus.platform.version>3.39.4</quarkus.platform.version>
 
         <!-- https://github.com/apache/maven-compiler-plugin/releases -->
-        <compiler-plugin.version>3.15.0</compiler-plugin.version>
+        <compiler-plugin.version>3.16.0</compiler-plugin.version>
         <!-- https://github.com/apache/maven-surefire/releases -->
-        <surefire-plugin.version>3.5.6</surefire-plugin.version>
+        <surefire-plugin.version>3.6.0</surefire-plugin.version>
         <!-- https://github.com/jacoco/jacoco/releases -->
         <jacoco-plugin.version>0.8.15</jacoco-plugin.version>
         <!-- https://github.com/smallrye/jandex/releases -->
@@ -35,7 +35,7 @@
         <!-- https://github.com/apache/commons-codec/tags -->
         <commons-codec.version>1.22.1</commons-codec.version>
         <!-- https://github.com/discord-jda/JDA/releases -->
-        <jda.version>6.5.0</jda.version>
+        <jda.version>6.6.0</jda.version>
         <!-- https://github.com/apache/commons-text/tags -->
         <commons-text.version>1.15.0</commons-text.version>
         <!-- https://github.com/JetBrains/java-annotations/releases -->
