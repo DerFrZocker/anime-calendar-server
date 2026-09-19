@@ -23,7 +23,7 @@
         <quarkus.platform.version>3.39.4</quarkus.platform.version>
 
         <!-- https://github.com/apache/maven-compiler-plugin/releases -->
-        <compiler-plugin.version>3.15.0</compiler-plugin.version>
+        <compiler-plugin.version>3.16.0</compiler-plugin.version>
         <!-- https://github.com/apache/maven-surefire/releases -->
         <surefire-plugin.version>3.5.6</surefire-plugin.version>
         <!-- https://github.com/jacoco/jacoco/releases -->
