@@ -14,6 +14,13 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- Own Application -->
+        <dependency>
+            <groupId>de.derfrzocker</groupId>
+            <artifactId>anime-calendar-server-api</artifactId>
+            <version>0.0.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>io.quarkus</groupId>
