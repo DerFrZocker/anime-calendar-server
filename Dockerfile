@@ -1,4 +1,4 @@
-FROM maven:3.9.5-eclipse-temurin-21-alpine AS builder
+FROM maven:3.9.5-eclipse-temurin-25-alpine AS builder
 WORKDIR /usr/src
 
 COPY ./ ./
@@ -9,7 +9,7 @@ FROM builder AS tester
 
 RUN mvn verify -B
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 RUN mkdir -p /anime-calendar
 
