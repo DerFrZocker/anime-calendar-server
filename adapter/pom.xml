@@ -15,5 +15,6 @@
 
     <modules>
         <module>adapter-mongodb</module>
+        <module>adapter-myanimelist</module>
     </modules>
 </project>
