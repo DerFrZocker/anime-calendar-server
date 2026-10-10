@@ -10,17 +10,20 @@ import de.derfrzocker.anime.calendar.anime.out.ForManagingAnime;
 import de.derfrzocker.anime.calendar.mongodb.mapper.BsonJakartaJsonMapper;
 import de.derfrzocker.anime.calendar.mongodb.mapper.JakartaJsonBsonMapper;
 import io.smallrye.common.annotation.Identifier;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
-import org.bson.BsonDocument;
-
 import java.util.Optional;
+import java.util.function.Function;
+import org.bson.BsonDocument;
 
 @ApplicationScoped
 class AnimeRepository implements ForManagingAnime {
+
+    private static final int BATCH_SIZE = 1000;
 
     private final AnimePanache panache;
     private final Instance<LayerConfigCodec<?>> layerConfigCodecs;
@@ -34,6 +37,20 @@ class AnimeRepository implements ForManagingAnime {
     @Override
     public Uni<Optional<Anime>> retrieve(AnimeId id) {
         return panache.findByIdOptional(id).map(opt -> opt.map(data -> AnimeMapper.toDomain(data, this::toDomain)));
+    }
+
+    @Override
+    public Multi<Anime> retrieveAll(Multi<AnimeId> ids) {
+        return ids
+                .group()
+                .intoLists()
+                .of(BATCH_SIZE)
+                .onItem()
+                .transformToUni(panache::findByIds)
+                .concatenate()
+                .onItem()
+                .transformToIterable(Function.identity())
+                .map(data -> AnimeMapper.toDomain(data, this::toDomain));
     }
 
     @Override

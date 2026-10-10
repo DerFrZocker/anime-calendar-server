@@ -4,6 +4,7 @@ import de.derfrzocker.anime.calendar.anime.Anime;
 import de.derfrzocker.anime.calendar.anime.LayerConfigData;
 import de.derfrzocker.anime.calendar.anime.LayerConfigDataType;
 import de.derfrzocker.anime.calendar.anime.mongodb.model.AnimeDO;
+import de.derfrzocker.anime.calendar.anime.mongodb.model.AnimeImpl;
 import de.derfrzocker.anime.calendar.metadata.mongodb.mapper.SimpleEntityMetadataMapper;
 import org.bson.BsonDocument;
 
@@ -19,7 +20,7 @@ public final class AnimeMapper {
             AnimeDO data,
             BiFunction<LayerConfigDataType, BsonDocument, LayerConfigData> configDataMapper) {
 
-        return new Anime(
+        return new AnimeImpl(
                 data.id(),
                 data.name(),
                 data.episodeCount(),

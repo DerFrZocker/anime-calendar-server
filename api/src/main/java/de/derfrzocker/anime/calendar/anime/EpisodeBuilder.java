@@ -1,75 +1,27 @@
 package de.derfrzocker.anime.calendar.anime;
 
-import org.jspecify.annotations.Nullable;
-
 import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.Optional;
 
-public final class EpisodeBuilder {
+public interface EpisodeBuilder {
 
-    private final int index;
-    private String name;
-    @Nullable
-    private Duration length;
-    @Nullable
-    private String episode;
-    @Nullable
-    private String episodes;
-    @Nullable
-    private URI animeListLink;
-    @Nullable
-    private URI streamingLink;
-    @Nullable
-    private Instant streamingTime;
+    EpisodeBuilder name(String name);
 
-    public static EpisodeBuilder of(int index, String name) {
-        return new EpisodeBuilder(index, name);
-    }
+    EpisodeBuilder duration(Duration duration);
 
-    private EpisodeBuilder(int index, String name) {
-        this.index = index;
-        this.name = Objects.requireNonNull(name);
-    }
+    EpisodeBuilder episode(String episode);
 
-    public EpisodeBuilder name(String name) {
-        this.name = Objects.requireNonNull(name);
-        return this;
-    }
+    EpisodeBuilder episodes(String episode);
 
-    public EpisodeBuilder length(Duration length) {
-        this.length = length;
-        return this;
-    }
+    EpisodeBuilder streamType(StreamType streamType);
 
-    public EpisodeBuilder episode(String episode) {
-        this.episode = episode;
-        return this;
-    }
+    EpisodeBuilder animeListLink(URI animeListLink);
 
-    public EpisodeBuilder episodes(String episode) {
-        this.episodes = episode;
-        return this;
-    }
+    EpisodeBuilder streamingLink(URI streamingLink);
 
-    public EpisodeBuilder animeListLink(URI animeListLink) {
-        this.animeListLink = animeListLink;
-        return this;
-    }
+    EpisodeBuilder streamingTime(Instant streamingTime);
 
-    public EpisodeBuilder streamingLink(URI streamingLink) {
-        this.streamingLink = streamingLink;
-        return this;
-    }
-
-    public EpisodeBuilder streamingTime(Instant streamingTime) {
-        this.streamingTime = streamingTime;
-        return this;
-    }
-
-    public Episode build() {
-
-        return new Episode(index, name, length, episode, episodes, animeListLink, streamingLink, streamingTime);
-    }
+    Optional<Episode> buildIfValid();
 }

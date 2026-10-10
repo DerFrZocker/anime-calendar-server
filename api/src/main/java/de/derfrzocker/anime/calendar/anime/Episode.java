@@ -1,24 +1,29 @@
 package de.derfrzocker.anime.calendar.anime;
 
-import org.jspecify.annotations.Nullable;
-
 import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.Optional;
 
-public record Episode(
-        int index,
-        String name,
-        @Nullable Duration length,
-        @Nullable String episode,
-        @Nullable String episodes,
-        @Nullable URI animeListLink,
-        @Nullable URI streamingLink,
-        @Nullable Instant streamingTime) {
+public interface Episode {
 
-    public Episode {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(length);
-    }
+    int index();
+
+    AnimeId animeId();
+
+    String name();
+
+    Instant streamingTime();
+
+    Duration duration();
+
+    Optional<String> episode();
+
+    Optional<String> episodes();
+
+    Optional<StreamType> streamType();
+
+    Optional<URI> animeListLink();
+
+    Optional<URI> streamingLink();
 }
