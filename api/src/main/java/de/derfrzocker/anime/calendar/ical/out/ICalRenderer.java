@@ -24,6 +24,6 @@ public interface ICalRenderer {
 
         ICalEventRenderer duration(Duration duration);
 
-        ICalRenderer uid(String uid);
+        ICalEventRenderer uid(String uid);
     }
 }
