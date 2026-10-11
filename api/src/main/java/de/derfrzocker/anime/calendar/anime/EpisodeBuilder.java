@@ -7,7 +7,13 @@ import java.util.Optional;
 
 public interface EpisodeBuilder {
 
+    int index();
+
     EpisodeBuilder name(String name);
+
+    EpisodeBuilder nameLanguage(String language);
+
+    Optional<String> nameLanguage();
 
     EpisodeBuilder duration(Duration duration);
 
@@ -16,6 +22,8 @@ public interface EpisodeBuilder {
     EpisodeBuilder episodes(String episode);
 
     EpisodeBuilder streamType(StreamType streamType);
+
+    Optional<StreamType> streamType();
 
     EpisodeBuilder animeListLink(URI animeListLink);
 

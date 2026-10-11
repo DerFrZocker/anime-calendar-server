@@ -9,6 +9,10 @@ public record StreamType(String raw) {
     private static final String MESSAGE = PUBLIC_MESSAGE;
     private static final String ERROR_CODE = "INVALID_STREAM_TYPE_FORMAT";
 
+    public static StreamType of(String raw) {
+        return new StreamType(raw);
+    }
+
     public StreamType {
         Objects.requireNonNull(raw);
         validate(raw);

@@ -17,6 +17,8 @@ public class EpisodeBuilderImpl implements EpisodeBuilder {
     private final AnimeId animeId;
     private String name;
     @Nullable
+    private String nameLanguage;
+    @Nullable
     private Duration duration;
     @Nullable
     private String episode;
@@ -42,9 +44,25 @@ public class EpisodeBuilderImpl implements EpisodeBuilder {
     }
 
     @Override
+    public int index() {
+        return index;
+    }
+
+    @Override
     public EpisodeBuilder name(String name) {
         this.name = Objects.requireNonNull(name);
         return this;
+    }
+
+    @Override
+    public EpisodeBuilder nameLanguage(String language) {
+        this.nameLanguage = Objects.requireNonNull(language);
+        return this;
+    }
+
+    @Override
+    public Optional<String> nameLanguage() {
+        return Optional.ofNullable(nameLanguage);
     }
 
     @Override
@@ -69,6 +87,11 @@ public class EpisodeBuilderImpl implements EpisodeBuilder {
     public EpisodeBuilder streamType(StreamType streamType) {
         this.streamType = Objects.requireNonNull(streamType);
         return this;
+    }
+
+    @Override
+    public Optional<StreamType> streamType() {
+        return Optional.ofNullable(streamType);
     }
 
     @Override

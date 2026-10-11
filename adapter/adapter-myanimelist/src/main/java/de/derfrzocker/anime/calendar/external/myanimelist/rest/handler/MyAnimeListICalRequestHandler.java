@@ -58,5 +58,7 @@ public class MyAnimeListICalRequestHandler {
         if (options.streamTypes() != null) {
             buildOptionBuilder.streamTypes(options.streamTypes());
         }
+
+        buildOptionBuilder.animeListType(EXTERNAL_TYPE);
     }
 }
