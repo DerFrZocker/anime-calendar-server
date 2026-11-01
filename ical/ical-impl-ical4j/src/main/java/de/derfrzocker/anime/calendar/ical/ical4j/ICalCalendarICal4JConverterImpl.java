@@ -15,11 +15,11 @@ import java.util.Collection;
 import java.util.UUID;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Uid;
-import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.model.property.immutable.ImmutableCalScale;
+import net.fortuna.ical4j.model.property.immutable.ImmutableVersion;
 
 @ApplicationScoped
 public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
@@ -30,8 +30,9 @@ public class ICalCalendarICal4JConverterImpl implements ICalCalendarConverter {
     public ICalCalendar convert(Collection<AnimeEpisodes> animeEpisodes, AnimeOptions options, RequestContext context) {
         Calendar calendar = new Calendar();
         calendar.add(new ProdId.Factory().createProperty(PROID));
-        calendar.add(new Version.Factory().createProperty(Version.VALUE_2_0));
-        calendar.add(new Version.Factory().createProperty(CalScale.VALUE_GREGORIAN));
+        // #8: Use correct CalScale property instead of wrong version property
+        calendar.add(ImmutableVersion.VERSION_2_0);
+        calendar.add(ImmutableCalScale.GREGORIAN);
         calendar.add(new Uid.Factory().createProperty(UUID.randomUUID().toString()));
 
         for (AnimeEpisodes animeEpisode : animeEpisodes) {
