@@ -15,6 +15,7 @@
 
     <modules>
         <module>adapter-ical4j</module>
+        <module>adapter-jda</module>
         <module>adapter-mongodb</module>
         <module>adapter-myanimelist</module>
     </modules>
